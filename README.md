@@ -46,8 +46,6 @@ For more details on the database schema and normalization, refer to the [Databas
 
 Below is a breakdown of the SQL queries provided, their purpose, and examples of their outputs.
 
----
-
 #### Query 1: Retrieve all club names and the number of members
 
 This query fetches the names of students, their club names, and the roles they hold in their respective clubs.
@@ -128,8 +126,6 @@ This query categorizes students as **Alum**, **Current Student**, or **Prospecti
 
 1. **Clone the repository**:
 
-   - Clone the repository to your local machine.
-
    ```bash
    git clone https://github.com/DiyaWadhwani/ClubConnect.git
    cd ClubConnect
@@ -146,5 +142,7 @@ This query categorizes students as **Alum**, **Current Student**, or **Prospecti
 
 ### Documentation
 
-- **[Database Design Documentation](./ClubConnect_DatabaseDesign.pdf)**
-- **[Requirements Specification](./ClubConnect_Requirements.pdf)**
+- **[Database Design Documentation](./docs/ClubConnect_DatabaseDesign.pdf)**
+- **[Requirements Specification](./docs/ClubConnect_Requirements.pdf)**
+- **[Class UML Diagram](./diagrams/ClubConnect_UML.png)**
+- **[ERD Diagram](./diagrams/ClubConnect_ERD.png)**
