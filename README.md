@@ -1,21 +1,18 @@
 # ClubConnect
 
-### Overview
-
 **ClubConnect** is a web-based system designed to streamline the operations and activities of student-run clubs on a university campus. It allows students to register new clubs, manage their memberships efficiently, and coordinate events. The platform supports the management of roles, responsibilities, permissions, and scheduling interviews for onboarding new members into clubs.
 
 With **ClubConnect**, club leaders can:
 
 - Schedule and manage events.
 - Assign and manage roles within a club (Leader, Core, or Regular).
-- Track member participation in events.
 - Schedule interviews for onboarding new members.
 
 ### Features
 
 - **Club Registration**: Students can register new clubs and manage them.
 - **Role Management**: Assign and manage roles within a club (Leader, Core, or Regular).
-- **Event Management**: Schedule events, record participation, and manage event details.
+- **Event Management**: Schedule events, and manage event details.
 - **Interview Scheduling**: Schedule interviews for onboarding new members, and track results.
 
 ### Database Design
@@ -28,14 +25,14 @@ The database design is based on an **ERD schema** and is normalized to BCNF. The
 - **Membership**: Tracks the roles and membership of students in clubs.
 - **Role**: Defines various roles within the clubs.
 - **Event**: Records club events.
-- **Status**: Tracks the status of events or interviews (e.g., Scheduled, Completed).
+- **Status**: Tracks the status of events and interviews (e.g., Scheduled, Completed).
 - **Interview**: Handles the scheduling and status of member onboarding interviews.
 
-For more details on the database schema and normalization, refer to the [Database Design Documentation](./ClubConnect_DatabaseDesign.pdf).
+For more details on the database schema and normalization, refer to the [Database Design Documentation](./docs/ClubConnect_DatabaseDesign.pdf).
 
 ### Functional Rules and Constraints
 
-1. Each club must have at least **2 leaders** (e.g., President or Vice President).
+1. Each club must have at least **2 leaders**.
 2. Students can join multiple clubs but can only hold **leader roles in a maximum of two clubs**.
 3. Clubs must have events scheduled with details like date, time, and location.
 4. Interviews can be scheduled for onboarding members, with the status tracked.
@@ -133,7 +130,8 @@ This query categorizes students as **Alum**, **Current Student**, or **Prospecti
 
 2. **Set up the database**:
 
-   - Use the provided SQL schema to set up the **SQLite3** database.
+   - Use the provided [SQL schema](./db/ClubConnectDDLQueries.txt) to set up the **SQLite3** database.
+   - Use the provided [Insert Queries](./db/ClubConnectInsertQueries.sql) to prepopulate your database.
 
 3. **Execute the queries**:
    - Run the queries located in the `dmlQueries` folder using your preferred **SQLite** client or through the command line.
