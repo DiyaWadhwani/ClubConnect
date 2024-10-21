@@ -1,0 +1,99 @@
+
+CREATE TABLE "University" (
+	"universityID"	INTEGER NOT NULL,
+	"name"	TEXT NOT NULL,
+	"emailDomain"	TEXT NOT NULL,
+	"address"	TEXT NOT NULL,
+	"zipCode"	TEXT NOT NULL,
+	"city"	TEXT NOT NULL,
+	"state"	TEXT NOT NULL,
+	"website"	TEXT NOT NULL,
+	PRIMARY KEY("universityID" AUTOINCREMENT)
+);
+
+CREATE TABLE "Club" (
+	"clubID"	INTEGER NOT NULL,
+	"name"	TEXT NOT NULL,
+	"description"	TEXT NOT NULL,
+	"startDate"	TEXT,
+	"email"	TEXT,
+	"logo"	BLOB,
+	"universityID"	INTEGER,
+	"clubCategory"	TEXT NOT NULL,
+	PRIMARY KEY("clubID" AUTOINCREMENT),
+	FOREIGN KEY("universityID") REFERENCES "University"("universityID") ON DELETE CASCADE
+);
+
+CREATE TABLE "Student" (
+	"studentID"	INTEGER NOT NULL,
+	"firstName"	TEXT NOT NULL,
+	"lastName"	TEXT NOT NULL,
+	"emailAddress"	TEXT NOT NULL,
+	"program"	TEXT NOT NULL,
+	"graduationDate"	TEXT NOT NULL,
+	"enrollmentYear"	INTEGER NOT NULL,
+	"dateOfBirth"	TEXT,
+	"profilePicture"	BLOB,
+	"universityID"	INTEGER,
+	PRIMARY KEY("studentID" AUTOINCREMENT),
+	FOREIGN KEY("universityID") REFERENCES "University"("universityID") ON DELETE CASCADE
+);
+
+CREATE TABLE "Role" (
+	"roleID"	INTEGER NOT NULL,
+	"roleTitle"	TEXT NOT NULL,
+	"roleDescription"	TEXT NOT NULL,
+	PRIMARY KEY("roleID" AUTOINCREMENT)
+);
+
+CREATE TABLE "Membership" (
+	"clubID"	INTEGER NOT NULL,
+	"roleID"	INTEGER NOT NULL,
+	"studentID"	INTEGER NOT NULL,
+	"description"	TEXT,
+	"joinDate"	TEXT,
+	"isActive"	TEXT NOT NULL,
+	"memberType"	TEXT NOT NULL,
+	PRIMARY KEY("clubID","roleID","studentID"),
+	FOREIGN KEY("clubID") REFERENCES "Club"("clubID") ON DELETE CASCADE,
+	FOREIGN KEY("roleID") REFERENCES "Role"("roleID") ON DELETE CASCADE,
+	FOREIGN KEY("studentID") REFERENCES "Student"("studentID") ON DELETE CASCADE
+);
+
+CREATE TABLE "Status" (
+	"statusID"	INTEGER NOT NULL,
+	"status"	TEXT NOT NULL,
+	PRIMARY KEY("statusID" AUTOINCREMENT)
+);
+
+CREATE TABLE "Event" (
+	"eventID"	INTEGER NOT NULL,
+	"date"	TEXT NOT NULL,
+	"time"	TEXT NOT NULL,
+	"title"	TEXT NOT NULL,
+	"location"	TEXT NOT NULL,
+	"description"	TEXT NOT NULL,
+	"contact"	TEXT NOT NULL,
+	"statusID"	INTEGER NOT NULL,
+	"clubID"	INTEGER NOT NULL,
+	"eventType"	TEXT NOT NULL,
+	PRIMARY KEY("eventID" AUTOINCREMENT),
+	FOREIGN KEY("clubID") REFERENCES "Club"("clubID") ON DELETE CASCADE,
+	FOREIGN KEY("statusID") REFERENCES "Status"("statusID") ON DELETE CASCADE
+);
+
+CREATE TABLE "Interview" (
+	"interviewID"	INTEGER NOT NULL,
+	"date"	TEXT NOT NULL,
+	"time"	TEXT NOT NULL,
+	"platform"	TEXT NOT NULL,
+	"clubID"	INTEGER NOT NULL,
+	"studentID"	INTEGER NOT NULL,
+	"roleID"	INTEGER NOT NULL,
+	"statusID"	INTEGER NOT NULL,
+	PRIMARY KEY("interviewID" AUTOINCREMENT),
+	FOREIGN KEY("clubID") REFERENCES "Club"("clubID") ON DELETE CASCADE,
+	FOREIGN KEY("roleID") REFERENCES "Role"("roleID") ON DELETE CASCADE,
+	FOREIGN KEY("statusID") REFERENCES "Status"("statusID") ON DELETE CASCADE,
+	FOREIGN KEY("studentID") REFERENCES "Student"("studentID") ON DELETE CASCADE
+);
