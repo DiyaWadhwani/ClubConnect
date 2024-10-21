@@ -125,7 +125,6 @@ This query categorizes students as **Alum**, **Current Student**, or **Prospecti
 
    ```bash
    git clone https://github.com/DiyaWadhwani/ClubConnect.git
-   cd ClubConnect
    ```
 
 2. **Set up the database**:
