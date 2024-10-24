@@ -1,0 +1,24 @@
+<h3>Add Author</h3>
+<form
+  action="<%= '/references/' + ref.reference_id + '/addAuthor'  %>"
+  method="POST"
+>
+  <div>
+    <input
+      hidden
+      type="text"
+      class="form-control"
+      name="reference_id"
+      value="<%= ref.reference_id %>"
+    />
+  </div>
+
+  <div>
+    <label class="form-label">
+      Author ID:
+      <input type="text" class="form-control" name="author_id" />
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn-outline-primary">Add Author</button>
+</form>

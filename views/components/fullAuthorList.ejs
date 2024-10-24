@@ -1,0 +1,29 @@
+<h2>Authors</h2>
+<div class="row g-3">
+  <% for (let author of authors) { %>
+
+  <div class="col-4">
+    <div class="card p-1">
+      <h5 class="card-title"><%= author.first_name + " " + author.last_name %></h5>
+      <div class="card-text">
+        <div><%= author.email %></div>
+        <div>Gender: <%= author.gender %> </div>
+        <div>Affiliation: <%= author.affiliation %></div>
+        <div>
+          <a
+            class="btn btn-outline-primary"
+            href="<%= '/authors/' + author.author_id + '/edit' %>"
+            >Edit</a
+          >
+          <a
+            class="btn btn-outline-danger"
+            href="<%= '/authors/' + author.author_id + '/delete' %>"
+            >Delete</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% } %> <%- include("./pagination.ejs", { currentPage, lastPage }) %>
+</div>

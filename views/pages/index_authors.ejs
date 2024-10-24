@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <%- include("../templates/head.ejs") %>
+  <body>
+
+    <%- include("../templates/navBar.ejs") %>
+
+    <div class="container">
+      <h1>Reference Manager: Authors List</h1>
+
+
+      <% if (msg) { %>
+        <div class="alert alert-primary">
+          <%= msg %>
+        </div>
+      <% } %>
+
+
+      <div class="row">
+        <div class="col-8">
+          <%- include("../components/searchBar.ejs", { query }) %>
+          <%- include("../components/fullAuthorList.ejs", { authors, currentPage, lastPage }) %>
+        </div>
+        <div class="col-4">
+          
+        </div>
+      </div>
+
+    </div>
+
+    <%- include("../templates/footer.ejs") %>
+  </body>
+</html>
