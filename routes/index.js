@@ -5,22 +5,40 @@ const router = express.Router();
 
 /* GET home page. */
 router.get("/", async function (req, res, next) {
-  res.redirect("/references");
+  const query = req.query.q || "";
+  const page = +req.query.page || 1;
+  const pageSize = +req.query.pageSize || 9;
+  const msg = req.query.msg || null;
+  try {
+    let total = await myDb.getUniversityCount(query);
+    console.log("total", total);
+    let universities = await myDb.getUniversities(query, page, pageSize);
+
+    res.render("./pages/index", {
+      universities,
+      clubs: [],
+      query,
+      msg,
+      currentPage: page,
+      lastPage: Math.ceil(total / pageSize),
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // http://localhost:3000/references?pageSize=24&page=3&q=John
-router.get("/references", async (req, res, next) => {
+router.get("/clubs", async (req, res, next) => {
   const query = req.query.q || "";
   const page = +req.query.page || 1;
   const pageSize = +req.query.pageSize || 24;
   const msg = req.query.msg || null;
   try {
-    let total = await myDb.getReferencesCount(query);
-    let references = await myDb.getReferences(query, page, pageSize);
+    let total = await myDb.getClubCount(query);
+    let clubs = await myDb.getClubs(query, page, pageSize);
 
-
-    res.render("./pages/index", {
-      references,
+    res.render("./pages/index_clubs", {
+      clubs,
       query,
       msg,
       currentPage: page,
@@ -78,7 +96,10 @@ router.post("/references/:reference_id/addAuthor", async (req, res, next) => {
   const author_id = req.body.author_id;
 
   try {
-    let updateResult = await myDb.addAuthorIDToReferenceID(reference_id, author_id);
+    let updateResult = await myDb.addAuthorIDToReferenceID(
+      reference_id,
+      author_id
+    );
     console.log("addAuthorIDToReferenceID", updateResult);
 
     if (updateResult && updateResult.changes === 1) {
@@ -122,7 +143,6 @@ router.post("/createReference", async (req, res, next) => {
   }
 });
 
-
 // http://localhost:3000/references?pageSize=24&page=3&q=John
 router.get("/authors", async (req, res, next) => {
   const query = req.query.q || "";
@@ -132,7 +152,6 @@ router.get("/authors", async (req, res, next) => {
   try {
     let total = await myDb.getAuthorsCount(query);
     let authors = await myDb.getAuthors(query, page, pageSize);
-
 
     res.render("./pages/index_authors", {
       authors,
@@ -145,7 +164,5 @@ router.get("/authors", async (req, res, next) => {
     next(err);
   }
 });
-
-
 
 export default router;

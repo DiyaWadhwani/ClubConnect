@@ -1,18 +1,18 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 
-export async function getReferences(query, page, pageSize) {
-  console.log("getReferences", query);
+export async function getUniversities(query, page, pageSize) {
+  console.log("getUniversities", query);
 
   const db = await open({
-    filename: "./db/database.db",
+    filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
   });
 
   const stmt = await db.prepare(`
-    SELECT * FROM Reference
-    WHERE title LIKE @query
-    ORDER BY published_on DESC
+    SELECT * FROM University
+    WHERE name LIKE @query
+    ORDER BY universityID DESC
     LIMIT @pageSize
     OFFSET @offset;
   `);
@@ -31,18 +31,74 @@ export async function getReferences(query, page, pageSize) {
   }
 }
 
-export async function getReferencesCount(query) {
-  console.log("getReferences", query);
+export async function getUniversityCount(query) {
+  console.log("getClubs", query);
 
   const db = await open({
-    filename: "./db/database.db",
+    filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
   });
 
   const stmt = await db.prepare(`
     SELECT COUNT(*) AS count
-    FROM Reference
-    WHERE title LIKE @query;
+    FROM University
+    WHERE name LIKE @query;
+  `);
+
+  const params = {
+    "@query": query + "%",
+  };
+
+  try {
+    return (await stmt.get(params)).count;
+  } finally {
+    await stmt.finalize();
+    db.close();
+  }
+}
+
+export async function getClubs(query, page, pageSize) {
+  console.log("getClubs", query);
+
+  const db = await open({
+    filename: "./db/ClubConnect.db",
+    driver: sqlite3.Database,
+  });
+
+  const stmt = await db.prepare(`
+    SELECT * FROM Club
+    WHERE name LIKE @query
+    ORDER BY startDate DESC
+    LIMIT @pageSize
+    OFFSET @offset;
+  `);
+
+  const params = {
+    "@query": query + "%",
+    "@pageSize": pageSize,
+    "@offset": (page - 1) * pageSize,
+  };
+
+  try {
+    return await stmt.all(params);
+  } finally {
+    await stmt.finalize();
+    db.close();
+  }
+}
+
+export async function getClubCount(query) {
+  console.log("getClubs", query);
+
+  const db = await open({
+    filename: "./db/ClubConnect.db",
+    driver: sqlite3.Database,
+  });
+
+  const stmt = await db.prepare(`
+    SELECT COUNT(*) AS count
+    FROM Club
+    WHERE name LIKE @query;
   `);
 
   const params = {
@@ -61,7 +117,7 @@ export async function getReferenceByID(reference_id) {
   console.log("getReferenceByID", reference_id);
 
   const db = await open({
-    filename: "./db/database.db",
+    filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
   });
 
@@ -86,7 +142,7 @@ export async function updateReferenceByID(reference_id, ref) {
   console.log("updateReferenceByID", reference_id, ref);
 
   const db = await open({
-    filename: "./db/database.db",
+    filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
   });
 
@@ -117,7 +173,7 @@ export async function deleteReferenceByID(reference_id) {
   console.log("deleteReferenceByID", reference_id);
 
   const db = await open({
-    filename: "./db/database.db",
+    filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
   });
 
@@ -141,7 +197,7 @@ export async function deleteReferenceByID(reference_id) {
 
 export async function insertReference(ref) {
   const db = await open({
-    filename: "./db/database.db",
+    filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
   });
 
@@ -164,7 +220,7 @@ export async function getAuthorsByReferenceID(reference_id) {
   console.log("getAuthorsByReferenceID", reference_id);
 
   const db = await open({
-    filename: "./db/database.db",
+    filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
   });
 
@@ -190,7 +246,7 @@ export async function addAuthorIDToReferenceID(reference_id, author_id) {
   console.log("addAuthorIDToReferenceID", reference_id, author_id);
 
   const db = await open({
-    filename: "./db/database.db",
+    filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
   });
 
@@ -217,7 +273,7 @@ export async function getAuthors(query, page, pageSize) {
   console.log("getAuthors query", query);
 
   const db = await open({
-    filename: "./db/database.db",
+    filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
   });
 
@@ -249,7 +305,7 @@ export async function getAuthorsCount(query) {
   console.log("getAuthorsCount query", query);
 
   const db = await open({
-    filename: "./db/database.db",
+    filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
   });
 

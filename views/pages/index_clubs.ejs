@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <%- include("../templates/head.ejs") %>
+  <body>
+    <%- include("../templates/navBar.ejs") %>
+
+    <div class="container">
+      <h1>Club Manager: Clubs List</h1>
+
+      <% if (msg) { %>
+      <div class="alert alert-primary"><%= msg %></div>
+      <% } %>
+
+      <div class="row">
+        <div class="col-8">
+          <%- include("../components/searchBar.ejs", { query }) %> <%-
+          include("../components/clubList.ejs", { clubs, currentPage, lastPage
+          }) %>
+        </div>
+        <div class="col-4"></div>
+      </div>
+    </div>
+
+    <!-- Right Column: Create new club form -->
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title text-center">Create a New Club</h5>
+          <%- include("../components/formCreateClub.ejs") %>
+        </div>
+      </div>
+    </div>
+
+    <%- include("../templates/footer.ejs") %>
+  </body>
+</html>
