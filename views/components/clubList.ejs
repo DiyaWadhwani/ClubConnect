@@ -1,28 +1,39 @@
-<h2>Clubs</h2>
-<div class="row g-3">
-  <% for (let club of clubs) { %>
+<h2 class="mb-4">Clubs</h2>
 
-  <div class="col-4">
-    <div class="card p-1">
-      <h5 class="card-title"><%= club.name %></h5>
-      <div class="card-text">
-        <div><%= club.startDate %></div>
-        <div><%= club.description %> description</div>
-        <div>
-          <a
-            class="btn btn-outline-primary"
-            href="<%= '/references/' + club.clubID + '/edit' %>"
-            >Edit</a
-          >
-          <a
-            class="btn btn-outline-danger"
-            href="<%= '/references/' + club.clubID + '/delete' %>"
-            >Delete</a
-          >
+<% if (clubs.length === 0) { %>
+<div class="alert alert-primary text-center">No clubs found</div>
+<% } %>
+
+<div class="row g-4">
+  <% for (let club of clubs) { %>
+  <div class="col-md-6 col-lg-4">
+    <div class="card shadow-sm p-3">
+      <div class="card-body">
+        <h5 class="card-title mb-2"><%= club.clubName %></h5>
+        <div class="card-text">
+          <p class="text-muted mb-1"><%= club.startDate %></p>
+          <p class="text-muted mb-1"><%= club.universityName %></p>
+          <p class="mb-3"><%= club.description %></p>
+          <div class="d-flex justify-content-between">
+            <a
+              class="btn btn-outline-primary btn-sm"
+              href="<%= '/' + club.clubID + '/edit' %>"
+              >Edit</a
+            >
+            <a
+              class="btn btn-outline-danger btn-sm"
+              href="<%= '/' + club.clubID + '/delete' %>"
+              >Delete</a
+            >
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <% } %>
+</div>
 
-  <% } %> <%- include("./pagination.ejs", { currentPage, lastPage }) %>
+<!-- Pagination Controls -->
+<div class="mt-4 d-flex justify-content-center">
+  <%- include("./pagination.ejs", { currentPage, lastPage }) %>
 </div>

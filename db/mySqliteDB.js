@@ -66,9 +66,12 @@ export async function getClubs(query, page, pageSize) {
   });
 
   const stmt = await db.prepare(`
-    SELECT * FROM Club
-    WHERE name LIKE @query
-    ORDER BY startDate DESC
+    SELECT Club.clubID, Club.name AS clubName, Club.startDate, Club.description,
+           University.name AS universityName
+    FROM Club
+    INNER JOIN University ON Club.universityID = University.universityID
+    WHERE Club.name LIKE @query
+    ORDER BY Club.startDate DESC
     LIMIT @pageSize
     OFFSET @offset;
   `);
