@@ -328,3 +328,29 @@ export async function updateClubByID(clubID, club) {
     db.close();
   }
 }
+
+export async function deleteClubByID(clubID) {
+  console.log("deleteClubByID", clubID);
+
+  const db = await open({
+    filename: "./db/ClubConnect.db",
+    driver: sqlite3.Database,
+  });
+
+  const stmt = await db.prepare(`
+    DELETE FROM Club
+    WHERE
+       clubID = @clubID;
+  `);
+
+  const params = {
+    "@clubID": clubID,
+  };
+
+  try {
+    return await stmt.run(params);
+  } finally {
+    await stmt.finalize();
+    db.close();
+  }
+}

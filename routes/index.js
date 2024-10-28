@@ -103,9 +103,9 @@ router.get("/:universityID/delete", async (req, res, next) => {
     console.log("delete", deletedUniversity);
 
     if (deletedUniversity && deletedUniversity.changes === 1) {
-      res.redirect("?msg=Deleted University Successfully");
+      res.redirect("/?msg=Deleted University Successfully");
     } else {
-      res.redirect("?msg=Error Deleting");
+      res.redirect("/?msg=Error Deleting");
     }
   } catch (err) {
     next(err);
@@ -163,6 +163,23 @@ router.post("/clubs/:clubID/edit", async (req, res, next) => {
       res.redirect("/clubs?msg=Updated Club Details successfully");
     } else {
       res.redirect("/clubs?msg=Error Updating");
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/clubs/:clubID/delete", async (req, res, next) => {
+  const clubID = req.params.clubID;
+
+  try {
+    let deletedClub = await myDb.deleteClubByID(clubID);
+    console.log("delete", deletedClub);
+
+    if (deletedClub && deletedClub.changes === 1) {
+      res.redirect("/clubs?msg=Deleted Club Successfully");
+    } else {
+      res.redirect("/clubs?msg=Error Deleting");
     }
   } catch (err) {
     next(err);
