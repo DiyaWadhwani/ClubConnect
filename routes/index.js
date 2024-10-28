@@ -51,22 +51,22 @@ router.get("/clubs", async (req, res, next) => {
   }
 });
 
-router.get("/references/:reference_id/edit", async (req, res, next) => {
-  const reference_id = req.params.reference_id;
+router.get("/:universityID/edit", async (req, res, next) => {
+  const universityID = req.params.universityID;
   const msg = req.query.msg || null;
   try {
-    let ref = await myDb.getReferenceByID(reference_id);
-    let authors = await myDb.getAuthorsByReferenceID(reference_id);
+    let university = await myDb.getUniversityByID(universityID);
+    let clubsByUni = await myDb.getClubsByUniversityID(universityID);
 
     console.log("edit reference", {
-      ref,
-      authors,
+      university,
+      clubsByUni,
       msg,
     });
 
-    res.render("./pages/editReference", {
-      ref,
-      authors,
+    res.render("./pages/editUniversity", {
+      university,
+      clubsByUni,
       msg,
     });
   } catch (err) {

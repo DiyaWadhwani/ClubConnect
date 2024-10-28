@@ -12,7 +12,7 @@ export async function getUniversities(query, page, pageSize) {
   const stmt = await db.prepare(`
     SELECT * FROM University
     WHERE name LIKE @query
-    ORDER BY universityID DESC
+    ORDER BY name
     LIMIT @pageSize
     OFFSET @offset;
   `);
@@ -116,8 +116,8 @@ export async function getClubCount(query) {
   }
 }
 
-export async function getReferenceByID(reference_id) {
-  console.log("getReferenceByID", reference_id);
+export async function getUniversityByID(universityID) {
+  console.log("getUniversityByID", universityID);
 
   const db = await open({
     filename: "./db/ClubConnect.db",
@@ -125,12 +125,12 @@ export async function getReferenceByID(reference_id) {
   });
 
   const stmt = await db.prepare(`
-    SELECT * FROM Reference
-    WHERE reference_id = @reference_id;
+    SELECT * FROM University
+    WHERE universityID = @universityID;
   `);
 
   const params = {
-    "@reference_id": reference_id,
+    "@universityID": universityID,
   };
 
   try {
@@ -228,8 +228,8 @@ export async function createClub(club) {
   }
 }
 
-export async function getAuthorsByReferenceID(reference_id) {
-  console.log("getAuthorsByReferenceID", reference_id);
+export async function getClubsByUniversityID(universityID) {
+  console.log("getClubsByUniversityID", universityID);
 
   const db = await open({
     filename: "./db/ClubConnect.db",
@@ -237,13 +237,12 @@ export async function getAuthorsByReferenceID(reference_id) {
   });
 
   const stmt = await db.prepare(`
-    SELECT * FROM Reference_Author
-    NATURAL JOIN Author
-    WHERE reference_id = @reference_id;
+    SELECT * FROM Club
+    WHERE universityID = @universityID;
   `);
 
   const params = {
-    "@reference_id": reference_id,
+    "@universityID": universityID,
   };
 
   try {
