@@ -1,18 +1,126 @@
 <h2>Create a Club</h2>
 <form action="/createClub" method="POST">
-  <div>
+  <!-- Name Field -->
+  <div class="mb-3">
     <label class="form-label">
       Name:
-      <input class="form-control" type="text" name="title" />
+      <input class="form-control" type="text" name="name" required />
     </label>
   </div>
 
-  <div>
+  <!-- Description Field -->
+  <div class="mb-3">
+    <label class="form-label">
+      Description:
+      <textarea
+        class="form-control"
+        name="description"
+        rows="3"
+        required
+      ></textarea>
+    </label>
+  </div>
+
+  <!-- Started on Field -->
+  <div class="mb-3">
     <label class="form-label">
       Started on:
-      <input class="form-control" type="date" name="published_on" />
+      <input class="form-control" type="date" name="started_on" required />
     </label>
   </div>
 
+  <!-- Email ID Field -->
+  <div class="mb-3">
+    <label class="form-label">
+      Email ID:
+      <input class="form-control" type="email" name="email" required />
+    </label>
+  </div>
+
+  <!-- Logo URL Field -->
+  <div class="mb-3">
+    <label class="form-label">
+      Logo URL:
+      <input
+        class="form-control"
+        type="url"
+        name="logo_url"
+        placeholder="https://example.com/logo.png"
+      />
+    </label>
+  </div>
+
+  <!-- Club Category Field (Dropdown) -->
+  <div class="mb-3">
+    <label class="form-label">
+      Club Category:
+      <select
+        class="form-select"
+        name="category"
+        id="categorySelect"
+        required
+        onchange="toggleOtherCategory(this)"
+      >
+        <option value="" disabled selected>Select a category</option>
+        <option value="Technology">Technology</option>
+        <option value="Art">Art</option>
+        <option value="Sports">Sports</option>
+        <option value="Music">Music</option>
+        <option value="Literature">Literature</option>
+        <option value="Other">Other</option>
+      </select>
+    </label>
+  </div>
+
+  <!-- Other Category Text Field (Initially Hidden) -->
+  <div class="mb-3" id="otherCategoryField" style="display: none">
+    <label class="form-label">
+      Specify Other Category:
+      <input
+        class="form-control"
+        type="text"
+        name="other_category"
+        placeholder="Enter category"
+      />
+    </label>
+  </div>
+
+  <!-- JavaScript to Show/Hide Other Category Field -->
+  <script>
+    function toggleOtherCategory(selectElement) {
+      const otherCategoryField = document.getElementById("otherCategoryField");
+      if (selectElement.value === "Other") {
+        otherCategoryField.style.display = "block";
+        otherCategoryField
+          .querySelector("input")
+          .setAttribute("required", "required");
+      } else {
+        otherCategoryField.style.display = "none";
+        otherCategoryField.querySelector("input").removeAttribute("required");
+      }
+    }
+  </script>
+
+  <!-- University Field (Dropdown) -->
+  <div class="mb-3">
+    <label class="form-label">
+      University:
+      <select class="form-select" name="university" required>
+        <option value="" disabled selected>Select a university</option>
+        <option value="Northeastern University">Northeastern University</option>
+        <option value="University of California, Berkeley">
+          University of California, Berkeley
+        </option>
+        <option value="Stanford University">Stanford University</option>
+        <option value="MIT">MIT</option>
+        <option value="University of Washington">
+          University of Washington
+        </option>
+        <!-- Add more universities as needed -->
+      </select>
+    </label>
+  </div>
+
+  <!-- Submit Button -->
   <button class="btn btn-primary" type="submit">Create</button>
 </form>
