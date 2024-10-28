@@ -180,8 +180,8 @@ export async function updateUniversityByID(universityID, university) {
   }
 }
 
-export async function deleteReferenceByID(reference_id) {
-  console.log("deleteReferenceByID", reference_id);
+export async function deleteUniversityByID(universityID) {
+  console.log("deleteUniversityByID", universityID);
 
   const db = await open({
     filename: "./db/ClubConnect.db",
@@ -189,13 +189,13 @@ export async function deleteReferenceByID(reference_id) {
   });
 
   const stmt = await db.prepare(`
-    DELETE FROM Reference
+    DELETE FROM University
     WHERE
-      reference_id = @reference_id;
+       universityID = @universityID;
   `);
 
   const params = {
-    "@reference_id": reference_id,
+    "@universityID": universityID,
   };
 
   try {

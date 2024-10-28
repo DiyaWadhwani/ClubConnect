@@ -117,17 +117,17 @@ router.post("/references/:reference_id/addAuthor", async (req, res, next) => {
   }
 });
 
-router.get("/references/:reference_id/delete", async (req, res, next) => {
-  const reference_id = req.params.reference_id;
+router.get("/:universityID/delete", async (req, res, next) => {
+  const universityID = req.params.universityID;
 
   try {
-    let deleteResult = await myDb.deleteReferenceByID(reference_id);
-    console.log("delete", deleteResult);
+    let deletedUniversity = await myDb.deleteUniversityByID(universityID);
+    console.log("delete", deletedUniversity);
 
-    if (deleteResult && deleteResult.changes === 1) {
-      res.redirect("/references/?msg=Deleted");
+    if (deletedUniversity && deletedUniversity.changes === 1) {
+      res.redirect("/?msg=Deleted University Successfully");
     } else {
-      res.redirect("/references/?msg=Error Deleting");
+      res.redirect("/?msg=Error Deleting");
     }
   } catch (err) {
     next(err);

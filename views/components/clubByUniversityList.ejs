@@ -1,9 +1,8 @@
-<h2>Clubs Associated with <%= university.name %>:</h2>
-
 <% if (clubsByUni.length === 0) { %>
 <p class="text-muted">No clubs found for this university.</p>
 <% } else { %>
 <ul class="list-group mb-4">
+  <h2>Clubs Associated with <%= university.name %>:</h2>
   <% clubsByUni.forEach((club) => { %>
   <li class="list-group-item d-flex justify-content-between align-items-center">
     <span><%= club.name %></span>
