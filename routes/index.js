@@ -36,9 +36,11 @@ router.get("/clubs", async (req, res, next) => {
   try {
     let total = await myDb.getClubCount(query);
     let clubs = await myDb.getClubs(query, page, pageSize);
+    let universities = await myDb.getUniversities("", 1, 100);
 
     res.render("./pages/index_clubs", {
       clubs,
+      universities,
       query,
       msg,
       currentPage: page,
@@ -129,14 +131,19 @@ router.get("/references/:reference_id/delete", async (req, res, next) => {
   }
 });
 
-router.post("/createReference", async (req, res, next) => {
-  const ref = req.body;
+router.post("/createClub", async (req, res, next) => {
+  const club = req.body;
+
+  if (club.clubCategory === "Other") {
+    club.clubCategory = club.other_category;
+  }
+  console.log("Create club", club);
 
   try {
-    const insertRes = await myDb.insertReference(ref);
+    const createdClub = await myDb.createClub(club);
 
-    console.log("Inserted", insertRes);
-    res.redirect("/references/?msg=Inserted");
+    console.log("Inserted", createdClub);
+    res.redirect("/clubs/?msg=Created Club " + club.name);
   } catch (err) {
     console.log("Error inserting", err);
     next(err);

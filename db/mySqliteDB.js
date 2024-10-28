@@ -32,7 +32,7 @@ export async function getUniversities(query, page, pageSize) {
 }
 
 export async function getUniversityCount(query) {
-  console.log("getClubs", query);
+  console.log("getUniversityCount", query);
 
   const db = await open({
     filename: "./db/ClubConnect.db",
@@ -198,20 +198,29 @@ export async function deleteReferenceByID(reference_id) {
   }
 }
 
-export async function insertReference(ref) {
+export async function createClub(club) {
   const db = await open({
     filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
   });
 
-  const stmt = await db.prepare(`INSERT INTO
-    Reference(title, published_on)
-    VALUES (@title, @published_on);`);
+  const stmt = await db.prepare(`
+    INSERT INTO Club (
+      name, description, startDate, email, logo, clubCategory, universityID
+    ) VALUES (
+      @name, @description, @startDate, @email, @logo, @clubCategory, @universityID
+    );
+  `);
 
   try {
     return await stmt.run({
-      "@title": ref.title,
-      "@published_on": ref.published_on,
+      "@name": club.name,
+      "@description": club.description,
+      "@startDate": club.startDate,
+      "@email": club.email,
+      "@logo": club.logo,
+      "@clubCategory": club.clubCategory,
+      "@universityID": parseInt(club.university),
     });
   } finally {
     await stmt.finalize();
