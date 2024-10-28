@@ -141,8 +141,8 @@ export async function getUniversityByID(universityID) {
   }
 }
 
-export async function updateReferenceByID(reference_id, ref) {
-  console.log("updateReferenceByID", reference_id, ref);
+export async function updateUniversityByID(universityID, university) {
+  console.log("updateUniversityByID", universityID, university);
 
   const db = await open({
     filename: "./db/ClubConnect.db",
@@ -150,18 +150,26 @@ export async function updateReferenceByID(reference_id, ref) {
   });
 
   const stmt = await db.prepare(`
-    UPDATE Reference
+    UPDATE University
     SET
-      title = @title,
-      published_on = @published_on
+      emailDomain = @emailDomain,
+      website = @website,
+      address = @address,
+      city = @city,
+      state = @state,
+      zipCode = @zipCode
     WHERE
-      reference_id = @reference_id;
+      universityID = @universityID;
   `);
 
   const params = {
-    "@reference_id": reference_id,
-    "@title": ref.title,
-    "@published_on": ref.published_on,
+    "@universityID": universityID,
+    "@emailDomain": university.emailDomain,
+    "@website": university.website,
+    "@address": university.address,
+    "@city": university.city,
+    "@state": university.state,
+    "@zipCode": university.zipCode,
   };
 
   try {

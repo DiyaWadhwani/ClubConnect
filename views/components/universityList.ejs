@@ -20,7 +20,11 @@
             </a>
           </div>
           <div class="mb-1"><%= uni.address %></div>
-          <div class="mb-3"><%= uni.city %>, <%= uni.state %></div>
+          <div class="mb-3">
+            <div><%= uni.city +", "+uni.state%></div>
+            <%= uni.zipCode %>
+          </div>
+
           <div class="btn-container">
             <a
               class="btn btn-outline-primary btn-sm me-2 edit-btn"

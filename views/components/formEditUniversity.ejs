@@ -21,7 +21,7 @@
       <input
         class="form-control"
         type="text"
-        name="email_domain"
+        name="emailDomain"
         value="<%= university.emailDomain %>"
         placeholder="e.g., university.edu"
         required
@@ -86,17 +86,17 @@
       <input
         class="form-control"
         type="text"
-        name="zip"
+        name="zipCode"
         value="<%= university.zipCode %>"
         placeholder="ZIP Code"
         required
       />
     </div>
 
-    <!-- Submit and Delete Buttons -->
+    <!-- Cancel and Update Buttons -->
     <div class="d-flex justify-content-between mt-4">
       <a class="btn btn-danger" href="<%= '/'%>">Cancel</a>
-      <button type="submit" class="btn btn-primary">Save Changes</button>
+      <button type="submit" class="btn btn-primary">Update</button>
     </div>
   </form>
 </div>

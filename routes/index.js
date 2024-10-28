@@ -74,18 +74,21 @@ router.get("/:universityID/edit", async (req, res, next) => {
   }
 });
 
-router.post("/references/:reference_id/edit", async (req, res, next) => {
-  const reference_id = req.params.reference_id;
-  const ref = req.body;
+router.post("/:universityID/edit", async (req, res, next) => {
+  const universityID = req.params.universityID;
+  const university = req.body;
 
   try {
-    let updateResult = await myDb.updateReferenceByID(reference_id, ref);
-    console.log("update", updateResult);
+    let updatedUniversity = await myDb.updateUniversityByID(
+      universityID,
+      university
+    );
+    console.log("updatedUniversity", updatedUniversity);
 
-    if (updateResult && updateResult.changes === 1) {
-      res.redirect("/references/?msg=Updated");
+    if (updatedUniversity && updatedUniversity.changes === 1) {
+      res.redirect("/?msg=Updated University Details successfully");
     } else {
-      res.redirect("/references/?msg=Error Updating");
+      res.redirect("/?msg=Error Updating");
     }
   } catch (err) {
     next(err);
