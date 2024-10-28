@@ -1,0 +1,102 @@
+<h2 class="text-center mt-20"><%= club.clubName %></h2>
+
+<div class="card shadow-sm p-4 mx-auto" style="max-width: 600px">
+  <form action="<%= '/clubs/' + club.clubID + '/edit' %>" method="POST">
+    
+    <!-- Club Name Field (Disabled) -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">Club Name:</label>
+      <input
+        class="form-control"
+        type="text"
+        name="name"
+        value="<%= club.clubName %>"
+        placeholder="Club Name"
+        disabled
+      />
+    </div>
+
+    <!-- Description Field (Editable) -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">Description:</label>
+      <textarea
+        class="form-control"
+        name="description"
+        rows="3"
+        placeholder="Enter club description"
+        required
+      ><%= club.description %></textarea>
+    </div>
+
+    <!-- Start Date Field (Disabled) -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">Start Date:</label>
+      <input
+        class="form-control"
+        type="date"
+        name="startDate"
+        value="<%= club.startDate %>"
+        placeholder="Start Date"
+        disabled
+      />
+    </div>
+
+    <!-- Email Field (Editable) -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">Email:</label>
+      <input
+        class="form-control"
+        type="email"
+        name="email"
+        value="<%= club.email %>"
+        placeholder="Enter club email"
+        required
+      />
+    </div>
+
+    <!-- Logo URL Field (Editable) -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">Logo URL:</label>
+      <input
+        class="form-control"
+        type="url"
+        name="logo"
+        value="<%= club.logo %>"
+        placeholder="https://example.com/logo.png"
+      />
+    </div>
+
+    <!-- University Name Field (Disabled) -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">University Name:</label>
+      <input
+        class="form-control"
+        type="text"
+        name="universityName"
+        value="<%= club.universityName %>"
+        placeholder="University Name"
+        disabled
+      />
+    </div>
+
+    <!-- Club Category Field (Editable) -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">Club Category:</label>
+      <select class="form-select" name="clubCategory" required>
+        <option value="" disabled>Select a category</option>
+        <option value="Technology" <%= club.clubCategory === 'Technology' ? 'selected' : '' %>>Technology</option>
+        <option value="Art" <%= club.clubCategory === 'Art' ? 'selected' : '' %>>Art</option>
+        <option value="Sports" <%= club.clubCategory === 'Sports' ? 'selected' : '' %>>Sports</option>
+        <option value="Music" <%= club.clubCategory === 'Music' ? 'selected' : '' %>>Music</option>
+        <option value="Literature" <%= club.clubCategory === 'Literature' ? 'selected' : '' %>>Literature</option>
+        <option value="Other" <%= club.clubCategory === 'Other' ? 'selected' : '' %>>Other</option>
+      </select>
+    </div>
+
+    <!-- Cancel and Update Buttons -->
+    <div class="d-flex justify-content-between mt-4">
+      <a class="btn btn-danger" href="<%= '/clubs' %>">Cancel</a>
+      <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+  </form>
+</div>

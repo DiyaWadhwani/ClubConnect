@@ -207,6 +207,11 @@ export async function deleteUniversityByID(universityID) {
 }
 
 export async function createClub(club) {
+  console.log("createClub", club);
+  if (club.logo === "") {
+    club.logo = null;
+  }
+
   const db = await open({
     filename: "./db/ClubConnect.db",
     driver: sqlite3.Database,
@@ -261,8 +266,8 @@ export async function getClubsByUniversityID(universityID) {
   }
 }
 
-export async function addAuthorIDToReferenceID(reference_id, author_id) {
-  console.log("addAuthorIDToReferenceID", reference_id, author_id);
+export async function getClubByID(clubID) {
+  console.log("getClubByID", clubID);
 
   const db = await open({
     filename: "./db/ClubConnect.db",
@@ -270,78 +275,54 @@ export async function addAuthorIDToReferenceID(reference_id, author_id) {
   });
 
   const stmt = await db.prepare(`
-    INSERT INTO
-    Reference_Author(reference_id, author_id)
-    VALUES (@reference_id, @author_id);
+    SELECT Club.clubID, Club.name AS clubName, Club.description, Club.startDate, Club.email, Club.logo, University.name as universityName FROM Club
+    INNER JOIN University ON Club.universityID = University.universityID
+    WHERE clubID = @clubID;
   `);
 
   const params = {
-    "@reference_id": reference_id,
-    "@author_id": author_id,
+    "@clubID": clubID,
+  };
+
+  try {
+    return await stmt.get(params);
+  } finally {
+    await stmt.finalize();
+    db.close();
+  }
+}
+
+export async function updateClubByID(clubID, club) {
+  console.log("updateClubByID", clubID, club);
+
+  const db = await open({
+    filename: "./db/ClubConnect.db",
+    driver: sqlite3.Database,
+  });
+
+  const stmt = await db.prepare(`
+    UPDATE Club
+    SET
+      description = @description,
+      email = @email,
+      logo = @logo,
+      clubCategory = @clubCategory
+    WHERE
+      clubID = @clubID;
+  `);
+
+  const params = {
+    "@clubID": clubID,
+    "@name": club.name,
+    "@description": club.description,
+    "@startDate": club.startDate,
+    "@email": club.email,
+    "@logo": club.logo,
+    "@clubCategory": club.clubCategory,
   };
 
   try {
     return await stmt.run(params);
-  } finally {
-    await stmt.finalize();
-    db.close();
-  }
-}
-
-export async function getAuthors(query, page, pageSize) {
-  console.log("getAuthors query", query);
-
-  const db = await open({
-    filename: "./db/ClubConnect.db",
-    driver: sqlite3.Database,
-  });
-
-  const stmt = await db.prepare(`
-    SELECT * FROM Author
-    WHERE 
-      first_name LIKE @query OR 
-      last_name LIKE @query
-    ORDER BY last_name DESC
-    LIMIT @pageSize
-    OFFSET @offset;
-  `);
-
-  const params = {
-    "@query": query + "%",
-    "@pageSize": pageSize,
-    "@offset": (page - 1) * pageSize,
-  };
-
-  try {
-    return await stmt.all(params);
-  } finally {
-    await stmt.finalize();
-    db.close();
-  }
-}
-
-export async function getAuthorsCount(query) {
-  console.log("getAuthorsCount query", query);
-
-  const db = await open({
-    filename: "./db/ClubConnect.db",
-    driver: sqlite3.Database,
-  });
-
-  const stmt = await db.prepare(`
-    SELECT COUNT(*) AS count
-    FROM Author
-    WHERE 
-      first_name LIKE @query OR 
-      last_name LIKE @query;
-  `);
-
-  const params = {
-    "@query": query + "%",
-  };
-
-  try {
-    return (await stmt.get(params)).count;
   } finally {
     await stmt.finalize();
     db.close();

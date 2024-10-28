@@ -58,7 +58,7 @@ router.get("/:universityID/edit", async (req, res, next) => {
     let university = await myDb.getUniversityByID(universityID);
     let clubsByUni = await myDb.getClubsByUniversityID(universityID);
 
-    console.log("edit reference", {
+    console.log("edit university", {
       university,
       clubsByUni,
       msg,
@@ -95,28 +95,6 @@ router.post("/:universityID/edit", async (req, res, next) => {
   }
 });
 
-router.post("/references/:reference_id/addAuthor", async (req, res, next) => {
-  console.log("Add author", req.body);
-  const reference_id = req.params.reference_id;
-  const author_id = req.body.author_id;
-
-  try {
-    let updateResult = await myDb.addAuthorIDToReferenceID(
-      reference_id,
-      author_id
-    );
-    console.log("addAuthorIDToReferenceID", updateResult);
-
-    if (updateResult && updateResult.changes === 1) {
-      res.redirect(`/references/${reference_id}/edit?msg=Author added`);
-    } else {
-      res.redirect(`/references/${reference_id}/edit?msg=Error adding author`);
-    }
-  } catch (err) {
-    next(err);
-  }
-});
-
 router.get("/:universityID/delete", async (req, res, next) => {
   const universityID = req.params.universityID;
 
@@ -125,9 +103,9 @@ router.get("/:universityID/delete", async (req, res, next) => {
     console.log("delete", deletedUniversity);
 
     if (deletedUniversity && deletedUniversity.changes === 1) {
-      res.redirect("/?msg=Deleted University Successfully");
+      res.redirect("?msg=Deleted University Successfully");
     } else {
-      res.redirect("/?msg=Error Deleting");
+      res.redirect("?msg=Error Deleting");
     }
   } catch (err) {
     next(err);
@@ -146,30 +124,46 @@ router.post("/createClub", async (req, res, next) => {
     const createdClub = await myDb.createClub(club);
 
     console.log("Inserted", createdClub);
-    res.redirect("/clubs/?msg=Created Club " + club.name);
+    res.redirect("/clubs?msg=Created Club " + club.name);
   } catch (err) {
     console.log("Error inserting", err);
     next(err);
   }
 });
 
-// http://localhost:3000/references?pageSize=24&page=3&q=John
-router.get("/authors", async (req, res, next) => {
-  const query = req.query.q || "";
-  const page = +req.query.page || 1;
-  const pageSize = +req.query.pageSize || 24;
+router.get("/clubs/:clubID/edit", async (req, res, next) => {
+  const clubID = req.params.clubID;
   const msg = req.query.msg || null;
   try {
-    let total = await myDb.getAuthorsCount(query);
-    let authors = await myDb.getAuthors(query, page, pageSize);
+    let club = await myDb.getClubByID(clubID);
 
-    res.render("./pages/index_authors", {
-      authors,
-      query,
+    console.log("edit club", {
+      club,
       msg,
-      currentPage: page,
-      lastPage: Math.ceil(total / pageSize),
     });
+
+    res.render("./pages/editClub", {
+      club,
+      msg,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/clubs/:clubID/edit", async (req, res, next) => {
+  const clubID = req.params.clubID;
+  const club = req.body;
+
+  try {
+    let updatedClub = await myDb.updateClubByID(clubID, club);
+    console.log("updatedClub", updatedClub);
+
+    if (updatedClub && updatedClub.changes === 1) {
+      res.redirect("/clubs?msg=Updated Club Details successfully");
+    } else {
+      res.redirect("/clubs?msg=Error Updating");
+    }
   } catch (err) {
     next(err);
   }
