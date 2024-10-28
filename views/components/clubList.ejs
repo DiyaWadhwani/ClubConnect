@@ -23,6 +23,7 @@
             <a
               class="btn btn-outline-danger btn-sm"
               href="<%= '/clubs/' + club.clubID + '/delete' %>"
+              onclick="return confirm('Are you sure you want to delete this club?');"
               >Delete</a
             >
           </div>

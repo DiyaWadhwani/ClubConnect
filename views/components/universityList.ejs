@@ -34,6 +34,7 @@
             <a
               class="btn btn-outline-danger btn-sm delete-btn"
               href="<%= '/' + uni.universityID + '/delete' %>"
+              onclick="return confirm('Are you sure you want to delete this University? All clubs affiliated with this University will also be deleted');"
               >Delete</a
             >
           </div>
