@@ -186,4 +186,8 @@ router.get("/clubs/:clubID/delete", async (req, res, next) => {
   }
 });
 
+router.get("/membership", async (req, res, next) => {
+  res.render("./pages/index_membership");
+});
+
 export default router;

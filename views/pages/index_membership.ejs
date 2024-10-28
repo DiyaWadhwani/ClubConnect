@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../templates/head.ejs") %>
+    <!-- Include your head template for CSS, etc. -->
+    <title>Page Under Construction</title>
+    <style>
+      .construction-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+        color: #333;
+      }
+      .construction-content {
+        max-width: 600px;
+      }
+      .construction-icon {
+        font-size: 4rem;
+        color: #f0ad4e; /* Bootstrap warning color */
+      }
+      .back-button {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("../templates/navBar.ejs") %>
+    <!-- Include navbar if needed -->
+
+    <div class="construction-container">
+      <div class="construction-content">
+        <div class="construction-icon">🚧</div>
+        <h1>Page Under Construction</h1>
+        <p>
+          We're working hard to bring this page to you soon. Please check back
+          later!
+        </p>
+        <a href="/" class="btn btn-primary back-button">Go Back Home</a>
+      </div>
+    </div>
+
+    <%- include("../templates/footer.ejs") %>
+    <!-- Include footer if needed -->
+  </body>
+</html>
