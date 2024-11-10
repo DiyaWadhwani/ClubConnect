@@ -146,24 +146,28 @@ Students enrolled in Computer Science: [
 
    ```bash
    git clone https://github.com/DiyaWadhwani/ClubConnect.git
+   git checkout p2-mongo
    ```
 
-```
+2. **Import the DB**:
 
-2. **Set up the database**:
-
-   - Use the provided [SQL schema](./db/ClubConnectDDLQueries.txt) to set up the **SQLite3** database.
-   - Use the provided [Insert Queries](./db/ClubConnectInsertQueries.sql) to prepopulate your database.
+   ```bash
+   mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection club --file db/initialization/clubConnect.club.json --jsonArray
+   mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection university --file db/initialization/clubConnect.university.json --jsonArray
+   mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection student --file db/initialization/clubConnect.student.json --jsonArray
+   ```
 
 3. **Execute the queries**:
-   - Run the queries located in the `dmlQueries` folder using your preferred **SQLite** client or through the command line.
+   ```bash
+   cd db/dmlQueries
+   node Query1.js //change the filename to run the query you wish
+   ```
 
 ---
 
 ### Documentation
 
-- **[Database Design Documentation](./docs/ClubConnect_DatabaseDesign.pdf)**
+- **[Database Design Documentation](./docs/ClubConnect_DatabaseDesign - Mongo.pdf)**
 - **[Requirements Specification](./docs/ClubConnect_Requirements.pdf)**
 - **[Class UML Diagram](./diagrams/ClubConnect_UML.png)**
 - **[ERD Diagram](./diagrams/ClubConnect_ERD.png)**
-```
