@@ -7,6 +7,7 @@ With **ClubConnect**, club leaders can:
 - Schedule and manage events.
 - Assign and manage roles within a club (Leader, Core, or Regular).
 - Schedule interviews for onboarding new members.
+- Track membership status, events, and interviews with ease.
 
 ### Features
 
@@ -14,21 +15,17 @@ With **ClubConnect**, club leaders can:
 - **Role Management**: Assign and manage roles within a club (Leader, Core, or Regular).
 - **Event Management**: Schedule events, and manage event details.
 - **Interview Scheduling**: Schedule interviews for onboarding new members, and track results.
+- **Membership Management**: Track the status and roles of members across different clubs.
 
 ### Database Design
 
-The database design is based on an **ERD schema** and is normalized to BCNF. The schema includes the following entities:
+The system uses **MongoDB** with collections for universities, clubs, students, and events. The design ensures efficient management of data, allowing for the following:
 
-- **University**: Stores university details.
-- **Club**: Manages the details of student-run clubs.
-- **Student**: Stores student information.
-- **Membership**: Tracks the roles and membership of students in clubs.
-- **Role**: Defines various roles within the clubs.
-- **Event**: Records club events.
-- **Status**: Tracks the status of events and interviews (e.g., Scheduled, Completed).
-- **Interview**: Handles the scheduling and status of member onboarding interviews.
+- **University Collection**: Stores university details and references clubs associated with each university.
+- **Club Collection**: Stores club information, including events and members, with embedded documents for related data.
+- **Student Collection**: Tracks student details, roles, and interviews for onboarding into clubs.
 
-For more details on the database schema and normalization, refer to the [Database Design Documentation](./docs/ClubConnect_DatabaseDesign.pdf).
+This design is flexible and scalable, supporting seamless growth of the application. For more details, refer to the [Database Design Documentation](./docs/ClubConnect_DatabaseDesign - Mongo.pdf).
 
 ### Functional Rules and Constraints
 
@@ -39,85 +36,115 @@ For more details on the database schema and normalization, refer to the [Databas
 
 ---
 
-### SQL Queries
+### Mongo Queries
 
-Below is a breakdown of the SQL queries provided, their purpose, and examples of their outputs.
+Below is a breakdown of the Mongo queries provided, their purpose, and examples of their outputs.
 
-#### Query 1: Retrieve all club names and the number of members
+Here's the README summary for each query:
 
-This query fetches the names of students, their club names, and the roles they hold in their respective clubs.
+```markdown
+# ClubConnect Queries Documentation
 
-**Example Output:**
+## Query 1: Clubs Count by Category
 
-| firstName | lastName | clubName              | roleTitle         |
-| --------- | -------- | --------------------- | ----------------- |
-| Alice     | Johnson  | Tech Club             | President         |
-| Daniel    | White    | Tech Club             | Public Relations  |
-| Bob       | Smith    | Dance Club            | Treasurer         |
-| Catherine | Lee      | Entrepreneurship Club | Vice President    |
-| Haris     | Joy      | Entrepreneurship Club | Treasurer         |
-| Emily     | Brown    | Robotics Club         | Event Coordinator |
-| Fiona     | Green    | Photography Club      | Secretary         |
-| Grace     | Kim      | Coding Club           | Vice President    |
+This query counts the number of clubs for each category, sorts the results by the club count in descending order, and prints the result.
 
-#### Query 2: Retrieve all clubs along with their member count
+**Expected Output:**
+```
 
-This query finds all clubs and the number of members in each club. It returns the club name and the total count of members for that club.
+Clubs count by category: [
+{ _id: 'Arts', clubCount: 2 },
+{ _id: 'Technology', clubCount: 2 },
+{ _id: 'Business', clubCount: 1 },
+{ _id: 'Engineering', clubCount: 1 }
+]
 
-**Example Output:**
+```
 
-| clubName              | memberCount |
-| --------------------- | ----------- |
-| Tech Club             | 2           |
-| Dance Club            | 1           |
-| Entrepreneurship Club | 2           |
-| Robotics Club         | 1           |
-| Photography Club      | 1           |
-| Coding Club           | 1           |
+## Query 2: CS Students from 2021 with Scheduled/Pending Interviews
+This query finds Computer Science students enrolled in 2021 who have interviews with "Scheduled" or "Pending" status.
 
-#### Query 3: Retrieve the number of active members in each club
+**Expected Output:**
+```
 
-This query shows the number of active members in each club and includes only those clubs with at least one active member. It returns the club name along with the count of active members.
+CS students from 2021 with scheduled/pending interviews: [
+{
+"\_id": "673070b1fee039a1eb55db04",
+"student_id": 1,
+"student_first_name": "Alice",
+"student_last_name": "Johnson",
+"student_email": "alice.j@northeastern.edu",
+"student_program": "Computer Science",
+"student_graduation_date": "2024-05-01",
+"student_enrollment_year": 2021,
+"student_dob": "2002-03-10",
+"student_uni_id": 1,
+"interviews": [
+{
+"interview_id": 2,
+"interview_date_time": "2023-12-01T09:00",
+"interview_role": "Treasurer",
+"interview_platform": "Google Meet",
+"interview_status": "Scheduled"
+}
+]
+}
+]
 
-**Example Output:**
+```
 
-| clubName              | activeMemberCount |
-| --------------------- | ----------------- |
-| Coding Club           | 1                 |
-| Dance Club            | 1                 |
-| Entrepreneurship Club | 2                 |
-| Photography Club      | 1                 |
-| Robotics Club         | 1                 |
-| Tech Club             | 2                 |
+## Query 3: Number of Clubs at Northeastern University
+This query retrieves the number of clubs associated with Northeastern University.
 
-#### Query 4: Retrieve students who are either in a technology-related club or hold a leadership role
+**Expected Output:**
+```
 
-This query retrieves the names of students who are either in the **Technology** club category or have the role of **President**, and who graduated after January 1, 2023. It returns the first and last names of these students.
+Number of clubs at Northeastern University: 2
 
-**Example Output:**
+```
 
-| firstName | lastName |
-| --------- | -------- |
-| Alice     | Johnson  |
-| Daniel    | White    |
-| Grace     | Kim      |
+## Query 4: Update Event Status
+This query updates the status of an event with a specific `event_id` to "Completed".
 
-#### Query 5: Categorize students based on graduation year
+**Expected Output:**
+```
 
-This query categorizes students as **Alum**, **Current Student**, or **Prospective Student** based on their graduation year. It returns the student's first and last names, along with their status category.
+Matched and modified: 1 1
 
-**Example Output:**
+```
 
-| firstName | lastName | studentStatus       |
-| --------- | -------- | ------------------- |
-| Alice     | Johnson  | Current Student     |
-| Bob       | Smith    | Current Student     |
-| Catherine | Lee      | Prospective Student |
-| Daniel    | White    | Prospective Student |
-| Emily     | Brown    | Current Student     |
-| Fiona     | Green    | Current Student     |
-| Grace     | Kim      | Prospective Student |
-| Haris     | Joy      | Alum                |
+## Query 5: Students Enrolled in Computer Science
+This query retrieves all students enrolled in the Computer Science program, projecting key student details.
+
+**Expected Output:**
+```
+
+Students enrolled in Computer Science: [
+{
+"_id": "673070b1fee039a1eb55db09",
+"student_id": 6,
+"student_first_name": "Fiona",
+"student_last_name": "Green",
+"student_email": "fiona.g@washington.edu",
+"student_program": "Computer Science",
+"student_graduation_date": "2023-12-01",
+"student_enrollment_year": 2019
+},
+{
+"_id": "673070b1fee039a1eb55db04",
+"student_id": 1,
+"student_first_name": "Alice",
+"student_last_name": "Johnson",
+"student_email": "alice.j@northeastern.edu",
+"student_program": "Computer Science",
+"student_graduation_date": "2024-05-01",
+"student_enrollment_year": 2021
+}
+]
+
+```
+
+```
 
 ### Setup Instructions
 
