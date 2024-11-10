@@ -151,7 +151,7 @@ Students enrolled in Computer Science: [
    git checkout p2-mongo
    ```
 
-2. **Import the DB**:
+2. **Import the Collections**:
 
    ```bash
    mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection club --file db/initialization/clubConnect.club.json --jsonArray
