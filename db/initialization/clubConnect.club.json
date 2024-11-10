@@ -1,0 +1,232 @@
+[{
+  "_id": {
+    "$oid": "67306bdd1964914c7d0800bb"
+  },
+  "club_id": 1,
+  "club_name": "Tech Club",
+  "club_description": "A club for tech enthusiasts to learn and share knowledge about new technologies.",
+  "club_start_date": "2021-09-15",
+  "club_email": "techclub@northeastern.edu",
+  "club_logo": null,
+  "club_category": "Technology",
+  "events": [
+    {
+      "event_id": 1,
+      "event_name": "Tech Talks: AI in 2023",
+      "event_date_time": "2023-10-20T14:00:00",
+      "event_location": "Room 101, Tech Building",
+      "event_description": "A discussion on the latest developments in AI.",
+      "event_status": "Scheduled",
+      "event_contact": "alice.j@northeastern.edu",
+      "event_type": "Seminar"
+    },
+    {
+      "event_id": 7,
+      "event_name": "AI and Ethics Panel Discussion",
+      "event_date_time": "2024-03-10T18:30:00",
+      "event_location": "Main Auditorium",
+      "event_description": "Panel discussion on ethical considerations in AI development.",
+      "event_status": "Pending",
+      "event_contact": "grace.k@northeastern.edu",
+      "event_type": "Seminar"
+    }
+  ],
+  "members": [
+    {
+      "member_id": 1,
+      "member_type": "Leader",
+      "member_role": "President",
+      "member_description": "President of the Tech Club",
+      "member_join_date": "2021-09-20"
+    },
+    {
+      "member_id": 4,
+      "member_type": "Core",
+      "member_role": "Event Coordinator",
+      "member_description": "Event Coordinator of the Tech Club",
+      "member_join_date": "2022-09-01"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67306bdd1964914c7d0800bc"
+  },
+  "club_id": 2,
+  "club_name": "Dance Club",
+  "club_description": "A platform for students to practice and perform various dance styles.",
+  "club_start_date": "2020-10-01",
+  "club_email": "danceclub@berkeley.edu",
+  "club_logo": null,
+  "club_category": "Arts",
+  "events": [
+    {
+      "event_id": 2,
+      "event_name": "Dance Performance: Winter Showcase",
+      "event_date_time": "2023-11-15T18:00:00",
+      "event_location": "Main Auditorium",
+      "event_description": "Showcasing student performances in various dance styles.",
+      "event_status": "Scheduled",
+      "event_contact": "bob.s@berkeley.edu",
+      "event_type": "Performance"
+    }
+  ],
+  "members": [
+    {
+      "member_id": 2,
+      "member_type": "Leader",
+      "member_role": "Vice President",
+      "member_description": "Vice President of the Dance Club",
+      "member_join_date": "2020-11-05"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67306bdd1964914c7d0800bd"
+  },
+  "club_id": 3,
+  "club_name": "Entrepreneurship Club",
+  "club_description": "Helping students explore and start their entrepreneurial ventures.",
+  "club_start_date": "2019-01-20",
+  "club_email": "entrepreneurship@northeastern.edu",
+  "club_logo": null,
+  "club_category": "Business",
+  "events": [
+    {
+      "event_id": 3,
+      "event_name": "Startup Pitch Competition",
+      "event_date_time": "2024-01-10T10:00:00",
+      "event_location": "Room 205, Business Building",
+      "event_description": "Students present their startup ideas to a panel.",
+      "event_status": "Completed",
+      "event_contact": "catherine.l@northeastern.edu",
+      "event_type": "Competition"
+    },
+    {
+      "event_id": 8,
+      "event_name": "Fundraising Strategy Meeting",
+      "event_date_time": "2023-11-01T13:00:00",
+      "event_location": "Club Room",
+      "event_description": "Planning strategies for the club's next fundraiser.",
+      "event_status": "Pending",
+      "event_contact": "alice.j@northeastern.edu",
+      "event_type": "Meeting"
+    }
+  ],
+  "members": [
+    {
+      "member_id": 3,
+      "member_type": "Leader",
+      "member_role": "Treasurer",
+      "member_description": "Treasurer of the Entrepreneurship Club",
+      "member_join_date": "2022-01-15"
+    },
+    {
+      "member_id": 8,
+      "member_type": "Regular",
+      "member_role": "Member",
+      "member_description": "Member",
+      "member_join_date": "2022-05-10"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67306bdd1964914c7d0800be"
+  },
+  "club_id": 4,
+  "club_name": "Robotics Club",
+  "club_description": "A club dedicated to building and programming robots.",
+  "club_start_date": "2018-05-10",
+  "club_email": "robotics@stanford.edu",
+  "club_logo": null,
+  "club_category": "Engineering",
+  "events": [
+    {
+      "event_id": 4,
+      "event_name": "Robot Building Workshop",
+      "event_date_time": "2023-12-10T15:00:00",
+      "event_location": "Room 305, Engineering Hall",
+      "event_description": "Workshop on building and programming autonomous robots.",
+      "event_status": "Scheduled",
+      "event_contact": "daniel.w@stanford.edu",
+      "event_type": "Workshop"
+    }
+  ],
+  "members": [
+    {
+      "member_id": 5,
+      "member_type": "Core",
+      "member_role": "Public Relations",
+      "member_description": "Public Relations Officer of the Robotics Club",
+      "member_join_date": "2021-11-01"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67306bdd1964914c7d0800bf"
+  },
+  "club_id": 5,
+  "club_name": "Photography Club",
+  "club_description": "For students interested in capturing and editing photographs.",
+  "club_start_date": "2021-03-15",
+  "club_email": "photoclub@mit.edu",
+  "club_logo": null,
+  "club_category": "Arts",
+  "events": [
+    {
+      "event_id": 5,
+      "event_name": "Photo Walk: Winter Edition",
+      "event_date_time": "2024-01-15T17:00:00",
+      "event_location": "Boston Commons",
+      "event_description": "A photo walk around the city to capture winter scenes.",
+      "event_status": "Scheduled",
+      "event_contact": "emily.b@mit.edu",
+      "event_type": "Outdoor Event"
+    }
+  ],
+  "members": [
+    {
+      "member_id": 6,
+      "member_type": "Core",
+      "member_role": "President",
+      "member_description": "President of the Photography Club",
+      "member_join_date": "2021-03-20"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "67306bdd1964914c7d0800c0"
+  },
+  "club_id": 6,
+  "club_name": "Coding Club",
+  "club_description": "Bringing together coders to work on projects and improve their skills.",
+  "club_start_date": "2020-08-01",
+  "club_email": "codingclub@washington.edu",
+  "club_logo": null,
+  "club_category": "Technology",
+  "events": [
+    {
+      "event_id": 6,
+      "event_name": "Hackathon 2024",
+      "event_date_time": "2024-02-20T14:00:00",
+      "event_location": "Room 402, Tech Center",
+      "event_description": "48-hour coding marathon with prizes for top projects.",
+      "event_status": "Completed",
+      "event_contact": "fiona.g@washington.edu",
+      "event_type": "Competition"
+    }
+  ],
+  "members": [
+    {
+      "member_id": 7,
+      "member_type": "Core",
+      "member_role": "Event Coordinator",
+      "member_description": "Event Coordinator of the Coding Club",
+      "member_join_date": "2022-08-15"
+    }
+  ]
+}]
