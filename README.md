@@ -42,34 +42,31 @@ Below is a breakdown of the Mongo queries provided, their purpose, and examples 
 
 Here's the README summary for each query:
 
-```markdown
-# ClubConnect Queries Documentation
-
 ## Query 1: Clubs Count by Category
 
 This query counts the number of clubs for each category, sorts the results by the club count in descending order, and prints the result.
 
 **Expected Output:**
-```
 
+```json
 Clubs count by category: [
 { _id: 'Arts', clubCount: 2 },
 { _id: 'Technology', clubCount: 2 },
 { _id: 'Business', clubCount: 1 },
 { _id: 'Engineering', clubCount: 1 }
 ]
-
 ```
 
 ## Query 2: CS Students from 2021 with Scheduled/Pending Interviews
+
 This query finds Computer Science students enrolled in 2021 who have interviews with "Scheduled" or "Pending" status.
 
 **Expected Output:**
-```
 
+```json
 CS students from 2021 with scheduled/pending interviews: [
 {
-"\_id": "673070b1fee039a1eb55db04",
+"id": "673070b1fee039a1eb55db04",
 "student_id": 1,
 "student_first_name": "Alice",
 "student_last_name": "Johnson",
@@ -90,35 +87,35 @@ CS students from 2021 with scheduled/pending interviews: [
 ]
 }
 ]
-
 ```
 
 ## Query 3: Number of Clubs at Northeastern University
+
 This query retrieves the number of clubs associated with Northeastern University.
 
 **Expected Output:**
-```
 
+```json
 Number of clubs at Northeastern University: 2
-
 ```
 
 ## Query 4: Update Event Status
+
 This query updates the status of an event with a specific `event_id` to "Completed".
 
 **Expected Output:**
-```
 
+```json
 Matched and modified: 1 1
-
 ```
 
 ## Query 5: Students Enrolled in Computer Science
+
 This query retrieves all students enrolled in the Computer Science program, projecting key student details.
 
 **Expected Output:**
-```
 
+```json
 Students enrolled in Computer Science: [
 {
 "_id": "673070b1fee039a1eb55db09",
@@ -141,9 +138,6 @@ Students enrolled in Computer Science: [
 "student_enrollment_year": 2021
 }
 ]
-
-```
-
 ```
 
 ### Setup Instructions
@@ -153,6 +147,8 @@ Students enrolled in Computer Science: [
    ```bash
    git clone https://github.com/DiyaWadhwani/ClubConnect.git
    ```
+
+```
 
 2. **Set up the database**:
 
@@ -170,3 +166,4 @@ Students enrolled in Computer Science: [
 - **[Requirements Specification](./docs/ClubConnect_Requirements.pdf)**
 - **[Class UML Diagram](./diagrams/ClubConnect_UML.png)**
 - **[ERD Diagram](./diagrams/ClubConnect_ERD.png)**
+```
