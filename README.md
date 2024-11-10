@@ -36,13 +36,13 @@ This design is flexible and scalable, supporting seamless growth of the applicat
 
 ---
 
-### Mongo Queries
+## Mongo Queries
 
 Below is a breakdown of the Mongo queries provided, their purpose, and examples of their outputs.
 
 Here's the README summary for each query:
 
-## Query 1: Clubs Count by Category
+### Query 1: Clubs Count by Category
 
 This query counts the number of clubs for each category, sorts the results by the club count in descending order, and prints the result.
 
@@ -57,7 +57,7 @@ Clubs count by category: [
 ]
 ```
 
-## Query 2: CS Students from 2021 with Scheduled/Pending Interviews
+### Query 2: CS Students from 2021 with Scheduled/Pending Interviews
 
 This query finds Computer Science students enrolled in 2021 who have interviews with "Scheduled" or "Pending" status.
 
@@ -89,7 +89,7 @@ CS students from 2021 with scheduled/pending interviews: [
 ]
 ```
 
-## Query 3: Number of Clubs at Northeastern University
+### Query 3: Number of Clubs at Northeastern University
 
 This query retrieves the number of clubs associated with Northeastern University.
 
@@ -99,7 +99,7 @@ This query retrieves the number of clubs associated with Northeastern University
 Number of clubs at Northeastern University: 2
 ```
 
-## Query 4: Update Event Status
+### Query 4: Update Event Status
 
 This query updates the status of an event with a specific `event_id` to "Completed".
 
@@ -109,7 +109,7 @@ This query updates the status of an event with a specific `event_id` to "Complet
 Matched and modified: 1 1
 ```
 
-## Query 5: Students Enrolled in Computer Science
+### Query 5: Students Enrolled in Computer Science
 
 This query retrieves all students enrolled in the Computer Science program, projecting key student details.
 
@@ -140,7 +140,9 @@ Students enrolled in Computer Science: [
 ]
 ```
 
-### Setup Instructions
+---
+
+## Setup Instructions
 
 1. **Clone the repository**:
 
@@ -165,7 +167,7 @@ Students enrolled in Computer Science: [
 
 ---
 
-### Documentation
+# Documentation
 
 - **[Database Design Documentation](./docs/ClubConnect_DatabaseDesign - Mongo.pdf)**
 - **[Requirements Specification](./docs/ClubConnect_Requirements.pdf)**
