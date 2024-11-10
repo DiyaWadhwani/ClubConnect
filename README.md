@@ -25,7 +25,7 @@ The system uses **MongoDB** with collections for universities, clubs, students, 
 - **Club Collection**: Stores club information, including events and members, with embedded documents for related data.
 - **Student Collection**: Tracks student details, roles, and interviews for onboarding into clubs.
 
-This design is flexible and scalable, supporting seamless growth of the application. For more details, refer to the [Database Design Documentation](./docs/ClubConnect_DatabaseDesign - Mongo.pdf).
+This design is flexible and scalable, supporting seamless growth of the application. For more details, refer to the [Database Design Documentation](./docs/ClubConnect_DatabaseDesign-Mongo.pdf).
 
 ### Functional Rules and Constraints
 
