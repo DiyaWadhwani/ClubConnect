@@ -48,7 +48,7 @@ This query counts the number of clubs for each category, sorts the results by th
 
 **Expected Output:**
 
-```json
+```bash
 Clubs count by category: [
 { _id: 'Arts', clubCount: 2 },
 { _id: 'Technology', clubCount: 2 },
@@ -63,7 +63,7 @@ This query finds Computer Science students enrolled in 2021 who have interviews 
 
 **Expected Output:**
 
-```json
+```bash
 CS students from 2021 with scheduled/pending interviews: [
 {
 "id": "673070b1fee039a1eb55db04",
@@ -95,7 +95,7 @@ This query retrieves the number of clubs associated with Northeastern University
 
 **Expected Output:**
 
-```json
+```bash
 Number of clubs at Northeastern University: 2
 ```
 
@@ -105,7 +105,7 @@ This query updates the status of an event with a specific `event_id` to "Complet
 
 **Expected Output:**
 
-```json
+```bash
 Matched and modified: 1 1
 ```
 
@@ -115,7 +115,7 @@ This query retrieves all students enrolled in the Computer Science program, proj
 
 **Expected Output:**
 
-```json
+```bash
 Students enrolled in Computer Science: [
 {
 "_id": "673070b1fee039a1eb55db09",
