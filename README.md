@@ -40,8 +40,6 @@ This design is flexible and scalable, supporting seamless growth of the applicat
 
 Below is a breakdown of the Mongo queries provided, their purpose, and examples of their outputs.
 
-Here's the README summary for each query:
-
 ### Query 1: Clubs Count by Category
 
 This query counts the number of clubs for each category, sorts the results by the club count in descending order, and prints the result.
@@ -169,7 +167,7 @@ Students enrolled in Computer Science: [
 
 # Documentation
 
-- **[Database Design Documentation](./docs/ClubConnect_DatabaseDesign - Mongo.pdf)**
+- **[Database Design Documentation](./docs/ClubConnect_DatabaseDesign-Mongo.pdf)**
 - **[Requirements Specification](./docs/ClubConnect_Requirements.pdf)**
 - **[Class UML Diagram](./diagrams/ClubConnect_UML.png)**
 - **[ERD Diagram](./diagrams/ClubConnect_ERD.png)**
