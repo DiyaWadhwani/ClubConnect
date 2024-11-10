@@ -50,10 +50,10 @@ This query counts the number of clubs for each category, sorts the results by th
 
 ```bash
 Clubs count by category: [
-{ _id: 'Arts', clubCount: 2 },
-{ _id: 'Technology', clubCount: 2 },
-{ _id: 'Business', clubCount: 1 },
-{ _id: 'Engineering', clubCount: 1 }
+  { _id: 'Arts', clubCount: 2 },
+  { _id: 'Technology', clubCount: 2 },
+  { _id: 'Business', clubCount: 1 },
+  { _id: 'Engineering', clubCount: 1 }
 ]
 ```
 
@@ -65,27 +65,27 @@ This query finds Computer Science students enrolled in 2021 who have interviews 
 
 ```bash
 CS students from 2021 with scheduled/pending interviews: [
-{
-"id": "673070b1fee039a1eb55db04",
-"student_id": 1,
-"student_first_name": "Alice",
-"student_last_name": "Johnson",
-"student_email": "alice.j@northeastern.edu",
-"student_program": "Computer Science",
-"student_graduation_date": "2024-05-01",
-"student_enrollment_year": 2021,
-"student_dob": "2002-03-10",
-"student_uni_id": 1,
-"interviews": [
-{
-"interview_id": 2,
-"interview_date_time": "2023-12-01T09:00",
-"interview_role": "Treasurer",
-"interview_platform": "Google Meet",
-"interview_status": "Scheduled"
-}
-]
-}
+  {
+    "_id": "673070b1fee039a1eb55db04",
+    "student_id": 1,
+    "student_first_name": "Alice",
+    "student_last_name": "Johnson",
+    "student_email": "alice.j@northeastern.edu",
+    "student_program": "Computer Science",
+    "student_graduation_date": "2024-05-01",
+    "student_enrollment_year": 2021,
+    "student_dob": "2002-03-10",
+    "student_uni_id": 1,
+    "interviews": [
+      {
+        "interview_id": 2,
+        "interview_date_time": "2023-12-01T09:00",
+        "interview_role": "Treasurer",
+        "interview_platform": "Google Meet",
+        "interview_status": "Scheduled"
+      }
+    ]
+  }
 ]
 ```
 
@@ -117,26 +117,26 @@ This query retrieves all students enrolled in the Computer Science program, proj
 
 ```bash
 Students enrolled in Computer Science: [
-{
-"_id": "673070b1fee039a1eb55db09",
-"student_id": 6,
-"student_first_name": "Fiona",
-"student_last_name": "Green",
-"student_email": "fiona.g@washington.edu",
-"student_program": "Computer Science",
-"student_graduation_date": "2023-12-01",
-"student_enrollment_year": 2019
-},
-{
-"_id": "673070b1fee039a1eb55db04",
-"student_id": 1,
-"student_first_name": "Alice",
-"student_last_name": "Johnson",
-"student_email": "alice.j@northeastern.edu",
-"student_program": "Computer Science",
-"student_graduation_date": "2024-05-01",
-"student_enrollment_year": 2021
-}
+  {
+    "_id": "673070b1fee039a1eb55db09",
+    "student_id": 6,
+    "student_first_name": "Fiona",
+    "student_last_name": "Green",
+    "student_email": "fiona.g@washington.edu",
+    "student_program": "Computer Science",
+    "student_graduation_date": "2023-12-01",
+    "student_enrollment_year": 2019
+  },
+  {
+    "_id": "673070b1fee039a1eb55db04",
+    "student_id": 1,
+    "student_first_name": "Alice",
+    "student_last_name": "Johnson",
+    "student_email": "alice.j@northeastern.edu",
+    "student_program": "Computer Science",
+    "student_graduation_date": "2024-05-01",
+    "student_enrollment_year": 2021
+  }
 ]
 ```
 
