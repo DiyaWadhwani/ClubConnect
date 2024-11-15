@@ -90,13 +90,17 @@ router.post("/:university_id/edit", async (req, res, next) => {
 });
 
 router.get("/:university_id/delete", async (req, res, next) => {
-  const university_id = req.params.university_id;
+  const university_id = parseInt(req.params.university_id);
 
   try {
     let deletedUniversity = await myDb.deleteUniversityByID(university_id);
     console.log("delete", deletedUniversity);
 
-    if (deletedUniversity && deletedUniversity.changes === 1) {
+    if (
+      deletedUniversity &&
+      deletedUniversity.acknowledged &&
+      deletedUniversity.deletedCount === 1
+    ) {
       res.redirect("/?msg=Deleted University Successfully");
     } else {
       res.redirect("/?msg=Error Deleting");

@@ -1,4 +1,3 @@
-import { name } from "ejs";
 import { MongoClient, ObjectId } from "mongodb";
 
 async function getDb() {
@@ -23,7 +22,7 @@ export async function getUniversities(query, page, pageSize) {
         zipCode: "$university_zip_code",
         universityID: "$university_id",
       })
-      .sort({ name: 1 })
+      .sort({ university_name: 1 })
       .skip((page - 1) * pageSize)
       .limit(pageSize)
       .toArray();
@@ -131,13 +130,29 @@ export async function updateUniversityByID(university_id, university) {
   }
 }
 
-export async function deleteUniversityByID(universityID) {
-  console.log("deleteUniversityByID", universityID);
+export async function deleteUniversityByID(university_id) {
+  console.log("deleteUniversityByID", university_id);
   const db = await getDb();
-
-  return await db
+  const universityToDelete = await db
     .collection("university")
-    .deleteOne({ _id: new ObjectId(universityID) });
+    .find({ university_id: university_id })
+    .project({
+      _id: 0,
+      university_id: "$university_id",
+      university_clubs: "$university_clubs",
+    })
+    .toArray();
+  console.log("universityToDelete", universityToDelete[0]);
+  const deletedUniversity = await db
+    .collection("university")
+    .deleteOne({ university_id: university_id });
+  const clubsToDelete = universityToDelete[0].university_clubs;
+  const deletedClubsByUni = await db
+    .collection("club")
+    .deleteMany({ club_id: { $in: clubsToDelete } });
+  console.log("deletedClubsByUni", deletedClubsByUni);
+
+  return deletedUniversity;
 }
 
 export async function createClub(club) {
@@ -197,6 +212,7 @@ export async function getClubsByUniversityID(universityID) {
       .collection("club")
       .find({ club_id: { $in: clubIds } })
       .project({
+        clubID: "$club_id",
         name: "$club_name",
       })
       .toArray();
