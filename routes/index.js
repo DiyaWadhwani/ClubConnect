@@ -69,7 +69,7 @@ router.get("/:university_id/edit", async (req, res, next) => {
 });
 
 router.post("/:university_id/edit", async (req, res, next) => {
-  const university_id = req.params.university_id;
+  const university_id = parseInt(req.params.university_id);
   const university = req.body;
 
   try {

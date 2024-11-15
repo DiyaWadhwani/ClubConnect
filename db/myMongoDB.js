@@ -107,13 +107,28 @@ export async function getUniversityByID(university_id) {
   }
 }
 
-export async function updateUniversityByID(universityID, university) {
-  console.log("updateUniversityByID", universityID, university);
+export async function updateUniversityByID(university_id, university) {
+  console.log("updateUniversityByID", university_id, university);
   const db = await getDb();
-
-  return await db
-    .collection("university")
-    .updateOne({ _id: new ObjectId(universityID) }, { $set: university });
+  try {
+    const updatedUniversity = await db.collection("university").updateOne(
+      { university_id: university_id },
+      {
+        $set: {
+          university_email_domain: university.emailDomain,
+          university_website: university.website,
+          university_address: university.address,
+          university_city: university.city,
+          university_state: university.state,
+          university_zip_code: university.zipCode,
+        },
+      }
+    );
+    return updatedUniversity;
+  } catch (error) {
+    console.error("Error in updateUniversityByID:", error);
+    throw error;
+  }
 }
 
 export async function deleteUniversityByID(universityID) {
