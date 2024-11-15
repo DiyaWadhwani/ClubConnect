@@ -51,22 +51,17 @@ router.get("/clubs", async (req, res, next) => {
   }
 });
 
-router.get("/:universityID/edit", async (req, res, next) => {
-  const universityID = req.params.universityID;
+router.get("/:university_id/edit", async (req, res, next) => {
+  const university_id = parseInt(req.params.university_id);
   const msg = req.query.msg || null;
   try {
-    let university = await myDb.getUniversityByID(universityID);
-    let clubsByUni = await myDb.getClubsByUniversityID(universityID);
-
-    console.log("edit university", {
-      university,
-      clubsByUni,
-      msg,
-    });
+    let university = await myDb.getUniversityByID(university_id);
+    university = university[0];
+    // let clubsByUni = await myDb.getClubsByUniversityID(universityID);
 
     res.render("./pages/editUniversity", {
       university,
-      clubsByUni,
+      // clubsByUni,
       msg,
     });
   } catch (err) {

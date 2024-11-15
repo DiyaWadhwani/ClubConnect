@@ -20,7 +20,7 @@ export async function getUniversities(query, page, pageSize) {
         city: "$university_city",
         state: "$university_state",
         zipCode: "$university_zip_code",
-        universityID: 1,
+        universityID: "$university_id",
       })
       .sort({ name: 1 })
       .skip((page - 1) * pageSize)
@@ -94,13 +94,32 @@ export async function getClubCount(query) {
     .countDocuments({ club_name: { $regex: `^${query}`, $options: "i" } });
 }
 
-export async function getUniversityByID(universityID) {
-  console.log("getUniversityByID", universityID);
+export async function getUniversityByID(university_id) {
+  console.log("getUniversityByID", university_id);
   const db = await getDb();
+  try {
+    const university = await db
+      .collection("university")
+      .find({ university_id: university_id })
+      .project({
+        _id: 0,
+        university_id: "$university_id",
+        name: "$university_name",
+        emailDomain: "$university_email_domain",
+        website: "$university_website",
+        address: "$university_address",
+        city: "$university_city",
+        state: "$university_state",
+        zipCode: "$university_zip_code",
+      })
+      .toArray();
 
-  return await db
-    .collection("university")
-    .findOne({ _id: new ObjectId(universityID) });
+    console.log("universityDetails", university);
+    return university;
+  } catch (error) {
+    console.error("Error in getUniversityByID:", error);
+    throw error;
+  }
 }
 
 export async function updateUniversityByID(universityID, university) {
