@@ -80,18 +80,36 @@
     </div>
 
     <!-- Club Category Field (Editable) -->
-    <div class="mb-4">
+     <div class="mb-4">
   <label class="form-label fw-bold">Club Category:</label>
-  <select class="form-select" name="clubCategory" required>
+  <select
+    class="form-select"
+    name="clubCategory"
+    id="clubCategory"
+    onchange="handleCategoryChange()"
+    required
+  >
     <option value="" <%= !club.clubCategory ? 'selected' : '' %> disabled>Select a category</option>
     <option value="Technology" <%= club.clubCategory && club.clubCategory.trim().toLowerCase() === 'technology' ? 'selected' : '' %>>Technology</option>
     <option value="Art" <%= club.clubCategory && club.clubCategory.trim().toLowerCase() === 'arts' ? 'selected' : '' %>>Arts</option>
     <option value="Sports" <%= club.clubCategory && club.clubCategory.trim().toLowerCase() === 'sports' ? 'selected' : '' %>>Sports</option>
     <option value="Music" <%= club.clubCategory && club.clubCategory.trim().toLowerCase() === 'music' ? 'selected' : '' %>>Music</option>
     <option value="Literature" <%= club.clubCategory && club.clubCategory.trim().toLowerCase() === 'literature' ? 'selected' : '' %>>Literature</option>
-    <option value="Other" <%= club.clubCategory && club.clubCategory.trim().toLowerCase() === 'other' ? 'selected' : '' %>>Other</option>
+    <option value="Other" <%= club.clubCategory && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.clubCategory.trim().toLowerCase()) ? 'selected' : '' %>>Other</option>
   </select>
 </div>
+
+<div class="mb-4" id="customCategoryField" style="display: <%= club.clubCategory && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.clubCategory.trim().toLowerCase()) ? 'block' : 'none' %>;">
+  <label class="form-label fw-bold">Custom Category:</label>
+  <input
+    type="text"
+    class="form-control"
+    name="otherCategory"
+    id="otherCategory"
+    value="<%= club.clubCategory && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.clubCategory.trim().toLowerCase()) ? club.clubCategory : '' %>"
+  />
+</div>
+
 
 
     <!-- Cancel and Update Buttons -->
@@ -101,3 +119,24 @@
     </div>
   </form>
 </div>
+
+
+<!-- Script to handle the club category dropdown -->
+<script>
+  function handleCategoryChange() {
+  const categorySelect = document.getElementById("clubCategory");
+  const customCategoryField = document.getElementById("customCategoryField");
+  const otherCategoryInput = document.getElementById("otherCategory");
+
+  if (categorySelect.value === "Other") {
+    // Show the custom category field
+    customCategoryField.style.display = "block";
+    otherCategoryInput.required = true;
+  } else {
+    // Hide the custom category field and clear its value
+    customCategoryField.style.display = "none";
+    otherCategoryInput.value = ""; // Clear value
+    otherCategoryInput.required = false;
+  }
+}
+</script>
