@@ -27,7 +27,6 @@ router.get("/", async function (req, res, next) {
   }
 });
 
-// http://localhost:3000/references?pageSize=24&page=3&q=John
 router.get("/clubs", async (req, res, next) => {
   const query = req.query.q || "";
   const page = +req.query.page || 1;
@@ -69,13 +68,13 @@ router.get("/:university_id/edit", async (req, res, next) => {
   }
 });
 
-router.post("/:universityID/edit", async (req, res, next) => {
-  const universityID = req.params.universityID;
+router.post("/:university_id/edit", async (req, res, next) => {
+  const university_id = req.params.university_id;
   const university = req.body;
 
   try {
     let updatedUniversity = await myDb.updateUniversityByID(
-      universityID,
+      university_id,
       university
     );
     console.log("updatedUniversity", updatedUniversity);
@@ -90,11 +89,11 @@ router.post("/:universityID/edit", async (req, res, next) => {
   }
 });
 
-router.get("/:universityID/delete", async (req, res, next) => {
-  const universityID = req.params.universityID;
+router.get("/:university_id/delete", async (req, res, next) => {
+  const university_id = req.params.university_id;
 
   try {
-    let deletedUniversity = await myDb.deleteUniversityByID(universityID);
+    let deletedUniversity = await myDb.deleteUniversityByID(university_id);
     console.log("delete", deletedUniversity);
 
     if (deletedUniversity && deletedUniversity.changes === 1) {

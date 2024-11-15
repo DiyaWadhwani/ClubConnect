@@ -59,30 +59,14 @@ export async function getClubs(query, page, pageSize) {
 
   return await db
     .collection("club")
-    .aggregate([
-      { $match: { club_name: { $regex: `^${query}`, $options: "i" } } },
-      { $sort: { club_start_date: -1 } },
-      { $skip: (page - 1) * pageSize },
-      { $limit: pageSize },
-      {
-        $lookup: {
-          from: "university",
-          localField: "university_id",
-          foreignField: "universityID",
-          as: "university",
-        },
-      },
-      { $unwind: "$university" },
-      {
-        $project: {
-          clubID: "$club_id",
-          clubName: "$club_name",
-          startDate: "$club_start_date",
-          description: "$club_description",
-          universityName: "$university.name",
-        },
-      },
-    ])
+    .find()
+    .project({
+      clubID: "$club_id",
+      clubName: "$club_name",
+      startDate: "$club_start_date",
+      description: "$club_description",
+      universityName: "$university.name",
+    })
     .toArray();
 }
 
