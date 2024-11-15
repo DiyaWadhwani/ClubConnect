@@ -167,14 +167,18 @@ router.post("/clubs/:club_id/edit", async (req, res, next) => {
   }
 });
 
-router.get("/clubs/:clubID/delete", async (req, res, next) => {
-  const clubID = req.params.clubID;
+router.get("/clubs/:club_id/delete", async (req, res, next) => {
+  const club_id = parseInt(req.params.club_id);
 
   try {
-    let deletedClub = await myDb.deleteClubByID(clubID);
+    let deletedClub = await myDb.deleteClubByID(club_id);
     console.log("delete", deletedClub);
 
-    if (deletedClub && deletedClub.changes === 1) {
+    if (
+      deletedClub &&
+      deletedClub.acknowledged &&
+      deletedClub.deletedCount === 1
+    ) {
       res.redirect("/clubs?msg=Deleted Club Successfully");
     } else {
       res.redirect("/clubs?msg=Error Deleting");

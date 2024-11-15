@@ -267,9 +267,22 @@ export async function updateClubByID(club_id, club) {
   }
 }
 
-export async function deleteClubByID(clubID) {
-  console.log("deleteClubByID", clubID);
+export async function deleteClubByID(club_id) {
+  console.log("deleteClubByID", club_id);
   const db = await getDb();
+  try {
+    const deletedClub = await db
+      .collection("club")
+      .deleteOne({ club_id: club_id });
 
-  return await db.collection("club").deleteOne({ _id: new ObjectId(clubID) });
+    const removedFromUni = await db
+      .collection("university")
+      .updateMany({}, { $pull: { university_clubs: club_id } });
+    console.log("removedFromUni", removedFromUni);
+
+    return deletedClub;
+  } catch (error) {
+    console.error("Error in deleteClubByID:", error);
+    throw error;
+  }
 }
