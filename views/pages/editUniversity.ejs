@@ -9,8 +9,12 @@
 
       <% if (msg) { %>
       <div class="alert alert-primary"><%= msg %></div>
-      <% } %> <%- include("../components/formEditUniversity.ejs", { university}) %>
+      <% } %> <%- include("../components/formEditUniversity.ejs", { university
+      }) %>
 
+      <div class="mt-5">
+        <%- include("../components/clubByUniversityList.ejs", { university,
+        clubsByUni }) %>
       </div>
     </div>
 

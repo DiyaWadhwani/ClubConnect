@@ -1,3 +1,4 @@
+import { name } from "ejs";
 import { MongoClient, ObjectId } from "mongodb";
 
 async function getDb() {
@@ -162,10 +163,34 @@ export async function getClubsByUniversityID(universityID) {
   console.log("getClubsByUniversityID", universityID);
   const db = await getDb();
 
-  return await db
-    .collection("club")
-    .find({ university_id: universityID })
-    .toArray();
+  try {
+    const university = await db
+      .collection("university")
+      .findOne({ university_id: universityID });
+
+    if (!university || !university.university_clubs) {
+      console.log(
+        "No university or university_clubs found for university_id:",
+        universityID
+      );
+      return [];
+    }
+    const clubIds = university.university_clubs;
+
+    const clubs = await db
+      .collection("club")
+      .find({ club_id: { $in: clubIds } })
+      .project({
+        name: "$club_name",
+      })
+      .toArray();
+
+    console.log("clubs", clubs);
+    return clubs;
+  } catch (err) {
+    console.error("Error in getClubsByUniversityID:", err);
+    throw err;
+  }
 }
 
 export async function getClubByID(clubID) {

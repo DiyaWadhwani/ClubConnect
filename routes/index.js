@@ -57,11 +57,11 @@ router.get("/:university_id/edit", async (req, res, next) => {
   try {
     let university = await myDb.getUniversityByID(university_id);
     university = university[0];
-    // let clubsByUni = await myDb.getClubsByUniversityID(universityID);
+    let clubsByUni = await myDb.getClubsByUniversityID(university_id);
 
     res.render("./pages/editUniversity", {
       university,
-      // clubsByUni,
+      clubsByUni,
       msg,
     });
   } catch (err) {
