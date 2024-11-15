@@ -129,18 +129,35 @@ export async function createClub(club) {
   console.log("createClub", club);
   const db = await getDb();
 
-  return await db.collection("club").insertOne({
-    club_id: club.club_id,
-    club_name: club.name,
-    club_description: club.description,
-    club_start_date: club.startDate,
-    club_email: club.email,
-    club_logo: club.logo || null,
-    club_category: club.clubCategory,
-    university_id: club.universityID,
-    events: club.events || [],
-    members: club.members || [],
-  });
+  try {
+    const clubCount = await db.collection("club").countDocuments();
+    const club_id = clubCount + 1;
+
+    console.log("clubCount", clubCount);
+    console.log("clubID", club_id);
+
+    const createdClub = await db.collection("club").insertOne({
+      club_id: club_id,
+      club_name: club.name,
+      club_description: club.description,
+      club_start_date: club.startDate,
+      club_email: club.email,
+      club_logo: club.logo || null,
+      club_category: club.clubCategory,
+      events: club.events || [],
+      members: club.members || [],
+    });
+
+    console.log("university_id", club.university_id);
+
+    const updateResult = await db.collection("university").updateOne(
+      { university_id: club.university_id }, // Match the university
+      { $addToSet: { university_clubs: club_id } } // Add the club ID to the array
+    );
+  } catch (error) {
+    console.error("Error in createClub:", error);
+    throw error;
+  }
 }
 
 export async function getClubsByUniversityID(universityID) {

@@ -112,6 +112,8 @@ router.post("/createClub", async (req, res, next) => {
   if (club.clubCategory === "Other") {
     club.clubCategory = club.other_category;
   }
+
+  club.university_id = parseInt(club.university);
   console.log("Create club", club);
 
   try {
