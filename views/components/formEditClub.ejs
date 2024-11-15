@@ -1,7 +1,7 @@
 <h2 class="text-center mt-20"><%= club.clubName %></h2>
 
 <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px">
-  <form action="<%= '/clubs/' + club.clubID + '/edit' %>" method="POST">
+  <form action="<%= '/clubs/' + club.club_id + '/edit' %>" method="POST">
     
     <!-- Club Name Field (Disabled) -->
     <div class="mb-4">
@@ -99,13 +99,13 @@
   </select>
 </div>
 
-<div class="mb-4" id="customCategoryField" style="display: <%= club.clubCategory && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.clubCategory.trim().toLowerCase()) ? 'block' : 'none' %>;">
-  <label class="form-label fw-bold">Custom Category:</label>
+<div class="mb-4" id="other_category" style="display: <%= club.clubCategory && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.clubCategory.trim().toLowerCase()) ? 'block' : 'none' %>;">
+  <label class="form-label fw-bold">Specify Other Category:</label>
   <input
     type="text"
     class="form-control"
-    name="otherCategory"
-    id="otherCategory"
+    name="other_category"
+    id="other_category"
     value="<%= club.clubCategory && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.clubCategory.trim().toLowerCase()) ? club.clubCategory : '' %>"
   />
 </div>
@@ -125,8 +125,8 @@
 <script>
   function handleCategoryChange() {
   const categorySelect = document.getElementById("clubCategory");
-  const customCategoryField = document.getElementById("customCategoryField");
-  const otherCategoryInput = document.getElementById("otherCategory");
+  const customCategoryField = document.getElementById("other_category");
+  const otherCategoryInput = document.getElementById("other_category").querySelector("input");
 
   if (categorySelect.value === "Other") {
     // Show the custom category field

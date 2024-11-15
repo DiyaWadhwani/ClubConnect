@@ -145,12 +145,16 @@ router.get("/clubs/:club_id/edit", async (req, res, next) => {
   }
 });
 
-router.post("/clubs/:clubID/edit", async (req, res, next) => {
-  const clubID = req.params.clubID;
+router.post("/clubs/:club_id/edit", async (req, res, next) => {
+  const club_id = parseInt(req.params.club_id);
   const club = req.body;
+  console.log("club", club);
+  if (club.clubCategory === "Other") {
+    club.clubCategory = club.other_category;
+  }
 
   try {
-    let updatedClub = await myDb.updateClubByID(clubID, club);
+    let updatedClub = await myDb.updateClubByID(club_id, club);
     console.log("updatedClub", updatedClub);
 
     if (updatedClub && updatedClub.changes === 1) {

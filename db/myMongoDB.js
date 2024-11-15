@@ -243,23 +243,28 @@ export async function getUniversityByClubID(club_id) {
   }
 }
 
-export async function updateClubByID(clubID, club) {
-  console.log("updateClubByID", clubID, club);
+export async function updateClubByID(club_id, club) {
+  console.log("updateClubByID", club_id, club);
   const db = await getDb();
 
-  return await db.collection("club").updateOne(
-    { _id: new ObjectId(clubID) },
-    {
-      $set: {
-        club_name: club.name,
-        club_description: club.description,
-        club_start_date: club.startDate,
-        club_email: club.email,
-        club_logo: club.logo,
-        club_category: club.clubCategory,
-      },
-    }
-  );
+  try {
+    const updatedClubDetails = await db.collection("club").updateOne(
+      { club_id: club_id },
+      {
+        $set: {
+          club_description: club.description,
+          club_email: club.email,
+          club_logo: club.logo,
+          club_category: club.clubCategory,
+        },
+      }
+    );
+    console.log("updatedClubDetails", updatedClubDetails);
+    return updatedClubDetails;
+  } catch (error) {
+    console.error("Error in updateClubByID:", error);
+    throw error;
+  }
 }
 
 export async function deleteClubByID(clubID) {
