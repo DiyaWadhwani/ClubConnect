@@ -125,18 +125,16 @@ router.post("/createClub", async (req, res, next) => {
   }
 });
 
-router.get("/clubs/:clubID/edit", async (req, res, next) => {
-  const clubID = req.params.clubID;
+router.get("/clubs/:club_id/edit", async (req, res, next) => {
+  const club_id = parseInt(req.params.club_id);
   const msg = req.query.msg || null;
   try {
-    let club = await myDb.getClubByID(clubID);
-
-    console.log("edit club", {
-      club,
-      msg,
-    });
-
+    let club = await myDb.getClubByID(club_id);
+    club = club[0];
+    let university = await myDb.getUniversityByClubID(club_id);
+    university = university[0];
     res.render("./pages/editClub", {
+      university,
       club,
       msg,
     });

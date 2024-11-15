@@ -59,7 +59,7 @@ export async function getClubs(query, page, pageSize) {
 
   return await db
     .collection("club")
-    .find()
+    .find({ club_name: { $regex: `^${query}`, $options: "i" } })
     .project({
       clubID: "$club_id",
       clubName: "$club_name",
@@ -177,36 +177,53 @@ export async function getClubsByUniversityID(universityID) {
   }
 }
 
-export async function getClubByID(clubID) {
-  console.log("getClubByID", clubID);
+export async function getClubByID(club_id) {
+  console.log("getClubByID", club_id);
   const db = await getDb();
 
-  return await db
-    .collection("club")
-    .aggregate([
-      { $match: { _id: new ObjectId(clubID) } },
-      {
-        $lookup: {
-          from: "university",
-          localField: "university_id",
-          foreignField: "universityID",
-          as: "university",
-        },
-      },
-      { $unwind: "$university" },
-      {
-        $project: {
-          clubID: "$club_id",
-          clubName: "$club_name",
-          description: "$club_description",
-          startDate: "$club_start_date",
-          email: "$club_email",
-          logo: "$club_logo",
-          universityName: "$university.name",
-        },
-      },
-    ])
-    .toArray();
+  try {
+    const club = await db
+      .collection("club")
+      .find({ club_id: club_id })
+      .project({
+        _id: 0,
+        club_id: "$club_id",
+        clubName: "$club_name",
+        description: "$club_description",
+        startDate: "$club_start_date",
+        email: "$club_email",
+        logo: "$club_logo",
+        clubCategory: "$club_category",
+      })
+      .toArray();
+
+    console.log("clubDetails", club);
+    return club;
+  } catch (error) {
+    console.error("Error in getClubsByID:", error);
+    throw error;
+  }
+}
+
+export async function getUniversityByClubID(club_id) {
+  console.log("getUniversityByClubID", club_id);
+  const db = await getDb();
+
+  try {
+    const universityName = await db
+      .collection("university")
+      .find({ university_clubs: club_id })
+      .project({
+        universityName: "$university_name",
+      })
+      .toArray();
+
+    console.log("UniversityName", universityName);
+    return universityName;
+  } catch (error) {
+    console.error("Error in getUniversityByClubID:", error);
+    throw error;
+  }
 }
 
 export async function updateClubByID(clubID, club) {
