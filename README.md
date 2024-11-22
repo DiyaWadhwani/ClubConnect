@@ -89,7 +89,9 @@
 ---
 
 ## Video Demo
-- **[Club Connect Video Demo](https://youtu.be/fazz_tVTDrU)**
+**[Club Connect Video Demo](https://youtu.be/fazz_tVTDrU)**
+
+---
 
 ## Documentation  
 
