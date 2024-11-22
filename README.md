@@ -88,6 +88,9 @@
 
 ---
 
+## Video Demo
+- **[Club Connect Video Demo](https://youtu.be/fazz_tVTDrU)**
+
 ## Documentation  
 
 - **[Database Design Documentation](./docs/ClubConnect_DatabaseDesign-Mongo.pdf)**  
