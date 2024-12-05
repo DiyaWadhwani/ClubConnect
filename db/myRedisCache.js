@@ -32,8 +32,8 @@ async function loadCache() {
     await redisClient.flushAll();
 
     // Fetch all universities and clubs from MongoDB
-    const universities = await myDb.getUniversities("", 1, 9);
-    const clubs = await myDb.getClubs("", 1, 9);
+    const universities = await myDb.getUniversities("", 1, 100);
+    const clubs = await myDb.getClubs("", 1, 100);
 
     console.log(`Found ${universities.length} universities.`);
     console.log(`Found ${clubs.length} clubs.`);
@@ -85,11 +85,11 @@ async function loadCache() {
       const clubKey = `club:${club.club_id}`;
       await redisClient.hSet(clubKey, {
         club_id: club.club_id,
-        club_name: club.club_name,
+        name: club.club_name,
         description: club.club_description,
-        club_email: club.club_email,
+        email: club.club_email,
         start_date: club.club_start_date,
-        club_logo: club.club_logo || "N/A",
+        logo: club.club_logo || "N/A",
       });
 
       console.log(`Added club ${club.club_name} to Redis.`);
@@ -132,6 +132,26 @@ export async function getUniversities() {
     return { universities, total };
   } catch (error) {
     console.error("Error fetching universities from Redis:", error);
+    throw error;
+  }
+}
+
+export async function getClubs() {
+  try {
+    const clubKeys = await redisClient.keys("club:*");
+    const clubs = [];
+    console.log("Fetching clubs from Redis...");
+
+    for (const key of clubKeys) {
+      const clubDetails = await redisClient.hGetAll(key);
+      clubs.push(clubDetails);
+    }
+
+    const total = clubs.length;
+    console.log("Fetched clubs from Redis.");
+    return { clubs, total };
+  } catch (error) {
+    console.error("Error fetching clubs from Redis:", error);
     throw error;
   }
 }

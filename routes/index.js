@@ -19,7 +19,6 @@ router.get("/", async function (req, res, next) {
     console.log("total", total);
     res.render("./pages/index", {
       universities,
-      clubs: [], // Optionally pass additional club details here if needed
       query,
       msg,
       currentPage: page,
@@ -34,12 +33,17 @@ router.get("/", async function (req, res, next) {
 router.get("/clubs", async (req, res, next) => {
   const query = req.query.q || "";
   const page = +req.query.page || 1;
-  const pageSize = +req.query.pageSize || 24;
+  const pageSize = +req.query.pageSize || 9;
   const msg = req.query.msg || null;
   try {
-    let total = await myDb.getClubCount(query);
-    let clubs = await myDb.getClubs(query, page, pageSize);
-    let universities = await myDb.getUniversities("", 1, 100);
+    const { clubs, total } = await myRedis.getClubs(page, pageSize);
+    const { universities, uniTotal } = await myRedis.getUniversities(
+      page,
+      pageSize
+    );
+    console.log("clubs", clubs);
+    console.log("total", total);
+    console.log("universities", universities);
 
     res.render("./pages/index_clubs", {
       clubs,
