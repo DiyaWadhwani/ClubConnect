@@ -1,5 +1,6 @@
 import express from "express";
 import * as myDb from "../db/myMongoDB.js";
+import * as myRedis from "../db/myRedisCache.js";
 
 const router = express.Router();
 
@@ -10,8 +11,7 @@ router.get("/", async function (req, res, next) {
   const pageSize = +req.query.pageSize || 9;
   const msg = req.query.msg || null;
   try {
-    let total = await myDb.getUniversityCount(query);
-    console.log("total", total);
+    
     let universities = await myDb.getUniversities(query, page, pageSize);
 
     res.render("./pages/index", {

@@ -12,16 +12,7 @@ export async function getUniversities(query, page, pageSize) {
   try {
     const result = await db
       .collection("university")
-      .find()
-      .project({
-        name: "$university_name",
-        website: "$university_website",
-        address: "$university_address",
-        city: "$university_city",
-        state: "$university_state",
-        zipCode: "$university_zip_code",
-        universityID: "$university_id",
-      })
+      .find({})
       .sort({ university_name: 1 })
       .skip((page - 1) * pageSize)
       .limit(pageSize)
@@ -59,13 +50,9 @@ export async function getClubs(query, page, pageSize) {
   return await db
     .collection("club")
     .find({ club_name: { $regex: `^${query}`, $options: "i" } })
-    .project({
-      clubID: "$club_id",
-      clubName: "$club_name",
-      startDate: "$club_start_date",
-      description: "$club_description",
-      universityName: "$university.name",
-    })
+    .sort({ club_name: 1 })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize)
     .toArray();
 }
 
