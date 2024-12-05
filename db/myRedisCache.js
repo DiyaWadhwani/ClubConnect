@@ -31,7 +31,6 @@ async function loadCache() {
 
     await redisClient.set("universityCount", "0");
     await redisClient.set("clubCount", "0");
-    console.log("Set count to 0.");
 
     // Populate universities in Redis
     for (const university of universities) {
@@ -87,8 +86,6 @@ async function loadCache() {
 
     // Set additional metadata
     redisClient.set("last_updated", new Date().toISOString());
-    console.log("Final club count - ", redisClient.get("clubCount"));
-    console.log("Final uni count - ", redisClient.get("universityCount"));
 
     console.log("Cache initialization completed.");
   } catch (error) {
