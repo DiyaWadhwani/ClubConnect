@@ -37,8 +37,8 @@ async function loadCache() {
 
     // Populate universities in Redis
     for (const university of universities) {
-      const universityKey = `university:${university.university_id}:${university.university_name}`;
-      const clubsListKey = `university:${university.university_id}:${university.university_name}:clubs`;
+      const universityKey = `university:${university.university_id}`;
+      const clubsListKey = `university:${university.university_id}:clubs`;
 
       // Add university details
       await redisClient.hSet(universityKey, {
@@ -83,7 +83,7 @@ async function loadCache() {
 
     // Populate clubs in Redis
     for (const club of clubs) {
-      const clubKey = `club:${club.club_id}:${club.club_name}`;
+      const clubKey = `club:${club.club_id}`;
       const university = universities.find(
         (u) =>
           Array.isArray(u.university_clubs) &&
@@ -103,6 +103,10 @@ async function loadCache() {
 
       console.log(`Added club ${club.club_name} to Redis.`);
     }
+
+    redisClient.set("last_updated", new Date().toISOString());
+    redisClient.set("universityCount", universities.length);
+    redisClient.set("clubCount", clubs.length);
 
     console.log("Cache initialization completed.");
   } catch (error) {
