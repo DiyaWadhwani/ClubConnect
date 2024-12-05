@@ -1,115 +1,102 @@
-# ClubConnect - Student Club Management System  
+# ClubConnect - Student Club Management System
 
-**ClubConnect** is a web-based system designed to streamline the operations and activities of student-run clubs on a university campus. It enables students to register new clubs, manage memberships efficiently, and coordinate events. Club leaders can manage roles, permissions, and even schedule interviews for onboarding new members.  
+**ClubConnect** is a web-based system designed to streamline the operations and activities of student-run clubs on a university campus. It enables students to register new clubs, manage memberships efficiently, and coordinate events. Club leaders can manage roles, permissions, and even schedule interviews for onboarding new members.
 
----
+## Features
 
-## Project Structure  
+- Create and manage student clubs by University.
+- Manage University data and related club data.
+- Integrated Redis caching for enhanced performance.
 
-- `Query1.js` - Counts the number of clubs for each category and sorts the results.  
-- `Query2.js` - Finds Computer Science students from 2021 with scheduled or pending interviews.  
-- `Query3.js` - Retrieves the number of clubs at Northeastern University.  
-- `Query4.js` - Updates the status of an event to "Completed."  
-- `Query5.js` - Retrieves all students enrolled in the Computer Science program.  
-- `db/initialization/` - Contains JSON files for initializing the MongoDB database.  
-- `docs/` - Includes database design documentation, requirements, and diagrams.  
-- `app.js` - Entry point for the Node.js application.  
+## Project Structure
 
----
-
-## Prerequisites  
-
-1. **Node.js**: Install Node.js from [https://nodejs.org/](https://nodejs.org/).  
-2. **MongoDB**: Install MongoDB locally and start the MongoDB server. Refer to [MongoDB installation guide](https://www.mongodb.com/docs/manual/installation/).  
+- `docs/` - Includes database design documentation, requirements, and diagrams.
+- `diagrams/` - Includes UML and Redis ERD Diagrams
+- `app.js` - Entry point for the Node.js application.
+- `db/initialization/` - Contains JSON files for initializing the MongoDB database.
+- `db/myMongoDB.js` - Handles CRUD operations with Mongo.
+- `db/myRedis.js` - Acts as middleware between the frontend webpage and backend MongoDB.
+- `routes/index.js` - Defined routes and handling functionality at each API endpoint.
 
 ---
 
-## Setting Up the Project  
+## Prerequisites
 
-1. **Clone the Repository**: Clone the repository to your local machine.  
-   ```bash  
-   git clone https://github.com/DiyaWadhwani/ClubConnect.git  
-   cd ClubConnect  
-   git checkout p2-mongo  
-   ```  
+1. **Node.js**: Install Node.js from [https://nodejs.org/](https://nodejs.org/).
+2. **MongoDB**:
 
-2. **Install Dependencies**: Install all required Node.js modules.  
-   ```bash  
-   npm install  
-   ```  
+   - Pull the MongoDB Docker Image:
 
-3. **Start the Application**:  
-   Run the application with the following command:  
-   ```bash  
-   npm start  
-   ```  
-   The server will start on `http://localhost:3000`.  
+   ```bash
+   docker pull mongodb/mongodb-community-server:latest
+   ```
 
----
+   - Run the Image as a Container:
 
-## Executing MongoDB Queries  
+   ```bash
+   docker run --name mongodb -p 27017:27017 -d mongodb/mongodb-community-server:latest
+   ```
 
-1. **Import Data**: Import the JSON files into the MongoDB database.  
-   ```bash  
-   mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection club --file db/initialization/clubConnect.club.json --jsonArray  
-   mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection university --file db/initialization/clubConnect.university.json --jsonArray  
-   mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection student --file db/initialization/clubConnect.student.json --jsonArray  
-   ```  
+3. **Redis**:
 
-2. **Run Query1.js (Clubs Count by Category)**:  
-   Counts clubs by category and sorts them in descending order.  
-   ```bash  
-   node Query1.js  
-   ```  
+   - Pull the Redis Docker Image:
 
-3. **Run Query2.js (CS Students with Scheduled or Pending Interviews)**:  
-   Finds Computer Science students from 2021 with interviews having a "Scheduled" or "Pending" status.  
-   ```bash  
-   node Query2.js  
-   ```  
+   ```bash
+   docker pull redis/redis-stack-server:latest
+   ```
 
-4. **Run Query3.js (Number of Clubs at Northeastern University)**:  
-   Retrieves the number of clubs associated with Northeastern University.  
-   ```bash  
-   node Query3.js  
-   ```  
+   - Run the Redis Stack container
 
-5. **Run Query4.js (Update Event Status)**:  
-   Updates the status of an event to "Completed" based on its `event_id`.  
-   ```bash  
-   node Query4.js  
-   ```  
-
-6. **Run Query5.js (Students Enrolled in Computer Science)**:  
-   Retrieves all students enrolled in the Computer Science program, projecting key details.  
-   ```bash  
-   node Query5.js  
-   ```  
+   ```bash
+   docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
+   ```
 
 ---
+
+## Setting Up the Project
+
+1. **Clone the Repository**: Clone the repository to your local machine.
+
+   ```bash
+   git clone https://github.com/DiyaWadhwani/ClubConnect.git
+   cd ClubConnect
+   git checkout p3-redis
+   ```
+
+2. **Install Dependencies**: Install all required Node.js modules.
+
+   ```bash
+   npm install
+   npm install mongodb redis
+   ```
+
+3. **Import Data**: Import the JSON files into the MongoDB database.
+
+   ```bash
+   mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection club --file db/initialization/clubConnect.club.json --jsonArray
+   mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection university --file db/initialization/clubConnect.university.json --jsonArray
+   mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection student --file db/initialization/clubConnect.student.json --jsonArray
+   ```
+
+4. **Start the Application**:  
+   Run the application with the following command:
+   ```bash
+   npm start
+   ```
+   The server will start on `http://localhost:3000`.
 
 ## Video Demo
+
 **[Club Connect Video Demo](https://youtu.be/fazz_tVTDrU)**
 
----
+## Documentation
 
-## Documentation  
+- **[Database Design Documentation](./docs/ClubConnect_DatabaseDesign-Mongo.pdf)**
+- **[Requirements Specification](./docs/ClubConnect_Requirements.pdf)**
+- **[Redis Implementation](./docs/ClubConnect_RedisImplementation.pdf)**
+- **[Class UML Diagram](./diagrams/ClubConnect_UML.png)**
+- **[Redis ERD Diagram](./diagrams/ClubConnect_RedisERD.png)**
 
-- **[Database Design Documentation](./docs/ClubConnect_DatabaseDesign-Mongo.pdf)**  
-- **[Requirements Specification](./docs/ClubConnect_Requirements.pdf)**  
-- **[Class UML Diagram](./diagrams/ClubConnect_UML.png)**  
-- **[ERD Diagram](./diagrams/ClubConnect_ERD.png)**  
+## License
 
----
-
-## Troubleshooting  
-
-- **MongoDB Connection Issues**: Ensure MongoDB is running locally. If configured differently, update the `uri` in the application and query files.  
-- **Empty Query Results**: Verify query criteria and ensure the dataset contains the required records.  
-- **Application Errors**: Confirm all dependencies are installed and the database is correctly populated.  
-
----
-
-## License  
-
-This project is licensed under the MIT License.  
+This project is licensed under the MIT License.
