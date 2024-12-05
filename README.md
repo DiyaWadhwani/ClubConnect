@@ -18,7 +18,6 @@
 - `db/myRedis.js` - Acts as middleware between the frontend webpage and backend MongoDB.
 - `routes/index.js` - Defined routes and handling functionality at each API endpoint.
 
----
 
 ## Prerequisites
 
@@ -51,7 +50,6 @@
    docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
    ```
 
----
 
 ## Setting Up the Project
 
@@ -85,9 +83,11 @@
    ```
    The server will start on `http://localhost:3000`.
 
+
 ## Video Demo
 
 **[Club Connect Video Demo](https://youtu.be/fazz_tVTDrU)**
+
 
 ## Documentation
 
@@ -96,6 +96,7 @@
 - **[Redis Implementation](./docs/ClubConnect_RedisImplementation.pdf)**
 - **[Class UML Diagram](./diagrams/ClubConnect_UML.png)**
 - **[Redis ERD Diagram](./diagrams/ClubConnect_RedisERD.png)**
+
 
 ## License
 
