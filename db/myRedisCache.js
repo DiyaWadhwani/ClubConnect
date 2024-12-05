@@ -137,7 +137,6 @@ export async function getClubs() {
 export async function getUniversityByClubID(club_id) {
   try {
     const universityKeys = await redisClient.keys("university:*");
-    console.log("Fetching university by club ID from Redis...");
 
     for (const key of universityKeys) {
       const clubsKey = `${key}:clubs`;
@@ -173,7 +172,7 @@ export async function getUniversityByID(university_id) {
         });
       }
     }
-
+    console.log("Fetched university by ID from Redis.");
     return { universityDetails, clubDetails };
   } catch (error) {
     console.error("Error fetching university details from Redis:", error);
@@ -186,6 +185,7 @@ export async function getClubByID(club_id) {
     const clubKey = `club:${club_id}`;
     const clubDetails = await redisClient.hGetAll(clubKey);
     const university = await getUniversityByClubID(club_id);
+    console.log("Fetched club by ID from Redis.");
     return { clubDetails, university };
   } catch (error) {
     console.error("Error fetching club details from Redis:", error);
