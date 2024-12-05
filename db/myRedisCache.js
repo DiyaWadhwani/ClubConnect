@@ -15,28 +15,18 @@ async function connect() {
   });
 }
 
-async function clearCache() {
-  try {
-    console.log("Clearing all keys from Redis...");
-    await redisClient.flushAll();
-    console.log("Redis cache cleared.");
-  } catch (error) {
-    console.error("Error clearing Redis cache:", error);
-    throw error;
-  }
-}
-
 async function loadCache() {
   try {
     // Clear existing Redis data
     await redisClient.flushAll();
-
+    console.log("Cleared existing Redis cache.");
+    console.log("Loading data into Redis cache...");
     // Fetch all universities and clubs from MongoDB
     const universities = await myDb.getUniversities("", 1, 100);
     const clubs = await myDb.getClubs("", 1, 100);
 
-    console.log(`Found ${universities.length} universities.`);
-    console.log(`Found ${clubs.length} clubs.`);
+    console.log(`Found ${universities.length} universities from MongoDB.`);
+    console.log(`Found ${clubs.length} clubs from MongoDB.`);
 
     // Populate universities in Redis
     for (const university of universities) {
@@ -55,8 +45,6 @@ async function loadCache() {
         website: university.university_website,
       });
 
-      console.log(`Added university ${university.university_name} to Redis.`);
-
       // Add associated clubs to Redis list
       await redisClient.del(clubsListKey); // Ensure no leftover data
       if (Array.isArray(university.university_clubs)) {
@@ -64,19 +52,12 @@ async function loadCache() {
           const club = clubs.find((c) => c.club_id === clubId);
           if (club) {
             await redisClient.rPush(clubsListKey, String(club.club_id));
-            console.log(
-              `Added club ${club.club_name} to list for university ${university.university_name}.`
-            );
           } else {
-            console.log(
-              `Club ID ${clubId} for university ${university.university_name} not found in clubs.`
-            );
+            continue;
           }
         }
       } else {
-        console.log(
-          `University ${university.university_name} has no associated clubs.`
-        );
+        continue;
       }
     }
 
@@ -92,8 +73,6 @@ async function loadCache() {
         category: club.club_category,
         logo: club.club_logo || "N/A",
       });
-
-      console.log(`Added club ${club.club_name} to Redis.`);
     }
 
     redisClient.set("last_updated", new Date().toISOString());
@@ -113,7 +92,6 @@ export async function getUniversities() {
   try {
     const universityKeys = await redisClient.keys("university:*");
     const universities = [];
-    console.log("Fetching universities from Redis...");
 
     for (const key of universityKeys) {
       // Skip keys for clubs lists
@@ -141,7 +119,6 @@ export async function getClubs() {
   try {
     const clubKeys = await redisClient.keys("club:*");
     const clubs = [];
-    console.log("Fetching clubs from Redis...");
 
     for (const key of clubKeys) {
       const clubDetails = await redisClient.hGetAll(key);
@@ -216,12 +193,12 @@ export async function getClubByID(club_id) {
   }
 }
 
+// FUNCTIONS TO UPDATE REDIS CACHE AND MONGODB
+
 // MAIN FUNCTION TO INITIALIZE CACHE
 async function main() {
   try {
     await connect();
-    console.log("Initializing Redis cache...");
-    await clearCache();
     await loadCache();
   } catch (error) {
     console.error("Error in executing main in myRedisCache:", error);

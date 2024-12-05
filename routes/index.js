@@ -15,8 +15,6 @@ router.get("/", async function (req, res, next) {
       page,
       pageSize
     );
-    // console.log("universities", universities);
-    // console.log("total", total);
     res.render("./pages/index", {
       universities,
       query,
@@ -41,9 +39,6 @@ router.get("/clubs", async (req, res, next) => {
       page,
       pageSize
     );
-    // console.log("clubs", clubs);
-    // console.log("total", total);
-    // console.log("universities", universities);
 
     res.render("./pages/index_clubs", {
       clubs,
