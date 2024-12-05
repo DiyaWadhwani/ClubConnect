@@ -117,18 +117,21 @@ router.get("/:university_id/delete", async (req, res, next) => {
 router.post("/createClub", async (req, res, next) => {
   const club = req.body;
 
-  if (club.clubCategory === "Other") {
-    club.clubCategory = club.other_category;
+  if (club.category === "Other") {
+    club.category = club.other_category;
   }
 
   club.university_id = parseInt(club.university);
   console.log("Create club", club);
 
   try {
-    const createdClub = await myDb.createClub(club);
-
+    const createdClub = await myRedis.createClub(club);
     console.log("Inserted", createdClub);
-    res.redirect("/clubs?msg=Created Club " + club.name);
+    if (createdClub) {
+      res.redirect("/clubs?msg=Created Club " + club.name);
+    } else {
+      res.redirect("/clubs?msg=Error Creating Club " + club.name);
+    }
   } catch (err) {
     console.log("Error inserting", err);
     next(err);
@@ -142,8 +145,6 @@ router.get("/clubs/:club_id/edit", async (req, res, next) => {
     const { clubDetails, university } = await myRedis.getClubByID(club_id);
     console.log("club", clubDetails);
     console.log("university", university);
-    // let university = await myDb.getUniversityByClubID(club_id);
-    // university = university[0];
     res.render("./pages/editClub", {
       university,
       club: clubDetails,

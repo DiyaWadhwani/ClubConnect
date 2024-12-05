@@ -195,6 +195,21 @@ export async function getClubByID(club_id) {
 
 // FUNCTIONS TO UPDATE REDIS CACHE AND MONGODB
 
+export async function createClub(club) {
+  try {
+    const createdClub = await myDb.createClub(club);
+    await loadCache();
+    console.log(
+      "Inserted club into MongoDB and updated Redis cache.",
+      createdClub
+    );
+    return createdClub;
+  } catch (error) {
+    console.error("Error in createClub:", error);
+    throw error;
+  }
+}
+
 // MAIN FUNCTION TO INITIALIZE CACHE
 async function main() {
   try {

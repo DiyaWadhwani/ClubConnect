@@ -157,10 +157,10 @@ export async function createClub(club) {
       club_id: club_id,
       club_name: club.name,
       club_description: club.description,
-      club_start_date: club.startDate,
+      club_start_date: club.start_date,
       club_email: club.email,
       club_logo: club.logo || null,
-      club_category: club.clubCategory,
+      club_category: club.category,
       events: club.events || [],
       members: club.members || [],
     });
@@ -171,6 +171,8 @@ export async function createClub(club) {
       { university_id: club.university_id }, // Match the university
       { $addToSet: { university_clubs: club_id } } // Add the club ID to the array
     );
+
+    return createdClub;
   } catch (error) {
     console.error("Error in createClub:", error);
     throw error;
