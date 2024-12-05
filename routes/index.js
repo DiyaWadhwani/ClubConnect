@@ -1,5 +1,4 @@
 import express from "express";
-import * as myDb from "../db/myMongoDB.js";
 import * as myRedis from "../db/myRedisCache.js";
 
 const router = express.Router();
@@ -10,19 +9,24 @@ router.get("/", async function (req, res, next) {
   const page = +req.query.page || 1;
   const pageSize = +req.query.pageSize || 9;
   const msg = req.query.msg || null;
-  try {
-    
-    let universities = await myDb.getUniversities(query, page, pageSize);
 
+  try {
+    const { universities, total } = await myRedis.getUniversities(
+      page,
+      pageSize
+    );
+    console.log("universities", universities);
+    console.log("total", total);
     res.render("./pages/index", {
       universities,
-      clubs: [],
+      clubs: [], // Optionally pass additional club details here if needed
       query,
       msg,
       currentPage: page,
       lastPage: Math.ceil(total / pageSize),
     });
   } catch (err) {
+    console.error("Error rendering the index page:", err);
     next(err);
   }
 });

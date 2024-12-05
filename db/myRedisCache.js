@@ -28,9 +28,12 @@ async function clearCache() {
 
 async function loadCache() {
   try {
+    // Clear existing Redis data
+    await redisClient.flushAll();
+
     // Fetch all universities and clubs from MongoDB
-    const universities = await myDb.getUniversities("", 1, 9); // Adjust pageSize as needed
-    const clubs = await myDb.getClubs("", 1, 9); // Adjust query and pageSize as needed
+    const universities = await myDb.getUniversities("", 1, 9);
+    const clubs = await myDb.getClubs("", 1, 9);
 
     console.log(`Found ${universities.length} universities.`);
     console.log(`Found ${clubs.length} clubs.`);
@@ -54,13 +57,9 @@ async function loadCache() {
 
       console.log(`Added university ${university.university_name} to Redis.`);
 
-      // Add associated clubs to Redis list, if `university_clubs` exists
-      if (
-        Array.isArray(university.university_clubs) &&
-        university.university_clubs.length > 0
-      ) {
-        await redisClient.del(clubsListKey); // Clear any existing list for the university
-
+      // Add associated clubs to Redis list
+      await redisClient.del(clubsListKey); // Ensure no leftover data
+      if (Array.isArray(university.university_clubs)) {
         for (const clubId of university.university_clubs) {
           const club = clubs.find((c) => c.club_id === clubId);
           if (club) {
@@ -84,18 +83,10 @@ async function loadCache() {
     // Populate clubs in Redis
     for (const club of clubs) {
       const clubKey = `club:${club.club_id}`;
-      const university = universities.find(
-        (u) =>
-          Array.isArray(u.university_clubs) &&
-          u.university_clubs.includes(club.club_id)
-      );
-
-      // Add club details
       await redisClient.hSet(clubKey, {
         club_id: club.club_id,
         club_name: club.club_name,
         description: club.club_description,
-        university_name: university?.university_name || "Unknown",
         club_email: club.club_email,
         start_date: club.club_start_date,
         club_logo: club.club_logo || "N/A",
@@ -115,6 +106,37 @@ async function loadCache() {
   }
 }
 
+// OTHER FUNCTIONS TO FETCH FROM REDIS
+
+export async function getUniversities() {
+  try {
+    const universityKeys = await redisClient.keys("university:*");
+    const universities = [];
+    console.log("Fetching universities from Redis...");
+
+    for (const key of universityKeys) {
+      // Skip keys for clubs lists
+      if (key.includes(":clubs")) continue;
+
+      const universityDetails = await redisClient.hGetAll(key);
+      const clubsKey = `${key}:clubs`;
+      const clubNames = await redisClient.lRange(clubsKey, 0, -1);
+
+      universities.push({
+        ...universityDetails,
+        clubs: clubNames,
+      });
+    }
+    const total = universities.length;
+    console.log("Fetched universities from Redis.");
+    return { universities, total };
+  } catch (error) {
+    console.error("Error fetching universities from Redis:", error);
+    throw error;
+  }
+}
+
+// MAIN FUNCTION TO INITIALIZE CACHE
 async function main() {
   try {
     await connect();
@@ -124,11 +146,6 @@ async function main() {
   } catch (error) {
     console.error("Error in executing main in myRedisCache:", error);
     throw error;
-  } finally {
-    if (redisClient.isOpen) {
-      await redisClient.quit();
-      console.log("Redis client disconnected.");
-    }
   }
 }
 
