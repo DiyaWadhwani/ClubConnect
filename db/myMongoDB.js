@@ -95,10 +95,11 @@ export async function getUniversityByID(university_id) {
 
 export async function updateUniversityByID(university_id, university) {
   console.log("updateUniversityByID", university_id, university);
+  university_id = parseInt(university_id);
   const db = await getDb();
   try {
     const updatedUniversity = await db.collection("university").updateOne(
-      { university_id: parseInt(university_id) },
+      { university_id: university_id },
       {
         $set: {
           university_email_domain: university.emailDomain,
@@ -119,6 +120,7 @@ export async function updateUniversityByID(university_id, university) {
 
 export async function deleteUniversityByID(university_id) {
   console.log("deleteUniversityByID", university_id);
+  university_id = parseInt(university_id);
   const db = await getDb();
   const universityToDelete = await db
     .collection("university")
@@ -265,16 +267,17 @@ export async function getUniversityByClubID(club_id) {
 
 export async function updateClubByID(club_id, club) {
   console.log("updateClubByID", club_id, club);
+  club_id = parseInt(club_id);
   const db = await getDb();
   try {
     const updatedClubDetails = await db.collection("club").updateOne(
-      { club_id: parseInt(club_id) },
+      { club_id: club_id },
       {
         $set: {
           club_description: club.description,
           club_email: club.email,
           club_logo: club.logo,
-          club_category: club.clubCategory,
+          club_category: club.category,
         },
       }
     );
@@ -288,6 +291,7 @@ export async function updateClubByID(club_id, club) {
 
 export async function deleteClubByID(club_id) {
   console.log("deleteClubByID", club_id);
+  club_id = parseInt(club_id);
   const db = await getDb();
   try {
     const deletedClub = await db

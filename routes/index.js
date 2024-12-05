@@ -94,10 +94,10 @@ router.post("/:university_id/edit", async (req, res, next) => {
 });
 
 router.get("/:university_id/delete", async (req, res, next) => {
-  const university_id = parseInt(req.params.university_id);
+  const university_id = req.params.university_id;
 
   try {
-    let deletedUniversity = await myDb.deleteUniversityByID(university_id);
+    let deletedUniversity = await myRedis.deleteUniversityByID(university_id);
     console.log("delete", deletedUniversity);
 
     if (
@@ -155,8 +155,6 @@ router.get("/clubs/:club_id/edit", async (req, res, next) => {
 router.post("/clubs/:club_id/edit", async (req, res, next) => {
   const club_id = req.params.club_id;
   const club = req.body;
-
-  console.log("club", club);
   if (club.category === "Other") {
     club.category = club.other_category;
   }
@@ -174,10 +172,10 @@ router.post("/clubs/:club_id/edit", async (req, res, next) => {
 });
 
 router.get("/clubs/:club_id/delete", async (req, res, next) => {
-  const club_id = parseInt(req.params.club_id);
+  const club_id = req.params.club_id;
 
   try {
-    let deletedClub = await myDb.deleteClubByID(club_id);
+    let deletedClub = await myRedis.deleteClubByID(club_id);
     console.log("delete", deletedClub);
 
     if (

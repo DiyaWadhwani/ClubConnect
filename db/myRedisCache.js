@@ -29,8 +29,13 @@ async function loadCache() {
     console.log(`Found ${universities.length} universities from MongoDB.`);
     console.log(`Found ${clubs.length} clubs from MongoDB.`);
 
+    await redisClient.set("universityCount", "0");
+    await redisClient.set("clubCount", "0");
+    console.log("Set count to 0.");
+
     // Populate universities in Redis
     for (const university of universities) {
+      await redisClient.incr("universityCount");
       const universityKey = `university:${university.university_id}`;
       const clubsListKey = `university:${university.university_id}:clubs`;
 
@@ -66,6 +71,7 @@ async function loadCache() {
 
     // Populate clubs in Redis
     for (const club of clubs) {
+      await redisClient.incr("clubCount");
       const clubKey = `club:${club.club_id}`;
 
       await redisClient.hSet(clubKey, {
@@ -81,8 +87,8 @@ async function loadCache() {
 
     // Set additional metadata
     redisClient.set("last_updated", new Date().toISOString());
-    redisClient.set("universityCount", universities.length.toString());
-    redisClient.set("clubCount", clubs.length.toString());
+    console.log("Final club count - ", redisClient.get("clubCount"));
+    console.log("Final uni count - ", redisClient.get("universityCount"));
 
     console.log("Cache initialization completed.");
   } catch (error) {
@@ -203,7 +209,6 @@ export async function createClub(club) {
   try {
     const createdClub = await myDb.createClub(club);
     await loadCache();
-    await redisClient.set("last_updated", new Date().toISOString());
     console.log(
       "Inserted club into MongoDB and updated Redis cache.",
       createdClub
@@ -267,6 +272,52 @@ export async function updateUniversityByID(university_id, university) {
     return updatedUniversity;
   } catch (error) {
     console.error("Error in updateUniversity:", error);
+    throw error;
+  }
+}
+
+export async function deleteClubByID(club_id) {
+  try {
+    console.log("Deleting club", club_id);
+    const deletedClub = await myDb.deleteClubByID(club_id);
+    const clubKey = `club:${club_id}`;
+    await redisClient.del(clubKey);
+    await redisClient.decr("clubCount");
+    await redisClient.set("last_updated", new Date().toISOString());
+    console.log(
+      "Deleted club from MongoDB and updated Redis cache. Updated last_updated."
+    );
+    return deletedClub;
+  } catch (error) {
+    console.error("Error in deleteClubByID:", error);
+    throw error;
+  }
+}
+
+export async function deleteUniversityByID(university_id) {
+  try {
+    console.log("Deleting university", university_id);
+    const deletedUniversity = await myDb.deleteUniversityByID(university_id);
+    const universityKey = `university:${university_id}`;
+    await redisClient.del(universityKey);
+    await redisClient.decr("universityCount");
+
+    //fetch the key with university:*:clubs and delete them
+    const clubsKey = `${universityKey}:clubs`;
+    const clubIds = await redisClient.lRange(clubsKey, 0, -1);
+    console.log("University has clubs", clubIds);
+    for (const clubId of clubIds) {
+      await deleteClubByID(clubId);
+    }
+    await redisClient.del(clubsKey);
+
+    await redisClient.set("last_updated", new Date().toISOString());
+    console.log(
+      "Deleted university from MongoDB and updated Redis cache. Updated last_updated."
+    );
+    return deletedUniversity;
+  } catch (error) {
+    console.error("Error in deleteUniversityByID:", error);
     throw error;
   }
 }
