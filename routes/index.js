@@ -15,8 +15,8 @@ router.get("/", async function (req, res, next) {
       page,
       pageSize
     );
-    console.log("universities", universities);
-    console.log("total", total);
+    // console.log("universities", universities);
+    // console.log("total", total);
     res.render("./pages/index", {
       universities,
       query,
@@ -41,9 +41,9 @@ router.get("/clubs", async (req, res, next) => {
       page,
       pageSize
     );
-    console.log("clubs", clubs);
-    console.log("total", total);
-    console.log("universities", universities);
+    // console.log("clubs", clubs);
+    // console.log("total", total);
+    // console.log("universities", universities);
 
     res.render("./pages/index_clubs", {
       clubs,
@@ -62,13 +62,14 @@ router.get("/:university_id/edit", async (req, res, next) => {
   const university_id = parseInt(req.params.university_id);
   const msg = req.query.msg || null;
   try {
-    let university = await myDb.getUniversityByID(university_id);
-    university = university[0];
-    let clubsByUni = await myDb.getClubsByUniversityID(university_id);
-
+    const { universityDetails, clubDetails } = await myRedis.getUniversityByID(
+      university_id
+    );
+    console.log("university", universityDetails);
+    console.log("clubNames", clubDetails);
     res.render("./pages/editUniversity", {
-      university,
-      clubsByUni,
+      university: universityDetails,
+      clubsByUni: clubDetails,
       msg,
     });
   } catch (err) {
