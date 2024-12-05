@@ -1,4 +1,4 @@
-<h2 class="text-center mt-20"><%= club.clubName %></h2>
+<h2 class="text-center mt-20"><%= club.name %></h2>
 
 <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px">
   <form action="<%= '/clubs/' + club.club_id + '/edit' %>" method="POST">
@@ -10,7 +10,7 @@
         class="form-control"
         type="text"
         name="name"
-        value="<%= club.clubName %>"
+        value="<%= club.name %>"
         placeholder="Club Name"
         disabled
       />
@@ -35,7 +35,7 @@
         class="form-control"
         type="date"
         name="startDate"
-        value="<%= club.startDate %>"
+        value="<%= club.start_date %>"
         placeholder="Start Date"
         disabled
       />
@@ -84,29 +84,29 @@
   <label class="form-label fw-bold">Club Category:</label>
   <select
     class="form-select"
-    name="clubCategory"
-    id="clubCategory"
+    name="category"
+    id="category"
     onchange="handleCategoryChange()"
     required
   >
-    <option value="" <%= !club.clubCategory ? 'selected' : '' %> disabled>Select a category</option>
-    <option value="Technology" <%= club.clubCategory && club.clubCategory.trim().toLowerCase() === 'technology' ? 'selected' : '' %>>Technology</option>
-    <option value="Arts" <%= club.clubCategory && club.clubCategory.trim().toLowerCase() === 'arts' ? 'selected' : '' %>>Arts</option>
-    <option value="Sports" <%= club.clubCategory && club.clubCategory.trim().toLowerCase() === 'sports' ? 'selected' : '' %>>Sports</option>
-    <option value="Music" <%= club.clubCategory && club.clubCategory.trim().toLowerCase() === 'music' ? 'selected' : '' %>>Music</option>
-    <option value="Literature" <%= club.clubCategory && club.clubCategory.trim().toLowerCase() === 'literature' ? 'selected' : '' %>>Literature</option>
-    <option value="Other" <%= club.clubCategory && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.clubCategory.trim().toLowerCase()) ? 'selected' : '' %>>Other</option>
+    <option value="" <%= !club.category ? 'selected' : '' %> disabled>Select a category</option>
+    <option value="Technology" <%= club.category && club.category.trim().toLowerCase() === 'technology' ? 'selected' : '' %>>Technology</option>
+    <option value="Arts" <%= club.category && club.category.trim().toLowerCase() === 'arts' ? 'selected' : '' %>>Arts</option>
+    <option value="Sports" <%= club.category && club.category.trim().toLowerCase() === 'sports' ? 'selected' : '' %>>Sports</option>
+    <option value="Music" <%= club.category && club.category.trim().toLowerCase() === 'music' ? 'selected' : '' %>>Music</option>
+    <option value="Literature" <%= club.category && club.category.trim().toLowerCase() === 'literature' ? 'selected' : '' %>>Literature</option>
+    <option value="Other" <%= club.category && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.category.trim().toLowerCase()) ? 'selected' : '' %>>Other</option>
   </select>
 </div>
 
-<div class="mb-4" id="other_category" style="display: <%= club.clubCategory && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.clubCategory.trim().toLowerCase()) ? 'block' : 'none' %>;">
+<div class="mb-4" id="other_category" style="display: <%= club.category && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.category.trim().toLowerCase()) ? 'block' : 'none' %>;">
   <label class="form-label fw-bold">Specify Other Category:</label>
   <input
     type="text"
     class="form-control"
     name="other_category"
     id="other_category"
-    value="<%= club.clubCategory && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.clubCategory.trim().toLowerCase()) ? club.clubCategory : '' %>"
+    value="<%= club.category && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.category.trim().toLowerCase()) ? club.category : '' %>"
   />
 </div>
 
@@ -124,7 +124,7 @@
 <!-- Script to handle the club category dropdown -->
 <script>
   function handleCategoryChange() {
-  const categorySelect = document.getElementById("clubCategory");
+  const categorySelect = document.getElementById("category");
   const customCategoryField = document.getElementById("other_category");
   const otherCategoryInput = document.getElementById("other_category").querySelector("input");
 

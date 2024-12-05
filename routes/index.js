@@ -140,16 +140,17 @@ router.post("/createClub", async (req, res, next) => {
 });
 
 router.get("/clubs/:club_id/edit", async (req, res, next) => {
-  const club_id = parseInt(req.params.club_id);
+  const club_id = req.params.club_id;
   const msg = req.query.msg || null;
   try {
-    let club = await myDb.getClubByID(club_id);
-    club = club[0];
-    let university = await myDb.getUniversityByClubID(club_id);
-    university = university[0];
+    const { clubDetails, university } = await myRedis.getClubByID(club_id);
+    console.log("club", clubDetails);
+    console.log("university", university);
+    // let university = await myDb.getUniversityByClubID(club_id);
+    // university = university[0];
     res.render("./pages/editClub", {
       university,
-      club,
+      club: clubDetails,
       msg,
     });
   } catch (err) {

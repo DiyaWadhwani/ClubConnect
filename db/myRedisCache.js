@@ -63,7 +63,7 @@ async function loadCache() {
         for (const clubId of university.university_clubs) {
           const club = clubs.find((c) => c.club_id === clubId);
           if (club) {
-            await redisClient.rPush(clubsListKey, club.club_name);
+            await redisClient.rPush(clubsListKey, String(club.club_id));
             console.log(
               `Added club ${club.club_name} to list for university ${university.university_name}.`
             );
@@ -89,6 +89,7 @@ async function loadCache() {
         description: club.club_description,
         email: club.club_email,
         start_date: club.club_start_date,
+        category: club.club_category,
         logo: club.club_logo || "N/A",
       });
 
@@ -152,6 +153,42 @@ export async function getClubs() {
     return { clubs, total };
   } catch (error) {
     console.error("Error fetching clubs from Redis:", error);
+    throw error;
+  }
+}
+
+export async function getUniversityByClubID(club_id) {
+  try {
+    const universityKeys = await redisClient.keys("university:*");
+    console.log("Fetching university by club ID from Redis...");
+
+    for (const key of universityKeys) {
+      const clubsKey = `${key}:clubs`;
+      const clubNames = await redisClient.lRange(clubsKey, 0, -1);
+      if (clubNames.includes(club_id)) {
+        const universityDetails = await redisClient.hGetAll(key);
+        console.log("Fetched university by club ID from Redis.");
+        return universityDetails;
+      }
+    }
+    console.log("University not found for club ID in Redis.");
+    return null;
+  } catch (error) {
+    console.error("Error fetching university by club ID from Redis:", error);
+    throw error;
+  }
+}
+
+export async function getClubByID(club_id) {
+  try {
+    const clubKey = `club:${club_id}`;
+    const clubDetails = await redisClient.hGetAll(clubKey);
+    const university = await getUniversityByClubID(club_id);
+    // console.log("Fetched club details from Redis.", clubDetails);
+    // console.log("Fetched university by club ID from Redis.", university);
+    return { clubDetails, university };
+  } catch (error) {
+    console.error("Error fetching club details from Redis:", error);
     throw error;
   }
 }
