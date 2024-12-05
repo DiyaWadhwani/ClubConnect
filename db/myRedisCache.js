@@ -21,6 +21,7 @@ async function loadCache() {
     await redisClient.flushAll();
     console.log("Cleared existing Redis cache.");
     console.log("Loading data into Redis cache...");
+
     // Fetch all universities and clubs from MongoDB
     const universities = await myDb.getUniversities("", 1, 100);
     const clubs = await myDb.getClubs("", 1, 100);
@@ -35,14 +36,14 @@ async function loadCache() {
 
       // Add university details
       await redisClient.hSet(universityKey, {
-        university_id: university.university_id,
-        name: university.university_name,
-        email_domain: university.university_email_domain,
-        address: university.university_address,
-        city: university.university_city,
-        state: university.university_state,
-        zip_code: university.university_zip_code,
-        website: university.university_website,
+        university_id: String(university.university_id),
+        name: university.university_name || "Unknown",
+        email_domain: university.university_email_domain || "N/A",
+        address: university.university_address || "N/A",
+        city: university.university_city || "N/A",
+        state: university.university_state || "N/A",
+        zip_code: university.university_zip_code || "N/A",
+        website: university.university_website || "N/A",
       });
 
       // Add associated clubs to Redis list
@@ -53,7 +54,9 @@ async function loadCache() {
           if (club) {
             await redisClient.rPush(clubsListKey, String(club.club_id));
           } else {
-            continue;
+            console.warn(
+              `Club ID ${clubId} for university ${university.university_name} not found in clubs.`
+            );
           }
         }
       } else {
@@ -64,20 +67,22 @@ async function loadCache() {
     // Populate clubs in Redis
     for (const club of clubs) {
       const clubKey = `club:${club.club_id}`;
+
       await redisClient.hSet(clubKey, {
-        club_id: club.club_id,
-        name: club.club_name,
-        description: club.club_description,
-        email: club.club_email,
-        start_date: club.club_start_date,
-        category: club.club_category,
+        club_id: String(club.club_id),
+        name: club.club_name || "Unknown",
+        description: club.club_description || "N/A",
+        email: club.club_email || "N/A",
+        start_date: club.club_start_date || "N/A",
+        category: club.club_category || "N/A",
         logo: club.club_logo || "N/A",
       });
     }
 
+    // Set additional metadata
     redisClient.set("last_updated", new Date().toISOString());
-    redisClient.set("universityCount", universities.length);
-    redisClient.set("clubCount", clubs.length);
+    redisClient.set("universityCount", universities.length.toString());
+    redisClient.set("clubCount", clubs.length.toString());
 
     console.log("Cache initialization completed.");
   } catch (error) {
@@ -137,7 +142,6 @@ export async function getClubs() {
 export async function getUniversityByClubID(club_id) {
   try {
     const universityKeys = await redisClient.keys("university:*");
-
     for (const key of universityKeys) {
       const clubsKey = `${key}:clubs`;
       const clubNames = await redisClient.lRange(clubsKey, 0, -1);
@@ -185,7 +189,7 @@ export async function getClubByID(club_id) {
     const clubKey = `club:${club_id}`;
     const clubDetails = await redisClient.hGetAll(clubKey);
     const university = await getUniversityByClubID(club_id);
-    console.log("Fetched club by ID from Redis.");
+    console.log("Fetched club details by ID from Redis.");
     return { clubDetails, university };
   } catch (error) {
     console.error("Error fetching club details from Redis:", error);
@@ -199,6 +203,7 @@ export async function createClub(club) {
   try {
     const createdClub = await myDb.createClub(club);
     await loadCache();
+    await redisClient.set("last_updated", new Date().toISOString());
     console.log(
       "Inserted club into MongoDB and updated Redis cache.",
       createdClub
@@ -206,6 +211,62 @@ export async function createClub(club) {
     return createdClub;
   } catch (error) {
     console.error("Error in createClub:", error);
+    throw error;
+  }
+}
+
+export async function updateClubByID(club_id, club) {
+  try {
+    console.log("club_id type", typeof club_id);
+    const updatedClub = await myDb.updateClubByID(club_id, club);
+
+    const clubKey = `club:${club_id}`;
+    await redisClient.hSet(clubKey, {
+      club_id: String(club_id),
+      name: club.name || "Unknown",
+      description: club.description || "N/A",
+      email: club.email || "N/A",
+      start_date: club.start_date || "N/A",
+      category: club.category || "N/A",
+      logo: club.logo || "N/A",
+    });
+    await redisClient.set("last_updated", new Date().toISOString());
+    console.log(
+      "Updated club in MongoDB and Redis cache. Updated last_updated."
+    );
+
+    return updatedClub;
+  } catch (error) {
+    console.error("Error in updateClub:", error);
+    throw error;
+  }
+}
+
+export async function updateUniversityByID(university_id, university) {
+  try {
+    const updatedUniversity = await myDb.updateUniversityByID(
+      university_id,
+      university
+    );
+
+    const universityKey = `university:${university_id}`;
+    await redisClient.hSet(universityKey, {
+      university_id: String(university_id),
+      name: university.name || "Unknown",
+      email_domain: university.email_domain || "N/A",
+      address: university.address || "N/A",
+      city: university.city || "N/A",
+      state: university.state || "N/A",
+      zip_code: university.zip_code || "N/A",
+      website: university.website || "N/A",
+    });
+    await redisClient.set("last_updated", new Date().toISOString());
+    console.log(
+      "Updated university in MongoDB and Redis cache. Updated last_updated."
+    );
+    return updatedUniversity;
+  } catch (error) {
+    console.error("Error in updateUniversity:", error);
     throw error;
   }
 }

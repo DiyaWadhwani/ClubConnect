@@ -14,6 +14,7 @@
         placeholder="Club Name"
         disabled
       />
+      <input type="hidden" name="name" value="<%= club.name %>" />
     </div>
 
     <!-- Description Field (Editable) -->
@@ -34,11 +35,12 @@
       <input
         class="form-control"
         type="date"
-        name="startDate"
+        name="start_date"
         value="<%= club.start_date %>"
         placeholder="Start Date"
         disabled
       />
+      <input type="hidden" name="start_date" value="<%= club.start_date %>" />
     </div>
 
     <!-- Email Field (Editable) -->
@@ -59,7 +61,6 @@
       <label class="form-label fw-bold">Logo URL:</label>
       <input
         class="form-control"
-        type="url"
         name="logo"
         value="<%= club.logo %>"
         placeholder="https://example.com/logo.png"

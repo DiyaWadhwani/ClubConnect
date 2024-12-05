@@ -7,7 +7,7 @@ async function getDb() {
 }
 
 export async function getUniversities(query, page, pageSize) {
-  console.log("getUniversities", query);
+  console.log("getUniversities from MongoDB", query);
   const db = await getDb();
   try {
     const result = await db
@@ -25,26 +25,26 @@ export async function getUniversities(query, page, pageSize) {
   }
 }
 
-export async function getUniversityCount(query) {
-  try {
-    console.log("getUniversityCount query:", query);
-    const db = await getDb();
-    const regexQuery = query ? `^${query}` : "";
+// export async function getUniversityCount(query) {
+//   try {
+//     console.log("getUniversityCount query:", query);
+//     const db = await getDb();
+//     const regexQuery = query ? `^${query}` : "";
 
-    const count = await db
-      .collection("universities")
-      .countDocuments({ name: { $regex: regexQuery, $options: "i" } });
+//     const count = await db
+//       .collection("universities")
+//       .countDocuments({ name: { $regex: regexQuery, $options: "i" } });
 
-    console.log("Document count:", count);
-    return count;
-  } catch (error) {
-    console.error("Error in getUniversityCount:", error);
-    throw error;
-  }
-}
+//     console.log("Document count:", count);
+//     return count;
+//   } catch (error) {
+//     console.error("Error in getUniversityCount:", error);
+//     throw error;
+//   }
+// }
 
 export async function getClubs(query, page, pageSize) {
-  console.log("getClubs", query);
+  console.log("getClubs from MongoDB", query);
   const db = await getDb();
 
   return await db
@@ -56,14 +56,14 @@ export async function getClubs(query, page, pageSize) {
     .toArray();
 }
 
-export async function getClubCount(query) {
-  console.log("getClubCount", query);
-  const db = await getDb();
+// export async function getClubCount(query) {
+//   console.log("getClubCount", query);
+//   const db = await getDb();
 
-  return await db
-    .collection("club")
-    .countDocuments({ club_name: { $regex: `^${query}`, $options: "i" } });
-}
+//   return await db
+//     .collection("club")
+//     .countDocuments({ club_name: { $regex: `^${query}`, $options: "i" } });
+// }
 
 export async function getUniversityByID(university_id) {
   console.log("getUniversityByID", university_id);
@@ -98,7 +98,7 @@ export async function updateUniversityByID(university_id, university) {
   const db = await getDb();
   try {
     const updatedUniversity = await db.collection("university").updateOne(
-      { university_id: university_id },
+      { university_id: parseInt(university_id) },
       {
         $set: {
           university_email_domain: university.emailDomain,
@@ -266,10 +266,9 @@ export async function getUniversityByClubID(club_id) {
 export async function updateClubByID(club_id, club) {
   console.log("updateClubByID", club_id, club);
   const db = await getDb();
-
   try {
     const updatedClubDetails = await db.collection("club").updateOne(
-      { club_id: club_id },
+      { club_id: parseInt(club_id) },
       {
         $set: {
           club_description: club.description,
@@ -279,7 +278,7 @@ export async function updateClubByID(club_id, club) {
         },
       }
     );
-    console.log("updatedClubDetails", updatedClubDetails);
+    console.log("updatedClubDetails in MongoDB", updatedClubDetails);
     return updatedClubDetails;
   } catch (error) {
     console.error("Error in updateClubByID:", error);
