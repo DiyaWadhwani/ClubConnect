@@ -1,7 +1,7 @@
 <h2 class="text-center mt-20"><%= university.name %></h2>
 
 <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px">
-  <form action="<%= '/' + university.universityID + '/edit' %>" method="POST">
+  <form action="<%= '/' + university.university_id + '/edit' %>" method="POST">
     <!-- University Name Field -->
     <div class="mb-4">
       <label class="form-label fw-bold">University Name:</label>
@@ -13,6 +13,7 @@
         placeholder="University Name"
         disabled
       />
+      <input type="hidden" name="name" value="<%= university.name %>" />
     </div>
 
     <!-- Email Domain Field -->
@@ -22,7 +23,7 @@
         class="form-control"
         type="text"
         name="emailDomain"
-        value="<%= university.emailDomain %>"
+        value="<%= university.email_domain %>"
         placeholder="e.g., university.edu"
         required
       />
@@ -87,7 +88,7 @@
         class="form-control"
         type="text"
         name="zipCode"
-        value="<%= university.zipCode %>"
+        value="<%= university.zip_code %>"
         placeholder="ZIP Code"
         required
       />

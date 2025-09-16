@@ -1,0 +1,28 @@
+<% if (lastPage > -1) { %>
+<nav aria-label="Universities Pagination">
+  <ul class="pagination">
+    <!-- Previous button -->
+    <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+      <a class="page-link" href="<%= '/clubs?page=' + (currentPage - 1) %>"
+        >Previous</a
+      >
+    </li>
+
+    <!-- Page numbers -->
+    <% for (let p = 1; p <= lastPage; p++) { %>
+    <li class="page-item <%= p === currentPage ? 'active' : '' %>">
+      <a class="page-link" href="<%= '/clubs?page=' + p %>"><%= p %></a>
+    </li>
+    <% } %>
+
+    <!-- Next button -->
+    <li class="page-item <%= currentPage === lastPage ? 'disabled' : '' %>">
+      <a class="page-link" href="<%= '/clubs?page=' + (currentPage + 1) %>"
+        >Next</a
+      >
+    </li>
+  </ul>
+</nav>
+<% } else { %>
+<div>No pagination needed</div>
+<% } %>

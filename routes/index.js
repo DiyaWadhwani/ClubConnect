@@ -1,5 +1,5 @@
 import express from "express";
-import * as myDb from "../db/mySqliteDB.js";
+import * as myRedis from "../db/myRedisCache.js";
 
 const router = express.Router();
 
@@ -9,34 +9,36 @@ router.get("/", async function (req, res, next) {
   const page = +req.query.page || 1;
   const pageSize = +req.query.pageSize || 9;
   const msg = req.query.msg || null;
-  try {
-    let total = await myDb.getUniversityCount(query);
-    console.log("total", total);
-    let universities = await myDb.getUniversities(query, page, pageSize);
 
+  try {
+    const { universities, total } = await myRedis.getUniversities(
+      page,
+      pageSize
+    );
     res.render("./pages/index", {
       universities,
-      clubs: [],
       query,
       msg,
       currentPage: page,
       lastPage: Math.ceil(total / pageSize),
     });
   } catch (err) {
+    console.error("Error rendering the index page:", err);
     next(err);
   }
 });
 
-// http://localhost:3000/references?pageSize=24&page=3&q=John
 router.get("/clubs", async (req, res, next) => {
   const query = req.query.q || "";
   const page = +req.query.page || 1;
-  const pageSize = +req.query.pageSize || 24;
+  const pageSize = +req.query.pageSize || 9;
   const msg = req.query.msg || null;
   try {
-    let total = await myDb.getClubCount(query);
-    let clubs = await myDb.getClubs(query, page, pageSize);
-    let universities = await myDb.getUniversities("", 1, 100);
+    const { clubs, total } = await myRedis.getClubs(page, pageSize);
+    const { universities, uniTotal } = await myRedis.getUniversities(
+      page,
+      pageSize
+    );
 
     res.render("./pages/index_clubs", {
       clubs,
@@ -51,22 +53,18 @@ router.get("/clubs", async (req, res, next) => {
   }
 });
 
-router.get("/:universityID/edit", async (req, res, next) => {
-  const universityID = req.params.universityID;
+router.get("/:university_id/edit", async (req, res, next) => {
+  const university_id = parseInt(req.params.university_id);
   const msg = req.query.msg || null;
   try {
-    let university = await myDb.getUniversityByID(universityID);
-    let clubsByUni = await myDb.getClubsByUniversityID(universityID);
-
-    console.log("edit university", {
-      university,
-      clubsByUni,
-      msg,
-    });
-
+    const { universityDetails, clubDetails } = await myRedis.getUniversityByID(
+      university_id
+    );
+    console.log("university", universityDetails);
+    console.log("clubNames", clubDetails);
     res.render("./pages/editUniversity", {
-      university,
-      clubsByUni,
+      university: universityDetails,
+      clubsByUni: clubDetails,
       msg,
     });
   } catch (err) {
@@ -74,18 +72,18 @@ router.get("/:universityID/edit", async (req, res, next) => {
   }
 });
 
-router.post("/:universityID/edit", async (req, res, next) => {
-  const universityID = req.params.universityID;
+router.post("/:university_id/edit", async (req, res, next) => {
+  const university_id = req.params.university_id;
   const university = req.body;
 
   try {
-    let updatedUniversity = await myDb.updateUniversityByID(
-      universityID,
+    let updatedUniversity = await myRedis.updateUniversityByID(
+      university_id,
       university
     );
     console.log("updatedUniversity", updatedUniversity);
 
-    if (updatedUniversity && updatedUniversity.changes === 1) {
+    if (updatedUniversity && updatedUniversity.modifiedCount === 1) {
       res.redirect("/?msg=Updated University Details successfully");
     } else {
       res.redirect("/?msg=Error Updating");
@@ -95,14 +93,18 @@ router.post("/:universityID/edit", async (req, res, next) => {
   }
 });
 
-router.get("/:universityID/delete", async (req, res, next) => {
-  const universityID = req.params.universityID;
+router.get("/:university_id/delete", async (req, res, next) => {
+  const university_id = req.params.university_id;
 
   try {
-    let deletedUniversity = await myDb.deleteUniversityByID(universityID);
+    let deletedUniversity = await myRedis.deleteUniversityByID(university_id);
     console.log("delete", deletedUniversity);
 
-    if (deletedUniversity && deletedUniversity.changes === 1) {
+    if (
+      deletedUniversity &&
+      deletedUniversity.acknowledged &&
+      deletedUniversity.deletedCount === 1
+    ) {
       res.redirect("/?msg=Deleted University Successfully");
     } else {
       res.redirect("/?msg=Error Deleting");
@@ -115,35 +117,34 @@ router.get("/:universityID/delete", async (req, res, next) => {
 router.post("/createClub", async (req, res, next) => {
   const club = req.body;
 
-  if (club.clubCategory === "Other") {
-    club.clubCategory = club.other_category;
+  if (club.category === "Other") {
+    club.category = club.other_category;
   }
+
+  club.university_id = parseInt(club.university);
   console.log("Create club", club);
 
   try {
-    const createdClub = await myDb.createClub(club);
-
-    console.log("Inserted", createdClub);
-    res.redirect("/clubs?msg=Created Club " + club.name);
+    const createdClub = await myRedis.createClub(club);
+    if (createdClub) {
+      res.redirect("/clubs?msg=Created Club " + club.name);
+    } else {
+      res.redirect("/clubs?msg=Error Creating Club " + club.name);
+    }
   } catch (err) {
     console.log("Error inserting", err);
     next(err);
   }
 });
 
-router.get("/clubs/:clubID/edit", async (req, res, next) => {
-  const clubID = req.params.clubID;
+router.get("/clubs/:club_id/edit", async (req, res, next) => {
+  const club_id = req.params.club_id;
   const msg = req.query.msg || null;
   try {
-    let club = await myDb.getClubByID(clubID);
-
-    console.log("edit club", {
-      club,
-      msg,
-    });
-
+    const { clubDetails, university } = await myRedis.getClubByID(club_id);
     res.render("./pages/editClub", {
-      club,
+      university,
+      club: clubDetails,
       msg,
     });
   } catch (err) {
@@ -151,15 +152,16 @@ router.get("/clubs/:clubID/edit", async (req, res, next) => {
   }
 });
 
-router.post("/clubs/:clubID/edit", async (req, res, next) => {
-  const clubID = req.params.clubID;
+router.post("/clubs/:club_id/edit", async (req, res, next) => {
+  const club_id = req.params.club_id;
   const club = req.body;
+  if (club.category === "Other") {
+    club.category = club.other_category;
+  }
 
   try {
-    let updatedClub = await myDb.updateClubByID(clubID, club);
-    console.log("updatedClub", updatedClub);
-
-    if (updatedClub && updatedClub.changes === 1) {
+    let updatedClub = await myRedis.updateClubByID(club_id, club);
+    if (updatedClub && updatedClub.modifiedCount === 1) {
       res.redirect("/clubs?msg=Updated Club Details successfully");
     } else {
       res.redirect("/clubs?msg=Error Updating");
@@ -169,14 +171,18 @@ router.post("/clubs/:clubID/edit", async (req, res, next) => {
   }
 });
 
-router.get("/clubs/:clubID/delete", async (req, res, next) => {
-  const clubID = req.params.clubID;
+router.get("/clubs/:club_id/delete", async (req, res, next) => {
+  const club_id = req.params.club_id;
 
   try {
-    let deletedClub = await myDb.deleteClubByID(clubID);
+    let deletedClub = await myRedis.deleteClubByID(club_id);
     console.log("delete", deletedClub);
 
-    if (deletedClub && deletedClub.changes === 1) {
+    if (
+      deletedClub &&
+      deletedClub.acknowledged &&
+      deletedClub.deletedCount === 1
+    ) {
       res.redirect("/clubs?msg=Deleted Club Successfully");
     } else {
       res.redirect("/clubs?msg=Error Deleting");

@@ -1,7 +1,7 @@
-<h2 class="text-center mt-20"><%= club.clubName %></h2>
+<h2 class="text-center mt-20"><%= club.name %></h2>
 
 <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px">
-  <form action="<%= '/clubs/' + club.clubID + '/edit' %>" method="POST">
+  <form action="<%= '/clubs/' + club.club_id + '/edit' %>" method="POST">
     
     <!-- Club Name Field (Disabled) -->
     <div class="mb-4">
@@ -10,10 +10,11 @@
         class="form-control"
         type="text"
         name="name"
-        value="<%= club.clubName %>"
+        value="<%= club.name %>"
         placeholder="Club Name"
         disabled
       />
+      <input type="hidden" name="name" value="<%= club.name %>" />
     </div>
 
     <!-- Description Field (Editable) -->
@@ -34,11 +35,12 @@
       <input
         class="form-control"
         type="date"
-        name="startDate"
-        value="<%= club.startDate %>"
+        name="start_date"
+        value="<%= club.start_date %>"
         placeholder="Start Date"
         disabled
       />
+      <input type="hidden" name="start_date" value="<%= club.start_date %>" />
     </div>
 
     <!-- Email Field (Editable) -->
@@ -59,7 +61,6 @@
       <label class="form-label fw-bold">Logo URL:</label>
       <input
         class="form-control"
-        type="url"
         name="logo"
         value="<%= club.logo %>"
         placeholder="https://example.com/logo.png"
@@ -72,26 +73,45 @@
       <input
         class="form-control"
         type="text"
-        name="universityName"
-        value="<%= club.universityName %>"
+        name="name"
+        value="<%= university.name %>"
         placeholder="University Name"
         disabled
       />
     </div>
 
     <!-- Club Category Field (Editable) -->
-    <div class="mb-4">
-      <label class="form-label fw-bold">Club Category:</label>
-      <select class="form-select" name="clubCategory" required>
-        <option value="" disabled>Select a category</option>
-        <option value="Technology" <%= club.clubCategory === 'Technology' ? 'selected' : '' %>>Technology</option>
-        <option value="Art" <%= club.clubCategory === 'Art' ? 'selected' : '' %>>Art</option>
-        <option value="Sports" <%= club.clubCategory === 'Sports' ? 'selected' : '' %>>Sports</option>
-        <option value="Music" <%= club.clubCategory === 'Music' ? 'selected' : '' %>>Music</option>
-        <option value="Literature" <%= club.clubCategory === 'Literature' ? 'selected' : '' %>>Literature</option>
-        <option value="Other" <%= club.clubCategory === 'Other' ? 'selected' : '' %>>Other</option>
-      </select>
-    </div>
+     <div class="mb-4">
+  <label class="form-label fw-bold">Club Category:</label>
+  <select
+    class="form-select"
+    name="category"
+    id="category"
+    onchange="handleCategoryChange()"
+    required
+  >
+    <option value="" <%= !club.category ? 'selected' : '' %> disabled>Select a category</option>
+    <option value="Technology" <%= club.category && club.category.trim().toLowerCase() === 'technology' ? 'selected' : '' %>>Technology</option>
+    <option value="Arts" <%= club.category && club.category.trim().toLowerCase() === 'arts' ? 'selected' : '' %>>Arts</option>
+    <option value="Sports" <%= club.category && club.category.trim().toLowerCase() === 'sports' ? 'selected' : '' %>>Sports</option>
+    <option value="Music" <%= club.category && club.category.trim().toLowerCase() === 'music' ? 'selected' : '' %>>Music</option>
+    <option value="Literature" <%= club.category && club.category.trim().toLowerCase() === 'literature' ? 'selected' : '' %>>Literature</option>
+    <option value="Other" <%= club.category && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.category.trim().toLowerCase()) ? 'selected' : '' %>>Other</option>
+  </select>
+</div>
+
+<div class="mb-4" id="other_category" style="display: <%= club.category && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.category.trim().toLowerCase()) ? 'block' : 'none' %>;">
+  <label class="form-label fw-bold">Specify Other Category:</label>
+  <input
+    type="text"
+    class="form-control"
+    name="other_category"
+    id="other_category"
+    value="<%= club.category && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.category.trim().toLowerCase()) ? club.category : '' %>"
+  />
+</div>
+
+
 
     <!-- Cancel and Update Buttons -->
     <div class="d-flex justify-content-between mt-4">
@@ -100,3 +120,24 @@
     </div>
   </form>
 </div>
+
+
+<!-- Script to handle the club category dropdown -->
+<script>
+  function handleCategoryChange() {
+  const categorySelect = document.getElementById("category");
+  const customCategoryField = document.getElementById("other_category");
+  const otherCategoryInput = document.getElementById("other_category").querySelector("input");
+
+  if (categorySelect.value === "Other") {
+    // Show the custom category field
+    customCategoryField.style.display = "block";
+    otherCategoryInput.required = true;
+  } else {
+    // Hide the custom category field and clear its value
+    customCategoryField.style.display = "none";
+    otherCategoryInput.value = ""; // Clear value
+    otherCategoryInput.required = false;
+  }
+}
+</script>

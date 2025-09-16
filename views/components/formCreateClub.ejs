@@ -36,7 +36,7 @@
       <input
         class="form-control"
         type="date"
-        name="startDate"
+        name="start_date"
         placeholder="MM/DD/YYYY"
         required
       />
@@ -78,7 +78,7 @@
       Club Category:
       <select
         class="form-select"
-        name="clubCategory"
+        name="category"
         id="categorySelect"
         required
         onchange="toggleOtherCategory(this)"
@@ -130,7 +130,7 @@
       <select class="form-select" name="university" required>
         <option value="" disabled selected>Select a university</option>
         <% universities.forEach(university => { %>
-        <option value="<%= university.universityID %>">
+        <option value="<%= university.university_id %>">
           <%= university.name %>
         </option>
         <% }) %>
