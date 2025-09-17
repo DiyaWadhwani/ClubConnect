@@ -1,34 +1,34 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Universities</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <% if (user) { %>
+      <a class="navbar-brand" href="/">Universities</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <!-- Left Nav Links -->
-      <ul class="navbar-nav mb-2 mb-md-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/clubs">Clubs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/membership">Membership</a>
-        </li>
-      </ul>
-
-      <!-- Right Auth Links -->
-      <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-        <% if (user) { %>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <!-- Left Nav Links -->
+        <ul class="navbar-nav mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link active" href="/logout">Logout</a>
+            <a class="nav-link active" aria-current="page" href="/clubs">Clubs</a>
           </li>
-          <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/membership">Membership</a>
+          </li>
+        </ul>
+
+        <!-- Right Auth Links -->
+        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+          <% if (user) { %>
             <li class="nav-item">
-              <a class="nav-link active" href="/login">Login</a>
+              <a class="nav-link active" href="/logout">Logout</a>
             </li>
             <% } %>
-      </ul>
-    </div>
+        </ul>
+      </div>
+      <% } else { %>
+        <a class="navbar-brand mx-auto" href="/">HuskyHub</a>
+        <% } %>
   </div>
 </nav>
