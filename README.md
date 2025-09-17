@@ -20,10 +20,11 @@
 
 1. **Node.js**: Install Node.js from [https://nodejs.org/](https://nodejs.org/).
 2. **HomeBrew**: Install MongoDB and Redis from Homebrew
-   - Install Homebrew (if not already installed):
-     ```bash
-     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-     ```
+   Install Homebrew (if not already installed):
+
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
 
 ## Setting Up the Project
 
@@ -74,12 +75,16 @@
 
 7. **Login Details**: Login using either user:
 
-   - Role: Core Team Member
+   Role: Core Member
+
    `Email: diya.wadhwani@northeastern.edu`
+
    `Password: DiyaTest@123`
 
-   - Role: Regular Member
+   Role: Regular Member
+
    `Email: joy.h@northeastern.edu`
+
    `Password: HarisTest@123`
 
 8. **Stop Services Later**: Stop Mongo and Redis
