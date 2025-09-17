@@ -72,7 +72,17 @@
 
    The server will start on `http://localhost:3000`.
 
-7. **Stop Services Later**: Stop Mongo and Redis
+7. **Login Details**: Login using either user:
+
+   - Role: Core Team Member
+   `Email: diya.wadhwani@northeastern.edu`
+   `Password: DiyaTest@123`
+
+   - Role: Regular Member
+   `Email: joy.h@northeastern.edu`
+   `Password: HarisTest@123`
+
+8. **Stop Services Later**: Stop Mongo and Redis
 
    ```bash
    brew services stop mongodb-community
