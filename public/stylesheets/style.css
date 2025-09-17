@@ -11,53 +11,6 @@
   margin-bottom: 3rem;
 }
 
-.card {
-  width: 320px;
-  margin: auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-label,
-input {
-  display: block;
-  width: 100%;
-  margin-top: 1rem;
-  font-size: 0.95rem;
-}
-
-input {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  width: 100%;
-  margin-top: 1.5rem;
-  padding: 0.7rem;
-  background-color: #0056b3;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #003e85;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-p.error {
-  color: red;
-  text-align: center;
+#body {
+  background-color: #f8f9fa; /* Light gray background for the body */
 }

@@ -2,28 +2,43 @@
 <html>
 <%- include("../templates/head.ejs") %>
 
-    <body>
+    <body class="login-body">
         <%- include("../templates/navBar.ejs") %>
-            <div class="mt-20">
-                <div class="card">
-                    <h2>Login</h2>
+
+            <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+                <div class="card shadow-sm p-4 w-100" style="max-width: 400px;">
+                    <h2 class="text-center mb-4">HuskyHub</h2>
+
                     <% if (error) { %>
-                        <p class="error">
+                        <p class="text-danger text-center">
                             <%= error %>
                         </p>
                         <% } %>
 
                             <form method="POST" action="/login">
-                                <label>Email:</label>
-                                <input type="email" name="email" required />
+                                <!-- Email Field -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Email:</label>
+                                    <input class="form-control" type="email" name="email" placeholder="Enter your email"
+                                        required />
+                                </div>
 
-                                <label>Password:</label>
-                                <input type="password" name="password" required />
+                                <!-- Password Field -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Password:</label>
+                                    <input class="form-control" type="password" name="password"
+                                        placeholder="Enter your password" required />
+                                </div>
 
-                                <button type="submit">Login</button>
+                                <!-- Submit Button -->
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Login</button>
+                                </div>
                             </form>
                 </div>
             </div>
+
+            <%- include("../templates/footer.ejs") %>
     </body>
 
 </html>
