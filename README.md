@@ -58,7 +58,6 @@
    ```bash
    git clone https://github.com/DiyaWadhwani/ClubConnect.git
    cd ClubConnect
-   git checkout p3-redis
    ```
 
 2. **Install Dependencies**: Install all required Node.js modules.
@@ -68,7 +67,20 @@
    npm install mongodb redis
    ```
 
-3. **Import Data**: Import the JSON files into the MongoDB database.
+3. **Install and Start MongoDB service via HomeBrew**:
+
+   Install Homebrew (if not already installed):
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+   ```bash
+   brew tap mongodb/brew
+   brew install mongodb-community@7.0
+   brew services start mongodb/brew/mongodb-community
+   ```
+
+4. **Import Data**: Import the JSON files into the MongoDB database.
 
    ```bash
    mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection club --file db/initialization/clubConnect.club.json --jsonArray
