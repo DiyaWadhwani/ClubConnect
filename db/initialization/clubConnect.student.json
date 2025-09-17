@@ -1,184 +1,218 @@
-[{
-  "_id": {
-    "$oid": "673070b1fee039a1eb55db04"
+[
+  {
+    "_id": {
+      "$oid": "673070b1fee039a1eb55db04"
+    },
+    "student_id": 1,
+    "student_first_name": "Alice",
+    "student_last_name": "Johnson",
+    "student_email": "alice.j@northeastern.edu",
+    "student_program": "Computer Science",
+    "student_graduation_date": "2024-05-01",
+    "student_enrollment_year": 2021,
+    "student_dob": "2002-03-10",
+    "student_uni_id": 1,
+    "student_password": "AliceTest@123",
+    "interviews": [
+      {
+        "interview_id": 2,
+        "interview_date_time": "2023-12-01T09:00",
+        "interview_role": "Treasurer",
+        "interview_platform": "Google Meet",
+        "interview_status": "Scheduled"
+      }
+    ]
   },
-  "student_id": 1,
-  "student_first_name": "Alice",
-  "student_last_name": "Johnson",
-  "student_email": "alice.j@northeastern.edu",
-  "student_program": "Computer Science",
-  "student_graduation_date": "2024-05-01",
-  "student_enrollment_year": 2021,
-  "student_dob": "2002-03-10",
-  "student_uni_id": 1,
-  "interviews": [
-    {
-      "interview_id": 2,
-      "interview_date_time": "2023-12-01T09:00",
-      "interview_role": "Treasurer",
-      "interview_platform": "Google Meet",
-      "interview_status": "Scheduled"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "673070b1fee039a1eb55db05"
+  {
+    "_id": {
+      "$oid": "673070b1fee039a1eb55db05"
+    },
+    "student_id": 2,
+    "student_first_name": "Bob",
+    "student_last_name": "Smith",
+    "student_email": "bob.s@berkeley.edu",
+    "student_program": "Mechanical Engineering",
+    "student_graduation_date": "2023-05-01",
+    "student_enrollment_year": 2019,
+    "student_dob": "2001-11-21",
+    "student_uni_id": 2,
+    "student_password": "BobTest@123",
+    "interviews": [
+      {
+        "interview_id": 1,
+        "interview_date_time": "2023-10-25T16:00",
+        "interview_role": "Vice President",
+        "interview_platform": "Zoom",
+        "interview_status": "Scheduled"
+      }
+    ]
   },
-  "student_id": 2,
-  "student_first_name": "Bob",
-  "student_last_name": "Smith",
-  "student_email": "bob.s@berkeley.edu",
-  "student_program": "Mechanical Engineering",
-  "student_graduation_date": "2023-05-01",
-  "student_enrollment_year": 2019,
-  "student_dob": "2001-11-21",
-  "student_uni_id": 2,
-  "interviews": [
-    {
-      "interview_id": 1,
-      "interview_date_time": "2023-10-25T16:00",
-      "interview_role": "Vice President",
-      "interview_platform": "Zoom",
-      "interview_status": "Scheduled"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "673070b1fee039a1eb55db06"
+  {
+    "_id": {
+      "$oid": "673070b1fee039a1eb55db06"
+    },
+    "student_id": 3,
+    "student_first_name": "Catherine",
+    "student_last_name": "Lee",
+    "student_email": "catherine.l@northeastern.edu",
+    "student_program": "Business Administration",
+    "student_graduation_date": "2025-05-01",
+    "student_enrollment_year": 2022,
+    "student_dob": "2003-05-14",
+    "student_uni_id": 1,
+    "student_password": "CatherineTest@123",
+    "interviews": [
+      {
+        "interview_id": 3,
+        "interview_date_time": "2023-10-30T11:00",
+        "interview_role": "President",
+        "interview_platform": "Microsoft Teams",
+        "interview_status": "Completed"
+      }
+    ]
   },
-  "student_id": 3,
-  "student_first_name": "Catherine",
-  "student_last_name": "Lee",
-  "student_email": "catherine.l@northeastern.edu",
-  "student_program": "Business Administration",
-  "student_graduation_date": "2025-05-01",
-  "student_enrollment_year": 2022,
-  "student_dob": "2003-05-14",
-  "student_uni_id": 1,
-  "interviews": [
-    {
-      "interview_id": 3,
-      "interview_date_time": "2023-10-30T11:00",
-      "interview_role": "President",
-      "interview_platform": "Microsoft Teams",
-      "interview_status": "Completed"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "673070b1fee039a1eb55db07"
+  {
+    "_id": {
+      "$oid": "673070b1fee039a1eb55db07"
+    },
+    "student_id": 4,
+    "student_first_name": "Daniel",
+    "student_last_name": "White",
+    "student_email": "daniel.w@stanford.edu",
+    "student_program": "Electrical Engineering",
+    "student_graduation_date": "2025-06-01",
+    "student_enrollment_year": 2021,
+    "student_dob": "2002-04-05",
+    "student_uni_id": 3,
+    "student_password": "DanielTest@123",
+    "interviews": [
+      {
+        "interview_id": 4,
+        "interview_date_time": "2023-10-27T10:00",
+        "interview_role": "Vice President",
+        "interview_platform": "Zoom",
+        "interview_status": "Pending"
+      }
+    ]
   },
-  "student_id": 4,
-  "student_first_name": "Daniel",
-  "student_last_name": "White",
-  "student_email": "daniel.w@stanford.edu",
-  "student_program": "Electrical Engineering",
-  "student_graduation_date": "2025-06-01",
-  "student_enrollment_year": 2021,
-  "student_dob": "2002-04-05",
-  "student_uni_id": 3,
-  "interviews": [
-    {
-      "interview_id": 4,
-      "interview_date_time": "2023-10-27T10:00",
-      "interview_role": "Vice President",
-      "interview_platform": "Zoom",
-      "interview_status": "Pending"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "673070b1fee039a1eb55db08"
+  {
+    "_id": {
+      "$oid": "673070b1fee039a1eb55db08"
+    },
+    "student_id": 5,
+    "student_first_name": "Emily",
+    "student_last_name": "Brown",
+    "student_email": "emily.b@mit.edu",
+    "student_program": "Media Arts & Sciences",
+    "student_graduation_date": "2024-06-01",
+    "student_enrollment_year": 2020,
+    "student_dob": "2001-08-16",
+    "student_uni_id": 4,
+    "student_password": "EmilyTest@123",
+    "interviews": [
+      {
+        "interview_id": 8,
+        "interview_date_time": "2024-01-30T16:00",
+        "interview_role": "President",
+        "interview_platform": "Google Meet",
+        "interview_status": "Pending"
+      }
+    ]
   },
-  "student_id": 5,
-  "student_first_name": "Emily",
-  "student_last_name": "Brown",
-  "student_email": "emily.b@mit.edu",
-  "student_program": "Media Arts & Sciences",
-  "student_graduation_date": "2024-06-01",
-  "student_enrollment_year": 2020,
-  "student_dob": "2001-08-16",
-  "student_uni_id": 4,
-  "interviews": [
-    {
-      "interview_id": 8,
-      "interview_date_time": "2024-01-30T16:00",
-      "interview_role": "President",
-      "interview_platform": "Google Meet",
-      "interview_status": "Pending"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "673070b1fee039a1eb55db09"
+  {
+    "_id": {
+      "$oid": "673070b1fee039a1eb55db09"
+    },
+    "student_id": 6,
+    "student_first_name": "Fiona",
+    "student_last_name": "Green",
+    "student_email": "fiona.g@washington.edu",
+    "student_program": "Computer Science",
+    "student_graduation_date": "2023-12-01",
+    "student_enrollment_year": 2019,
+    "student_dob": "2001-10-30",
+    "student_uni_id": 5,
+    "student_password": "FionaTest@123",
+    "interviews": [
+      {
+        "interview_id": 6,
+        "interview_date_time": "2024-01-15T15:30",
+        "interview_role": "Treasurer",
+        "interview_platform": "Microsoft Teams",
+        "interview_status": "Scheduled"
+      }
+    ]
   },
-  "student_id": 6,
-  "student_first_name": "Fiona",
-  "student_last_name": "Green",
-  "student_email": "fiona.g@washington.edu",
-  "student_program": "Computer Science",
-  "student_graduation_date": "2023-12-01",
-  "student_enrollment_year": 2019,
-  "student_dob": "2001-10-30",
-  "student_uni_id": 5,
-  "interviews": [
-    {
-      "interview_id": 6,
-      "interview_date_time": "2024-01-15T15:30",
-      "interview_role": "Treasurer",
-      "interview_platform": "Microsoft Teams",
-      "interview_status": "Scheduled"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "673070b1fee039a1eb55db0a"
+  {
+    "_id": {
+      "$oid": "673070b1fee039a1eb55db0a"
+    },
+    "student_id": 7,
+    "student_first_name": "Grace",
+    "student_last_name": "Kim",
+    "student_email": "grace.k@northeastern.edu",
+    "student_program": "Data Science",
+    "student_graduation_date": "2025-05-01",
+    "student_enrollment_year": 2021,
+    "student_dob": "2003-02-20",
+    "student_uni_id": 1,
+    "student_password": "GraceTest@123",
+    "interviews": [
+      {
+        "interview_id": 5,
+        "interview_date_time": "2023-12-05T09:30",
+        "interview_role": "Vice President",
+        "interview_platform": "Google Meet",
+        "interview_status": "Scheduled"
+      }
+    ]
   },
-  "student_id": 7,
-  "student_first_name": "Grace",
-  "student_last_name": "Kim",
-  "student_email": "grace.k@northeastern.edu",
-  "student_program": "Data Science",
-  "student_graduation_date": "2025-05-01",
-  "student_enrollment_year": 2021,
-  "student_dob": "2003-02-20",
-  "student_uni_id": 1,
-  "interviews": [
-    {
-      "interview_id": 5,
-      "interview_date_time": "2023-12-05T09:30",
-      "interview_role": "Vice President",
-      "interview_platform": "Google Meet",
-      "interview_status": "Scheduled"
-    }
-  ]
-},
-{
-  "_id": {
-    "$oid": "673070b1fee039a1eb55db0b"
+  {
+    "_id": {
+      "$oid": "673070b1fee039a1eb55db0b"
+    },
+    "student_id": 8,
+    "student_first_name": "Haris",
+    "student_last_name": "Joy",
+    "student_email": "joy.h@northeastern.edu",
+    "student_program": "Psychology",
+    "student_graduation_date": "2022-12-01",
+    "student_enrollment_year": 2019,
+    "student_dob": "2001-10-23",
+    "student_uni_id": 3,
+    "student_password": "HarisTest@123",
+    "interviews": [
+      {
+        "interview_id": 7,
+        "interview_date_time": "2024-02-10T14:00",
+        "interview_role": "Treasurer",
+        "interview_platform": "Zoom",
+        "interview_status": "Completed"
+      }
+    ]
   },
-  "student_id": 8,
-  "student_first_name": "Haris",
-  "student_last_name": "Joy",
-  "student_email": "joy.h@northeastern.edu",
-  "student_program": "Psychology",
-  "student_graduation_date": "2022-12-01",
-  "student_enrollment_year": 2019,
-  "student_dob": "2001-10-23",
-  "student_uni_id": 3,
-  "interviews": [
-    {
-      "interview_id": 7,
-      "interview_date_time": "2024-02-10T14:00",
-      "interview_role": "Treasurer",
-      "interview_platform": "Zoom",
-      "interview_status": "Completed"
-    }
-  ]
-}]
+  {
+    "_id": {
+      "$oid": "673070b1fee039a1eb55db0c"
+    },
+    "student_id": 9,
+    "student_first_name": "Diya",
+    "student_last_name": "Wadhwani",
+    "student_email": "diya.wadhwani@northeastern.edu",
+    "student_program": "Computer Science",
+    "student_graduation_date": "2025-05-01",
+    "student_enrollment_year": 2023,
+    "student_dob": "2003-03-15",
+    "student_uni_id": 11,
+    "student_password": "DiyaTest@123",
+    "interviews": [
+      {
+        "interview_id": 9,
+        "interview_date_time": "2024-01-25T10:00",
+        "interview_role": "President",
+        "interview_platform": "Microsoft Teams",
+        "interview_status": "Scheduled"
+      }
+    ]
+  }
+]

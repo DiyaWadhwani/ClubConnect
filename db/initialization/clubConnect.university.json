@@ -133,5 +133,19 @@
     "university_state": "NY",
     "university_city": "New York",
     "university_website": "http://www.columbia.edu"
+  },
+  {
+    "_id": {
+      "$oid": "67306cc61964914c7d0800cd"
+    },
+    "university_id": 11,
+    "university_name": "Northeastern University",
+    "university_email_domain": "northeastern.edu",
+    "university_address": "5000 MacArthur Blvd",
+    "university_zip_code": "94613",
+    "university_state": "CA",
+    "university_city": "Oakland",
+    "university_website": "http://www.northeastern.edu",
+    "university_clubs": [7]
   }
 ]
