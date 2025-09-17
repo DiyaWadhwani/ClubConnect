@@ -10,46 +10,20 @@
 
 ## Project Structure
 
-- `docs/` - Includes database design documentation, requirements, and diagrams.
-- `diagrams/` - Includes UML and Redis ERD Diagrams
 - `app.js` - Entry point for the Node.js application.
 - `db/initialization/` - Contains JSON files for initializing the MongoDB database.
 - `db/myMongoDB.js` - Handles CRUD operations with Mongo.
-- `db/myRedis.js` - Acts as middleware between the frontend webpage and backend MongoDB.
+- `db/myRedisCache.js` - Acts as middleware between the frontend webpage and backend MongoDB.
 - `routes/index.js` - Defined routes and handling functionality at each API endpoint.
-
 
 ## Prerequisites
 
 1. **Node.js**: Install Node.js from [https://nodejs.org/](https://nodejs.org/).
-2. **MongoDB**:
-
-   - Pull the MongoDB Docker Image:
-
-   ```bash
-   docker pull mongodb/mongodb-community-server:latest
-   ```
-
-   - Run the Image as a Container:
-
-   ```bash
-   docker run --name mongodb -p 27017:27017 -d mongodb/mongodb-community-server:latest
-   ```
-
-3. **Redis**:
-
-   - Pull the Redis Docker Image:
-
-   ```bash
-   docker pull redis/redis-stack-server:latest
-   ```
-
-   - Run the Redis Stack container
-
-   ```bash
-   docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
-   ```
-
+2. **HomeBrew**: Install MongoDB and Redis from Homebrew
+   - Install Homebrew (if not already installed):
+     ```bash
+     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+     ```
 
 ## Setting Up the Project
 
@@ -67,12 +41,7 @@
    npm install mongodb redis
    ```
 
-3. **Install and Start MongoDB service via HomeBrew**:
-
-   Install Homebrew (if not already installed):
-   ```bash
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   ```
+3. **Install and Run Mongo**: Install and Start MongoDB service via HomeBrew
 
    ```bash
    brew tap mongodb/brew
@@ -88,27 +57,31 @@
    mongoimport --uri "mongodb://localhost:27017" --db clubConnect --collection student --file db/initialization/clubConnect.student.json --jsonArray
    ```
 
-4. **Start the Application**:  
-   Run the application with the following command:
+5. **Install and Run Redis**: Install and Start Redis server via HomeBrew
+
+   ```bash
+   brew install redis
+   brew services start redis
+   ```
+
+6. **Start the Application**: Run the application with the following command:
+
    ```bash
    npm start
    ```
+
    The server will start on `http://localhost:3000`.
 
+7. **Stop Services Later**: Stop Mongo and Redis
+
+   ```bash
+   brew services stop mongodb-community
+   brew services stop redis
+   ```
 
 ## Video Demo
 
 **[Club Connect Video Demo](https://youtu.be/fazz_tVTDrU)**
-
-
-## Documentation
-
-- **[Database Design Documentation](./docs/ClubConnect_DatabaseDesign-Mongo.pdf)**
-- **[Requirements Specification](./docs/ClubConnect_Requirements.pdf)**
-- **[Redis Implementation](./docs/ClubConnect_RedisImplementation.pdf)**
-- **[Class UML Diagram](./diagrams/ClubConnect_UML.png)**
-- **[Redis ERD Diagram](./diagrams/ClubConnect_RedisERD.png)**
-
 
 ## License
 
