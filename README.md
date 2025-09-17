@@ -73,15 +73,15 @@
 
    The server will start on `http://localhost:3000`.
 
-7. **Login Details**: Login using either user:
+7. **Login Details**: Login using either user
 
-   Role: Core Member
+   *Role: Core Member*
 
    `Email: diya.wadhwani@northeastern.edu`
 
    `Password: DiyaTest@123`
 
-   Role: Regular Member
+   *Role: Regular Member*
 
    `Email: joy.h@northeastern.edu`
 
