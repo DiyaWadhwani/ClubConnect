@@ -1,44 +1,49 @@
 <!DOCTYPE html>
 <html>
-  <%- include("../templates/head.ejs") %>
+<%- include("../templates/head.ejs") %>
+
   <body>
     <%- include("../templates/navBar.ejs") %>
 
-    <div class="container mt-5">
-      <h1 class="mb-4 text-center mt-20">Club Manager</h1>
+      <div class="container mt-5">
+        <h1 class="mb-4 text-center mt-20">Club Manager</h1>
 
-      <!-- Display a message if 'msg' is present -->
-      <% if (msg) { %>
-      <div class="alert alert-primary text-center"><%= msg %></div>
-      <% } %>
-
-      <div class="row">
-        <!-- Left Column: Search bar and Clubs list -->
-        <div class="col-md-8">
-          <!-- Search bar in a card -->
-          <div class="card shadow-sm p-4 mb-4">
-            <%- include("../components/searchBarClubs.ejs", { query }) %>
+        <!-- Display a message if 'msg' is present -->
+        <% if (msg) { %>
+          <div class="alert alert-primary text-center">
+            <%= msg %>
           </div>
+          <% } %>
 
-          <!-- Clubs list -->
-          <div>
-            <%- include("../components/clubList.ejs", { clubs, currentPage,
-            lastPage }) %>
-          </div>
-        </div>
+            <div class="row">
+              <!-- Left Column: Search bar and Clubs list -->
+              <div class="<%= isCoreMember ? 'col-md-8' : 'col-12' %>">
+                <!-- Search bar in a card -->
+                <div class="card shadow-sm p-4 mb-4">
+                  <%- include("../components/searchBarClubs.ejs", { query }) %>
+                </div>
 
-        <!-- Right Column: Create New Club Form -->
-        <div class="col-md-4">
-          <div class="card shadow-sm p-4">
-            <div class="card-body">
-              <h2 class="card-title text-center mb-4">Create a New Club</h5>
-              <%- include("../components/formCreateClub.ejs", {universities}) %>
+                <!-- Clubs list -->
+                <div>
+                  <%- include("../components/clubList.ejs", { clubs, currentPage, lastPage, isCoreMember}) %>
+                </div>
+              </div>
+
+              <!-- Right Column: Create New Club Form -->
+              <% if (isCoreMember) { %>
+                <div class="col-md-4">
+                  <div class="card shadow-sm p-4">
+                    <div class="card-body">
+                      <h2 class="card-title text-center mb-4">Create a New Club</h5>
+                        <%- include("../components/formCreateClub.ejs", {universities}) %>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
             </div>
-          </div>
-        </div>
       </div>
-    </div>
 
-    <%- include("../templates/footer.ejs") %>
+      <%- include("../templates/footer.ejs") %>
   </body>
+
 </html>

@@ -12,14 +12,24 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await userDb.authenticateUser(email, password);
 
-  if (user) {
-    req.session.user = user;
-    console.log("User logged in:", user);
-    console.log("User student ID:", user.student_id);
-    res.redirect("/home");
-  } else {
+  if (!user) {
     return res.render("./pages/login", { error: "Invalid email or password" });
   }
+
+  const { clubs } = await myRedis.getClubs();
+
+  // Pass student_id and clubs to checkIfCoreMember
+  const isCoreMember = await myRedis.checkIfCoreMember(user.student_id, clubs);
+  console.log("isCoreMember:", isCoreMember);
+
+  // Store user and isCoreMember in session
+  req.session.user = {
+    ...user,
+    isCoreMember,
+  };
+
+  console.log("User logged in:", req.session.user);
+  res.redirect("/home");
 });
 
 router.get("/logout", (req, res) => {
@@ -57,6 +67,7 @@ router.get("/home", ensureAuthenticated, async function (req, res, next) {
       msg,
       currentPage: page,
       lastPage: Math.ceil(total / pageSize),
+      isCoreMember: req.session.user?.isCoreMember || false,
     });
   } catch (err) {
     console.error("Error rendering the index page:", err);
@@ -78,11 +89,6 @@ router.get("/clubs", ensureAuthenticated, async (req, res, next) => {
       pageSize
     );
 
-    console.log("studentId", studentId);
-
-    isCoreMember = await myRedis.checkIfCoreMember(studentId, clubs);
-    console.log("isCoreMember", isCoreMember);
-
     res.render("./pages/index_clubs", {
       clubs,
       universities,
@@ -90,7 +96,7 @@ router.get("/clubs", ensureAuthenticated, async (req, res, next) => {
       msg,
       currentPage: page,
       lastPage: Math.ceil(total / pageSize),
-      isCoreMember,
+      isCoreMember: req.session.user?.isCoreMember || false,
     });
   } catch (err) {
     next(err);
@@ -112,6 +118,7 @@ router.get(
         university: universityDetails,
         clubsByUni: clubDetails,
         msg,
+        isCoreMember: req.session.user?.isCoreMember || false,
       });
     } catch (err) {
       next(err);
@@ -204,6 +211,7 @@ router.get(
         university,
         club: clubDetails,
         msg,
+        isCoreMember: req.session.user?.isCoreMember || false,
       });
     } catch (err) {
       next(err);

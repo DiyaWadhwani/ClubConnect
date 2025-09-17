@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <%- include("../templates/head.ejs") %>
+<%- include("../templates/head.ejs") %>
+
   <body>
     <%- include("../templates/navBar.ejs") %>
 
-    <div class="container mt-5">
-      <h1 class="mb-4 text-center mt-20">Club Manager</h1>
-      <!-- Added mt-5 class for spacing -->
+      <div class="container mt-5">
+        <h1 class="mb-4 text-center mt-20">Club Manager</h1>
+        <!-- Added mt-5 class for spacing -->
 
-      <!-- Display a message if 'msg' is present -->
-      <% if (msg) { %>
-      <div class="alert alert-primary text-center"><%= msg %></div>
-      <% } %>
-
-      <div class="row">
-        <!-- Search bar and University list -->
-        <div class="col-md-12 mb-4">
-          <div class="card shadow-sm p-4">
-            <%- include("../components/searchBarUniversities.ejs", { query }) %>
+        <!-- Display a message if 'msg' is present -->
+        <% if (msg) { %>
+          <div class="alert alert-primary text-center">
+            <%= msg %>
           </div>
+          <% } %>
 
-          <div class="mt-4">
-            <%- include("../components/universityList.ejs", { universities,
-            currentPage, lastPage }) %>
-          </div>
-        </div>
+            <div class="row">
+              <!-- Search bar and University list -->
+              <div class="col-md-12 mb-4">
+                <div class="card shadow-sm p-4">
+                  <%- include("../components/searchBarUniversities.ejs", { query }) %>
+                </div>
+
+                <div class="mt-4">
+                  <%- include("../components/universityList.ejs", { universities, currentPage, lastPage, isCoreMember })
+                    %>
+                </div>
+              </div>
+            </div>
       </div>
-    </div>
 
-    <%- include("../templates/footer.ejs") %>
+      <%- include("../templates/footer.ejs") %>
   </body>
+
 </html>

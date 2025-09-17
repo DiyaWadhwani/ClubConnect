@@ -1,47 +1,50 @@
 <h2 class="mb-4">Universities</h2>
-<% if (universities.length === 0) { %>
-<div class="alert alert-primary text-center">No universities found</div>
-<% } %>
-<div class="row g-4">
-  <% for (let uni of universities) { %>
-  <div class="col-md-6 col-lg-4">
-    <div class="card shadow-sm p-3">
-      <div class="card-body">
-        <h5 class="card-title mb-2"><%= uni.name %></h5>
-        <div class="card-text">
-          <div class="mb-1">
-            <!-- University website link -->
-            <a
-              href="<%= uni.website %>"
-              target="_blank"
-              class="text-decoration-underline text-primary"
-            >
-              <%= uni.website %>
-            </a>
-          </div>
-          <div class="mb-1"><%= uni.address %></div>
-          <div class="mb-3">
-            <div><%= uni.city +", "+uni.state%></div>
+<% if (universities.length===0) { %>
+  <div class="alert alert-primary text-center">No universities found</div>
+  <% } %>
+    <div class="row g-4">
+      <% for (let uni of universities) { %>
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-sm p-3">
+            <div class="card-body">
+              <h5 class="card-title mb-2">
+                <%= uni.name %>
+              </h5>
+              <div class="card-text">
+                <div class="mb-1">
+                  <!-- University website link -->
+                  <a href="<%= uni.website %>" target="_blank" class="text-decoration-underline text-primary">
+                    <%= uni.website %>
+                  </a>
+                </div>
+                <div class="mb-1">
+                  <%= uni.address %>
+                </div>
+                <div class="mb-3">
+                  <div>
+                    <%= uni.city +", "+uni.state%></div>
             <%= uni.zip_code %>
           </div>
 
-          <div class="btn-container">
-            <a
-              class="btn btn-outline-primary btn-sm me-2 edit-btn"
-              href="<%= '/' + uni.university_id + '/edit' %>"
-              >Edit</a
-            >
-            <a
-              class="btn btn-outline-danger btn-sm delete-btn"
-              href="<%= '/' + uni.university_id + '/delete' %>"
-              onclick="return confirm('Are you sure you want to delete this University? All clubs affiliated with this University will also be deleted');"
-              >Delete</a
-            >
+          <% if(isCoreMember) { %>
+
+          <div class=" btn-container">
+                      <a class="btn btn-outline-primary btn-sm me-2 edit-btn"
+                        href="<%= '/' + uni.university_id + '/edit' %>">Edit</a>
+                      <a class="btn btn-outline-danger btn-sm delete-btn"
+                        href="<%= '/' + uni.university_id + '/delete' %>"
+                        onclick="return confirm('Are you sure you want to delete this University? All clubs affiliated with this University will also be deleted');">Delete</a>
+                  </div>
+
+                  <% } else { %>
+                    <div class=" btn-container">
+                      <a class="btn btn-outline-primary btn-sm me-2 edit-btn"
+                        href="<%= '/' + uni.university_id + '/edit' %>">View</a>
+                    </div>
+                    <% } %>
+                </div>
+              </div>
+            </div>
           </div>
+          <% } %> <%- include("./paginationUniversities.ejs", { currentPage, lastPage }) %>
         </div>
-      </div>
-    </div>
-  </div>
-  <% } %> <%- include("./paginationUniversities.ejs", { currentPage, lastPage })
-  %>
-</div>

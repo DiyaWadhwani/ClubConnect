@@ -1,31 +1,29 @@
-<% if (clubsByUni.length === 0) { %>
-<p class="text-muted">No clubs registered with <%= university.name %></p>
-<% } else { %>
-<ul class="list-group mb-4">
-  <h2>Clubs Registered with <%= university.name %>:</h2>
-  <% clubsByUni.forEach((club) => { %>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <span><%= club.name %></span>
-    <div>
-      <!-- Pencil Icon for Edit -->
-      <a
-        href="<%= '/clubs/' + club.club_id + '/edit' %>"
-        class="btn btn-outline-primary btn-sm me-2"
-        title="Edit"
-      >
-        ✎
-      </a>
-      <!-- Trash Icon for Delete -->
-      <a
-        href="<%= '/clubs/' + club.club_id + '/delete' %>"
-        class="btn btn-outline-danger btn-sm"
-        title="Delete"
-        onclick="return confirm('Are you sure you want to delete this club?');"
-      >
-        🗑️
-      </a>
-    </div>
-  </li>
-  <% }) %>
-</ul>
-<% } %>
+<% if (clubsByUni.length===0) { %>
+  <p class="text-muted">No clubs registered with <%= university.name %>
+  </p>
+  <% } else { %>
+    <ul class="list-group mb-4">
+      <h2>Clubs Registered with <%= university.name %>:</h2>
+      <% clubsByUni.forEach((club)=> { %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>
+            <%= club.name %>
+          </span>
+          <% if (isCoreMember) { %>
+            <div>
+              <!-- Pencil Icon for Edit -->
+              <a href="<%= '/clubs/' + club.club_id + '/edit' %>" class="btn btn-outline-primary btn-sm me-2"
+                title="Edit">
+                ✎
+              </a>
+              <!-- Trash Icon for Delete -->
+              <a href="<%= '/clubs/' + club.club_id + '/delete' %>" class="btn btn-outline-danger btn-sm" title="Delete"
+                onclick="return confirm('Are you sure you want to delete this club?');">
+                🗑️
+              </a>
+            </div>
+            <% } %>
+        </li>
+        <% }) %>
+    </ul>
+    <% } %>

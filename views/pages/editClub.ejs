@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <%- include("../templates/head.ejs") %>
+<%- include("../templates/head.ejs") %>
+
   <body>
     <%- include("../templates/navBar.ejs") %>
 
-    <div class="container">
-      <h1>Edit Reference</h1>
+      <div class="container">
+        <h1>Edit Reference</h1>
 
-      <% if (msg) { %>
-      <div class="alert alert-primary"><%= msg %></div>
-      <% } %> <%- include("../components/formEditClub.ejs", { club, university
-      }) %>
-    </div>
+        <% if (msg) { %>
+          <div class="alert alert-primary">
+            <%= msg %>
+          </div>
+          <% } %> <%- include("../components/formEditClub.ejs", { club, university, isCoreMember }) %>
+      </div>
 
-    <%- include("../templates/footer.ejs") %>
+      <%- include("../templates/footer.ejs") %>
   </body>
+
 </html>

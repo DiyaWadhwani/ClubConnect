@@ -15,8 +15,8 @@
     <!-- Description Field (Editable) -->
     <div class="mb-4">
       <label class="form-label fw-bold">Description:</label>
-      <textarea class="form-control" name="description" rows="3" placeholder="Enter club description"
-        required><%= club.description %></textarea>
+      <textarea class="form-control" name="description" rows="3" placeholder="Enter club description" <%=isCoreMember
+        ? 'required' : 'disabled' %>><%= club.description %></textarea>
     </div>
 
     <!-- Start Date Field (Disabled) -->
@@ -31,13 +31,14 @@
     <div class="mb-4">
       <label class="form-label fw-bold">Email:</label>
       <input class="form-control" type="email" name="email" value="<%= club.email %>" placeholder="Enter club email"
-        required />
+        <%=isCoreMember ? 'required' : 'disabled' %> />
     </div>
 
     <!-- Logo URL Field (Editable) -->
     <div class="mb-4">
       <label class="form-label fw-bold">Logo URL:</label>
-      <input class="form-control" name="logo" value="<%= club.logo %>" placeholder="https://example.com/logo.png" />
+      <input class="form-control" name="logo" value="<%= club.logo %>" placeholder="https://example.com/logo.png"
+        <%=isCoreMember ? '' : 'disabled' %> />
     </div>
 
     <!-- University Name Field (Disabled) -->
@@ -50,7 +51,8 @@
     <!-- Club Category Field (Editable) -->
     <div class="mb-4">
       <label class="form-label fw-bold">Club Category:</label>
-      <select class="form-select" name="category" id="category" onchange="handleCategoryChange()" required>
+      <select class="form-select" name="category" id="category" onchange="handleCategoryChange()" <%=isCoreMember
+        ? 'required' : 'disabled' %>>
         <option value="" <%=!club.category ? 'selected' : '' %> disabled>Select a category</option>
         <option value="Technology" <%=club.category && club.category.trim().toLowerCase()==='technology' ? 'selected'
           : '' %>>Technology</option>
@@ -70,16 +72,19 @@
     <div class="mb-4" id="other_category">
       <label class="form-label fw-bold">Specify Other Category:</label>
       <input type="text" class="form-control" name="other_category"
-        value="<%= club.category && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.category.trim().toLowerCase()) ? club.category : '' %>" />
+        value="<%= club.category && !['technology', 'arts', 'sports', 'music', 'literature'].includes(club.category.trim().toLowerCase()) ? club.category : '' %>"
+        <%=isCoreMember ? '' : 'disabled' %>/>
     </div>
 
 
 
     <!-- Cancel and Update Buttons -->
-    <div class="d-flex justify-content-between mt-4">
-      <a class="btn btn-danger" href="<%= '/clubs' %>">Cancel</a>
-      <button type="submit" class="btn btn-primary">Update</button>
-    </div>
+    <% if (isCoreMember) { %>
+      <div class="d-flex justify-content-between mt-4">
+        <a class="btn btn-danger" href="<%= '/clubs' %>">Cancel</a>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+      <% } %>
   </form>
 </div>
 

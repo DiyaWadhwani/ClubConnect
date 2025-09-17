@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <%- include("../templates/head.ejs") %>
+<%- include("../templates/head.ejs") %>
+
   <body>
     <%- include("../templates/navBar.ejs") %>
 
-    <div class="container">
-      <h1>Edit Reference</h1>
+      <div class="container">
+        <h1>Edit Reference</h1>
 
-      <% if (msg) { %>
-      <div class="alert alert-primary"><%= msg %></div>
-      <% } %> <%- include("../components/formEditUniversity.ejs", { university
-      }) %>
+        <% if(msg) { %>
+          <div class="alert alert-primary">
+            <%= msg %>
+          </div>
+          <% } %> <%- include("../components/formEditUniversity.ejs", { university, isCoreMember }) %>
 
-      <div class="mt-5">
-        <%- include("../components/clubByUniversityList.ejs", { university,
-        clubsByUni }) %>
+              <div class="mt-5">
+                <%- include("../components/clubByUniversityList.ejs", { university, clubsByUni, isCoreMember}) %>
+              </div>
       </div>
-    </div>
 
-    <%- include("../templates/footer.ejs") %>
+      <%- include("../templates/footer.ejs") %>
   </body>
+
 </html>

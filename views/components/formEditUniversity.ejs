@@ -1,103 +1,65 @@
-<h2 class="text-center mt-20"><%= university.name %></h2>
+<h2 class="text-center mt-20">
+  <%= university.name %>
+</h2>
 
 <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px">
   <form action="<%= '/' + university.university_id + '/edit' %>" method="POST">
     <!-- University Name Field -->
     <div class="mb-4">
       <label class="form-label fw-bold">University Name:</label>
-      <input
-        class="form-control"
-        type="text"
-        name="name"
-        value="<%= university.name %>"
-        placeholder="University Name"
-        disabled
-      />
+      <input class="form-control" type="text" name="name" value="<%= university.name %>" placeholder="University Name"
+        disabled />
       <input type="hidden" name="name" value="<%= university.name %>" />
     </div>
 
     <!-- Email Domain Field -->
     <div class="mb-4">
       <label class="form-label fw-bold">Email Domain:</label>
-      <input
-        class="form-control"
-        type="text"
-        name="emailDomain"
-        value="<%= university.email_domain %>"
-        placeholder="e.g., university.edu"
-        required
-      />
+      <input class="form-control" type="text" name="emailDomain" value="<%= university.email_domain %>"
+        placeholder="e.g., university.edu" <%=isCoreMember ? 'required' : 'disabled' %> />
     </div>
 
     <!-- Website Field -->
     <div class="mb-4">
       <label class="form-label fw-bold">Website:</label>
-      <input
-        class="form-control"
-        type="url"
-        name="website"
-        value="<%= university.website %>"
-        placeholder="https://www.university.edu"
-        required
-      />
+      <input class="form-control" type="url" name="website" value="<%= university.website %>"
+        placeholder="https://www.university.edu" <%=isCoreMember ? 'required' : 'disabled' %> />
     </div>
 
     <!-- Address Field -->
     <div class="mb-4">
       <label class="form-label fw-bold">Address:</label>
-      <input
-        class="form-control"
-        type="text"
-        name="address"
-        value="<%= university.address %>"
-        placeholder="1234 Main St"
-        required
-      />
+      <input class="form-control" type="text" name="address" value="<%= university.address %>"
+        placeholder="1234 Main St" <%=isCoreMember ? 'required' : 'disabled' %> />
     </div>
 
     <!-- City Field -->
     <div class="mb-4">
       <label class="form-label fw-bold">City:</label>
-      <input
-        class="form-control"
-        type="text"
-        name="city"
-        value="<%= university.city %>"
-        placeholder="City"
-        required
-      />
+      <input class="form-control" type="text" name="city" value="<%= university.city %>" placeholder="City"
+        <%=isCoreMember ? 'required' : 'disabled' %> />
     </div>
 
     <!-- State Field -->
     <div class="mb-4">
       <label class="form-label fw-bold">State:</label>
-      <input
-        class="form-control"
-        type="text"
-        name="state"
-        value="<%= university.state %>"
-        placeholder="State"
-        required
-      />
+      <input class="form-control" type="text" name="state" value="<%= university.state %>" placeholder="State"
+        <%=isCoreMember ? 'required' : 'disabled' %> />
     </div>
 
     <!-- ZIP Code Field -->
     <div class="mb-4">
       <label class="form-label fw-bold">ZIP Code:</label>
-      <input
-        class="form-control"
-        type="text"
-        name="zipCode"
-        value="<%= university.zip_code %>"
-        placeholder="ZIP Code"
-        required
-      />
+      <input class="form-control" type="text" name="zipCode" value="<%= university.zip_code %>" placeholder="ZIP Code"
+        <%=isCoreMember ? 'required' : 'disabled' %> />
     </div>
 
     <!-- Cancel and Update Buttons -->
-    <div class="d-flex justify-content-between mt-4">
-      <a class="btn btn-danger" href="<%= '/'%>">Cancel</a>
-      <button type="submit" class="btn btn-primary">Update</button>
-    </div>
+    <%if(isCoreMember) { %>
+      <div class="d-flex justify-content-between mt-4">
+        <a class="btn btn-danger" href="<%= '/'%>">Cancel</a>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+      <% } %>
   </form>
 </div>

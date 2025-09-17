@@ -1,35 +1,44 @@
 <h2 class="mb-4">Clubs</h2>
 
-<% if (clubs.length === 0) { %>
-<div class="alert alert-primary text-center">No clubs found</div>
-<% } %>
+<% if (clubs.length===0) { %>
+  <div class="alert alert-primary text-center">No clubs found</div>
+  <% } %>
 
-<div class="row g-4">
-  <% for (let club of clubs) { %>
-  <div class="col-md-6 col-lg-4">
-    <div class="card shadow-sm p-3">
-      <div class="card-body">
-        <h5 class="card-title mb-2"><%= club.name %></h5>
-        <div class="card-text">
-          <p class="text-muted mb-1"><%= club.start_date %></p>
-          <p class="text-muted mb-1"><%= club.university_name %></p>
-          <p class="mb-3"><%= club.description %></p>
-          <div class="d-flex justify-content-between">
-            <a
-              class="btn btn-outline-primary btn-sm"
-              href="<%= '/clubs/' + club.club_id + '/edit' %>"
-              >Edit</a
-            >
-            <a
-              class="btn btn-outline-danger btn-sm"
-              href="<%= '/clubs/' + club.club_id + '/delete' %>"
-              onclick="return confirm('Are you sure you want to delete this club?');"
-              >Delete</a
-            >
+    <div class="row g-4">
+      <% for (let club of clubs) { %>
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-sm p-3">
+            <div class="card-body">
+              <h5 class="card-title mb-2">
+                <%= club.name %>
+              </h5>
+              <div class="card-text">
+                <p class="text-muted mb-1">
+                  <%= club.start_date %>
+                </p>
+                <p class="text-muted mb-1">
+                  <%= club.university_name %>
+                </p>
+                <p class="mb-3">
+                  <%= club.description %>
+                </p>
+
+
+
+                <div class="d-flex justify-content-between">
+                  <% if(isCoreMember) { %>
+                    <a class="btn btn-outline-primary btn-sm" href="<%= '/clubs/' + club.club_id + '/edit' %>">Edit</a>
+                    <a class="btn btn-outline-danger btn-sm" href="<%= '/clubs/' + club.club_id + '/delete' %>"
+                      onclick="return confirm('Are you sure you want to delete this club?');">Delete</a>
+                    <% } else { %>
+                      <a class="btn btn-outline-primary btn-sm"
+                        href="<%= '/clubs/' + club.club_id + '/edit' %>">View</a>
+                      <% } %>
+                </div>
+
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+        <% } %><%- include("./paginationClubs.ejs", { currentPage, lastPage }) %>
     </div>
-  </div>
-  <% } %><%- include("./paginationClubs.ejs", { currentPage, lastPage }) %>
-</div>
