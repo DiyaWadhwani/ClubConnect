@@ -1,9 +1,31 @@
+import bcrypt from "bcrypt";
 import { MongoClient, ObjectId } from "mongodb";
 
 async function getDb() {
   const client = new MongoClient("mongodb://localhost:27017");
   await client.connect();
   return client.db("clubConnect");
+}
+
+// REGISTER user
+export async function createUser(email, password) {
+  const db = await getDb();
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const result = await db
+    .collection("users")
+    .insertOne({ email, password: hashedPassword });
+  return result;
+}
+
+// LOGIN user
+export async function authenticateUser(email, password) {
+  const db = await getDb();
+  const user = await db.collection("student").findOne({ student_email: email });
+  if (!user) return null;
+
+  // const isValid = await bcrypt.compare(password, user.student_password);
+  const isValid = password === user.student_password;
+  if (isValid) return user;
 }
 
 export async function getUniversities(query, page, pageSize) {

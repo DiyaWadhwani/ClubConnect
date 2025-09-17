@@ -3,6 +3,7 @@ const __dirname = dirname(__filename);
 
 import createError from "http-errors";
 import express from "express";
+import session from "express-session";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
@@ -21,6 +22,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(
+  session({
+    secret: "clubconnectsecret", // change this for production
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Middleware to make user available in templates
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
 
 app.use("/", indexRouter);
 

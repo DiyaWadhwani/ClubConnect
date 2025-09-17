@@ -81,6 +81,9 @@ async function loadCache() {
         start_date: club.club_start_date || "N/A",
         category: club.club_category || "N/A",
         logo: club.club_logo || "N/A",
+        members: Array.isArray(club.members)
+          ? JSON.stringify(club.members)
+          : "[]",
       });
     }
 
@@ -135,6 +138,7 @@ export async function getClubs() {
 
     const total = clubs.length;
     console.log("Fetched clubs from Redis.");
+
     return { clubs, total };
   } catch (error) {
     console.error("Error fetching clubs from Redis:", error);
@@ -315,6 +319,34 @@ export async function deleteUniversityByID(university_id) {
     return deletedUniversity;
   } catch (error) {
     console.error("Error in deleteUniversityByID:", error);
+    throw error;
+  }
+}
+
+export async function checkIfCoreMember(student_id, clubs) {
+  try {
+    for (const club of clubs) {
+      if (typeof club.members === "string") {
+        try {
+          club.members = JSON.parse(club.members);
+        } catch (e) {
+          console.warn("Failed to parse club.members for club:", club.club_id);
+          club.members = [];
+        }
+      }
+
+      if (Array.isArray(club.members)) {
+        const member = club.members.find(
+          (m) => m.member_id === parseInt(student_id)
+        );
+        if (member && member.member_type === "Core") {
+          return true;
+        }
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error("Error in checkIfCoreMember:", error);
     throw error;
   }
 }
