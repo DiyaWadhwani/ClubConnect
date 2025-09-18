@@ -5,8 +5,11 @@ async function getDb() {
   console.log("Connecting to MongoDB...");
 
   const client = new MongoClient(process.env.MONGO_URI, {
-    tls: true,
-    tlsAllowInvalidCertificates: false, // optional
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    },
   });
   try {
     await client.connect();
