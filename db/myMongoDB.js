@@ -2,8 +2,14 @@ import bcrypt from "bcrypt";
 import { MongoClient, ObjectId } from "mongodb";
 
 async function getDb() {
-  const client = new MongoClient("mongodb://localhost:27017");
-  await client.connect();
+  const client = new MongoClient(process.env.MONGO_URI);
+  try {
+    await client.connect();
+    console.log("Connected to MongoDB Atlas");
+  } catch (err) {
+    console.error("MongoDB connection error:", err);
+    throw err;
+  }
   return client.db("clubConnect");
 }
 
