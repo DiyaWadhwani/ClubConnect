@@ -2,7 +2,11 @@ import bcrypt from "bcrypt";
 import { MongoClient, ObjectId } from "mongodb";
 
 async function getDb() {
-  const client = new MongoClient(process.env.MONGO_URI);
+  
+  const client = new MongoClient(process.env.MONGO_URI, {
+    tls: true,
+    tlsAllowInvalidCertificates: false, // optional
+  });
   try {
     await client.connect();
     console.log("Connected to MongoDB Atlas");
