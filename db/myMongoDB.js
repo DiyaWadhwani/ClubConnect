@@ -4,13 +4,7 @@ import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
 async function getDb() {
   console.log("Connecting to MongoDB...");
 
-  const client = new MongoClient(process.env.MONGO_URI, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    },
-  });
+  const client = new MongoClient(process.env.MONGO_URI);
   try {
     await client.connect();
     console.log("Connected to MongoDB Atlas");
@@ -33,7 +27,6 @@ export async function createUser(email, password) {
 
 // LOGIN user
 export async function authenticateUser(email, password) {
-  console.log("Authenticating user:", email);
   const db = await getDb();
   const user = await db.collection("student").findOne({ student_email: email });
   if (!user) return null;

@@ -4,8 +4,6 @@ dotenv.config();
 import { createClient } from "redis";
 import * as myDb from "../db/myMongoDB.js";
 
-// const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
-
 const redisClient = createClient({
   url: process.env.REDIS_URL,
   socket: {
@@ -18,13 +16,13 @@ async function connect() {
   console.log("Connecting to Redis...");
 
   redisClient.on("error", (err) => {
-    console.log("Error " + err);
+    console.log("Failed to connect to Redis: " + err);
   });
 
   await redisClient.connect();
 
   redisClient.on("connect", () => {
-    console.log("Connected to Redis");
+    console.log("Connected to Redis successfully!");
   });
 }
 
