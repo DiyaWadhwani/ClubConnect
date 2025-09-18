@@ -7,6 +7,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+console.log("Loaded env variables from bin/www.js");
+
 import app from "../app.js";
 import debugLib from "debug";
 import http from "http";

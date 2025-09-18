@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { createClient } from "redis";
 import * as myDb from "../db/myMongoDB.js";
 
@@ -13,8 +16,7 @@ const redisClient = createClient({
 
 async function connect() {
   console.log("Connecting to Redis...");
-  console.log("MONGO_URI:", process.env.MONGO_URI);
-  console.log("Using REDIS_URL:", process.env.REDIS_URL);
+
   redisClient.on("error", (err) => {
     console.log("Error " + err);
   });

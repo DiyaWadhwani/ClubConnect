@@ -2,7 +2,8 @@ import bcrypt from "bcrypt";
 import { MongoClient, ObjectId } from "mongodb";
 
 async function getDb() {
-  
+  console.log("Connecting to MongoDB...");
+
   const client = new MongoClient(process.env.MONGO_URI, {
     tls: true,
     tlsAllowInvalidCertificates: false, // optional
