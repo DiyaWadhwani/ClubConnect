@@ -1,9 +1,20 @@
 import { createClient } from "redis";
 import * as myDb from "../db/myMongoDB.js";
 
-const redisClient = createClient();
+// const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
+
+const redisClient = createClient({
+  url: process.env.REDIS_URL,
+  socket: {
+    tls: true,
+    rejectUnauthorized: false,
+  },
+});
 
 async function connect() {
+  console.log("Connecting to Redis...");
+  console.log("MONGO_URI:", process.env.MONGO_URI);
+  console.log("Using REDIS_URL:", process.env.REDIS_URL);
   redisClient.on("error", (err) => {
     console.log("Error " + err);
   });
