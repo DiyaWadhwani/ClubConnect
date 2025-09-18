@@ -33,6 +33,7 @@ export async function createUser(email, password) {
 
 // LOGIN user
 export async function authenticateUser(email, password) {
+  console.log("Authenticating user:", email);
   const db = await getDb();
   const user = await db.collection("student").findOne({ student_email: email });
   if (!user) return null;
